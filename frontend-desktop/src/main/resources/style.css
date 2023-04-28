@@ -1,0 +1,46 @@
+/* LOGIN CSS*/
+.invalid-details-error {
+    -fx-text-fill: #D52815;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+.usernameTF-EmptyLogin, .passwordTF-EmptyLogin {
+    -fx-border-color: RED;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+}
+#loginButton {
+    -fx-background-color: #2C2D27;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 8px;
+}
+#loginButton:hover {
+    -fx-background-color: #454643;
+}
+.dialog {
+    -fx-background-color: #E98677;
+    -fx-border-color: #B71C1C;
+}
+.dialog .header-panel {
+    -fx-background-color: #E98677;
+}
+.dialog .header-panel .header-text {
+    -fx-fill: white;
+    -fx-font-weight: bold;
+}
+.dialog .content {
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+}
+.dialog .button {
+    -fx-background-color: #B71C1C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+.dialog .button:hover {
+    -fx-background-color: #D32F2F;
+}
