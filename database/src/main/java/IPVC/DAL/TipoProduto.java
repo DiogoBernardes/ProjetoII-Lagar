@@ -10,6 +10,7 @@ import java.util.*;
 @NamedQueries({
         @NamedQuery(name = "tipoProduto.index", query = "SELECT tipoProduto FROM TipoProduto tipoProduto"),
         @NamedQuery(name = "tipoProduto.count", query = "SELECT count(tipoProduto) FROM TipoProduto tipoProduto"),
+        @NamedQuery(name = "tipoProduto.getByDescription", query = "SELECT tipoProduto FROM TipoProduto tipoProduto WHERE tipoProduto.descricao = :descricao"),
 })
 public class TipoProduto{
         @Id

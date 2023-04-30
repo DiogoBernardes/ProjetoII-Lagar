@@ -200,4 +200,12 @@ public class clientController {
         stage.setTitle("Menu Admin - Clientes");
         stage.show();
     }
+    public void productButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Product/productAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Produtos");
+        stage.show();
+    }
 }

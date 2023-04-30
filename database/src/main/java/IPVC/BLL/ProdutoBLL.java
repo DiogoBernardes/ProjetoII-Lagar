@@ -1,5 +1,6 @@
 package IPVC.BLL;
 
+import IPVC.DAL.Entidade;
 import IPVC.DAL.Produto;
 import IPVC.Database.Database;
 
@@ -7,6 +8,9 @@ import java.util.List;
 
 public class ProdutoBLL {
     public static List<Produto> index() { return Database.query("produto.index").getResultList(); }
+    public static Produto getName(String Nome) { List<Produto> produtos = Database.query("produto.getName").setParameter("Nome", Nome).getResultList();
+        return produtos.isEmpty() ? null : produtos.get(0);
+    }
 
     public static Produto get(int id){ return Database.find(Produto.class, id); }
 
@@ -29,5 +33,10 @@ public class ProdutoBLL {
     }
 
     public static int count() { return ((Long) Database.query("produto.count").getSingleResult()).intValue(); }
+
+    public static boolean checkName(String nome){
+        Produto produto = getName(nome);
+        return produto == null;
+    }
 }
 

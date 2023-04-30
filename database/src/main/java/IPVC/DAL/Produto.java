@@ -11,6 +11,8 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "produto.index", query = "SELECT produto FROM Produto produto"),
         @NamedQuery(name = "produto.count", query = "SELECT count(produto) FROM Produto produto"),
+        @NamedQuery(name = "produto.getName", query = "SELECT produto FROM Produto produto WHERE produto.Nome = :Nome"),
+
 })
 public class Produto {
 

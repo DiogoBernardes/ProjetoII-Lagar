@@ -1,8 +1,8 @@
-package IPVC.Admin.Provider;
+package IPVC.Admin.Product;
 
-import IPVC.Admin.Client.editClientController;
-import IPVC.BLL.EntidadeBLL;
-import IPVC.DAL.Entidade;
+import IPVC.Admin.Product.editProductController;
+import IPVC.BLL.ProdutoBLL;
+import IPVC.DAL.Produto;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,47 +22,44 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class providerController {
+public class productController {
     @FXML
-    private TableView<Entidade> dataView;
+    private TableView<Produto> dataView;
     @FXML
-    private TableColumn<Entidade, String> nomeColumn;
+    private TableColumn<Produto, String> nomeColumn;
     @FXML
-    private TableColumn<Entidade, String> NIFColumn;
+    private TableColumn<Produto, String> idColumn;
     @FXML
-    private TableColumn<Entidade, String> emailColumn;
+    private TableColumn<Produto, String> valorColumn;
     @FXML
-    private TableColumn<Entidade, String> telemovelColumn;
+    private TableColumn<Produto, String> quantidadeColumn;
     @FXML
-    private TableColumn<Entidade, String> ruaColumn;
+    private TableColumn<Produto, String> unidadeColumn;
     @FXML
-    private TableColumn<Entidade, String> numPortaColumn;
-    @FXML
-    private TableColumn<Entidade, String> cpColumn;
+    private TableColumn<Produto, String> tipoProdutoColumn;
     @FXML
     private TextField searchTF;
     @FXML
     private void initialize() {
-        List<Entidade> clientes = EntidadeBLL.getClients(1);
+        List<Produto> produtos = ProdutoBLL.index();
 
         // Cria um ObservableList com os clientes filtrados e atualiza a tabela
-        ObservableList<Entidade> data = FXCollections.observableArrayList(clientes);
+        ObservableList<Produto> data = FXCollections.observableArrayList(produtos);
 
         dataView.setItems(data);
         nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        NIFColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getNIF())));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        telemovelColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getTelemovel())));
-        ruaColumn.setCellValueFactory(new PropertyValueFactory<>("rua"));
-        numPortaColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getN_Porta())));
-        cpColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getCod_Postal())));
+        idColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getId_Produto())));
+        valorColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getValor_Unitario())));
+        quantidadeColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getQuantidade())));
+        unidadeColumn.setCellValueFactory(new PropertyValueFactory<>("unidade"));
+        tipoProdutoColumn.setCellValueFactory(d ->new SimpleStringProperty(String.valueOf(d.getValue().getTipoProduto().getDescricao())));
 
         // Cria um FilteredList com a lista de clientes
-        FilteredList<Entidade> filteredData = new FilteredList<>(data, p -> true);
+        FilteredList<Produto> filteredData = new FilteredList<>(data, p -> true);
 
         // Adiciona um listener ao TextField de busca para filtrar a tabela quando o texto mudar
         searchTF.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(entidade -> {
+            filteredData.setPredicate(produto -> {
                 // Se o texto de busca estiver vazio, exibe todos os clientes
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
@@ -72,18 +69,14 @@ public class providerController {
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
                 // Filtra o cliente se o nome, o NIF, o email ou o número de telefone contiverem o texto de busca
-                if (entidade.getNome().toLowerCase().contains(lowerCaseFilter)) {
+                if (produto.getNome().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // O nome contém o texto de busca
-                } else if (String.valueOf(entidade.getNIF()).contains(lowerCaseFilter)) {
-                    return true; // O NIF contém o texto de busca
-                } else if (entidade.getEmail().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // O email contém o texto de busca
-                } else if (String.valueOf(entidade.getTelemovel()).contains(lowerCaseFilter)) {
-                    return true; // O número de telefone contém o texto de busca
-                } else if(entidade.getRua().toLowerCase().contains(lowerCaseFilter)){
-                    return true; // A rua contém o texto de busca
-                } else if(String.valueOf(entidade.getCod_Postal()).contains(lowerCaseFilter)){
-                    return true; // O codigo de Postal contém o texto de busca
+                } else if (String.valueOf(produto.getId_Produto()).contains(lowerCaseFilter)) {
+                    return true; // O ID contém o texto de busca
+                } else if (String.valueOf(produto.getValor_Unitario()).contains(lowerCaseFilter)) {
+                    return true; // O valor Unitário contém o texto de busca
+                }else if (String.valueOf(produto.getTipoProduto().getDescricao()).contains(lowerCaseFilter)) {
+                    return true; // O tipoProduto contém o texto de busca
                 }
                 return false; // Não há correspondência
             });
@@ -94,22 +87,22 @@ public class providerController {
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Provider/addProvider.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Product/addProduct.fxml"));
         Parent parent = fxmlLoader.load();
         Scene scene = new Scene(parent);
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-        dialogStage.setTitle("Adicionar Fornecedor");
+        dialogStage.setTitle("Adicionar Produto");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
-        Entidade selectedEntidade = dataView.getSelectionModel().getSelectedItem();
-        if (selectedEntidade != null) {
+        Produto selectedProduto = dataView.getSelectionModel().getSelectedItem();
+        if (selectedProduto != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remover fornecedor");
-            alert.setHeaderText("Tem a certeza que deseja remover o fornecedor '" + selectedEntidade.getNome() + "'?");
+            alert.setTitle("Remover produto");
+            alert.setHeaderText("Tem a certeza que deseja remover o produto '" + selectedProduto.getNome() + "'?");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             ButtonType cancelButton = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -117,8 +110,8 @@ public class providerController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == okButton) {
-                EntidadeBLL.remove(selectedEntidade.getId_Entidade());
-                dataView.getItems().remove(selectedEntidade);
+                ProdutoBLL.remove(selectedProduto.getId_Produto());
+                dataView.getItems().remove(selectedProduto);
             } else {
                 alert.close();
             }
@@ -138,13 +131,13 @@ public class providerController {
     }
     }
     public void editButtonOnAction(ActionEvent event) throws IOException {
-        Entidade selectedEntidade = dataView.getSelectionModel().getSelectedItem();
-        if (selectedEntidade != null) {
+        Produto selectedProduto = dataView.getSelectionModel().getSelectedItem();
+        if (selectedProduto != null) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Provider/editProvider.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Product/editProduct.fxml"));
             Parent root = loader.load();
-            editProviderController controller = loader.getController();
-            controller.setEntidade(dataView.getSelectionModel().getSelectedItem());
+            editProductController controller = loader.getController();
+            controller.setProduct(dataView.getSelectionModel().getSelectedItem());
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -199,12 +192,12 @@ public class providerController {
         stage.setTitle("Menu Admin - Clientes");
         stage.show();
     }
-    public void productButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Product/productAdmin.fxml"));
+    public void providerButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Provider/providerAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Produtos");
+        stage.setTitle("Menu Admin - Provider");
         stage.show();
     }
 }

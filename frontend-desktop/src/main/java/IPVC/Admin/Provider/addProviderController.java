@@ -114,7 +114,7 @@ public class addProviderController {
             }
         } else {
                 Details.getStyleClass().add("invalid-details-error");
-                Details.setText("Os dados de login são necessários!");
+                Details.setText("Os dados do fonrcedor são necessários!");
                 firstNameTF.getStyleClass().add("TF-EmptyLogin");
                 emailTF.getStyleClass().add("TF-EmptyLogin");
                 phoneTF.getStyleClass().add("TF-EmptyLogin");

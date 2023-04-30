@@ -63,7 +63,6 @@ public class editProviderController {
             pause.setOnFinished(e -> {
                 Details.setText("");
                 Details.getStyleClass().removeAll("invalid-details-error");
-                nifTF.getStyleClass().removeAll("TF-EmptyLogin");
             });
             pause.play();
         }
