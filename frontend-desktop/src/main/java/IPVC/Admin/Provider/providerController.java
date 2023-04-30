@@ -1,9 +1,9 @@
-package IPVC.Admin.Client;
+package IPVC.Admin.Provider;
 
+import IPVC.Admin.Client.editClientController;
 import IPVC.BLL.EntidadeBLL;
 import IPVC.DAL.Entidade;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -21,9 +21,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class clientController {
+public class providerController {
     @FXML
     private TableView<Entidade> dataView;
     @FXML
@@ -44,7 +43,7 @@ public class clientController {
     private TextField searchTF;
     @FXML
     private void initialize() {
-        List<Entidade> clientes = EntidadeBLL.getClients(2);
+        List<Entidade> clientes = EntidadeBLL.getClients(1);
 
         // Cria um ObservableList com os clientes filtrados e atualiza a tabela
         ObservableList<Entidade> data = FXCollections.observableArrayList(clientes);
@@ -95,13 +94,13 @@ public class clientController {
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Client/addClient.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Provider/addProvider.fxml"));
         Parent parent = fxmlLoader.load();
         Scene scene = new Scene(parent);
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-        dialogStage.setTitle("Adicionar Cliente");
+        dialogStage.setTitle("Adicionar Fornecedor");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
     }
@@ -109,8 +108,8 @@ public class clientController {
         Entidade selectedEntidade = dataView.getSelectionModel().getSelectedItem();
         if (selectedEntidade != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remover Cliente");
-            alert.setHeaderText("Tem a certeza que deseja remover o cliente '" + selectedEntidade.getNome() + "'?");
+            alert.setTitle("Remover fornecedor");
+            alert.setHeaderText("Tem a certeza que deseja remover o fornecedor '" + selectedEntidade.getNome() + "'?");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             ButtonType cancelButton = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -125,8 +124,8 @@ public class clientController {
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Editar Cliente");
-            alert.setHeaderText("Para remover um cliente é necessário seleciona-lo na tabela!");
+            alert.setTitle("Remover fornecedor");
+            alert.setHeaderText("Para remover um fornecedor é necessário seleciona-lo na tabela!");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 
@@ -142,17 +141,17 @@ public class clientController {
         Entidade selectedEntidade = dataView.getSelectionModel().getSelectedItem();
         if (selectedEntidade != null) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Client/editClient.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Provider/editProvider.fxml"));
             Parent root = loader.load();
-            editClientController controller = loader.getController();
+            editProviderController controller = loader.getController();
             controller.setEntidade(dataView.getSelectionModel().getSelectedItem());
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Editar Cliente");
-            alert.setHeaderText("Para remover um cliente é necessário seleciona-lo na tabela!");
+            alert.setTitle("Editar fornecedor");
+            alert.setHeaderText("Para remover um fornecedor é necessário seleciona-lo na tabela!");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 
@@ -192,8 +191,8 @@ public class clientController {
             stage.show();
         }
     }
-    public void providerButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Provider/providerAdmin.fxml"));
+    public void clientButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Client/clientAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);

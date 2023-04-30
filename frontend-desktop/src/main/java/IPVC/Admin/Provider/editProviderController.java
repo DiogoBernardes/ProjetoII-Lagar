@@ -1,18 +1,19 @@
-package IPVC.Admin.Client;
+package IPVC.Admin.Provider;
 
 import IPVC.BLL.EntidadeBLL;
 import IPVC.DAL.Entidade;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.Optional;
 
-public class editClientController {
+public class editProviderController {
     @FXML
     private TextField firstNameTF;
     @FXML
@@ -45,7 +46,7 @@ public class editClientController {
     }
 
     @FXML
-    private void updateClient(ActionEvent event) throws IOException {
+    private void updateProvider(ActionEvent event) throws IOException {
         if (entidade != null) {
             entidade.setNome(firstNameTF.getText());
             entidade.setEmail(emailTF.getText());

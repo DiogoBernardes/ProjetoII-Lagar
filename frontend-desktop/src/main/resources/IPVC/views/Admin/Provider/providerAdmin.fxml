@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="920.0" style="-fx-background-color: #808000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Client.clientController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="920.0" style="-fx-background-color: #808000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Provider.providerController">
 <left>
     <AnchorPane prefHeight="480.0" prefWidth="187.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <children>
@@ -22,12 +22,12 @@
                         <Font name="Arial Bold" size="26.0" />
                      </font>
                   </Label>
-                  <Button fx:id="clientButton" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="77.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Clientes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <Button fx:id="clientButton" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="77.0" mnemonicParsing="false" onAction="#clientButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Clientes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="providerButton" layoutX="28.0" layoutY="125.0" mnemonicParsing="false" onAction="#providerButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="   Fornecedores" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="providerButton" layoutX="28.0" layoutY="125.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="   Fornecedores" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -131,7 +131,7 @@
                 </columns>
             </TableView>
             <Button fx:id="removeButton" layoutX="624.0" layoutY="50.0" mnemonicParsing="false" onAction="#removeButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #DF4B49;" text="Remover" textFill="WHITE" />
-            <Label layoutX="47.0" layoutY="14.0" text="Clientes" textOverrun="CLIP" underline="true">
+            <Label layoutX="47.0" layoutY="14.0" text="Fornecedores" textOverrun="CLIP" underline="true">
                 <font>
                     <Font name="Arial Bold Italic" size="18.0" />
                 </font>

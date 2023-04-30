@@ -46,17 +46,17 @@ public class EntidadeBLL {
 
     public static boolean checkNIF(String nif){
         Entidade entidade = getNIF(Integer.parseInt(nif));
-        return entidade == null || entidade.getNIF() != Integer.parseInt(nif) || nif.length() != 9;
+        return entidade == null && nif.length() == 9;
     }
 
     public static boolean checkEmail(String email){
         Entidade entidade = getEmail(email);
-        return entidade == null || !entidade.getEmail().equals(email);
+        return entidade == null;
     }
 
     public static boolean checkTelemovel(String telemovel){
         Entidade entidade = getTelemovel(Integer.parseInt(telemovel));
-        return entidade == null || entidade.getTelemovel() != Integer.parseInt(telemovel) || telemovel.length() != 9;
+        return entidade == null && telemovel.length() == 9;
     }
 
 }
