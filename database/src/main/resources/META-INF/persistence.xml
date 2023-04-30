@@ -6,7 +6,6 @@
     <persistence-unit name="PROJECT_II_LAGAR">
 
         <provider> org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>IPVC.DAL.CodigoPostal</class>
         <class>IPVC.DAL.Entidade</class>
         <class>IPVC.DAL.Fatura</class>
         <class>IPVC.DAL.TipoProduto</class>
@@ -22,7 +21,7 @@
         <class>IPVC.DAL.ProdutoEMB</class>
         <class>IPVC.DAL.Producao</class>
         <class>IPVC.DAL.ProdutoMP</class>
-
+        <class>IPVC.DAL.Login</class>
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/Lagar"/>

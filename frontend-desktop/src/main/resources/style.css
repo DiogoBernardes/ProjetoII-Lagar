@@ -1,10 +1,15 @@
 /* LOGIN CSS*/
 .invalid-details-error {
-    -fx-text-fill: #D52815;
+    -fx-text-fill: #b43c30;
     -fx-font-weight: bold;
     -fx-font-size: 14;
 }
-.usernameTF-EmptyLogin, .passwordTF-EmptyLogin {
+.valid-details {
+    -fx-text-fill: #083f08;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+.TF-EmptyLogin {
     -fx-border-color: RED;
     -fx-border-width: 2;
     -fx-border-radius: 4;
@@ -43,4 +48,7 @@
 }
 .dialog .button:hover {
     -fx-background-color: #D32F2F;
+}
+#button_add:hover {
+    -fx-background-color: #bb7474;
 }

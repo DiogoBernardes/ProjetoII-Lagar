@@ -13,6 +13,10 @@ import java.util.List;
         @NamedQuery(name = "entidade.index", query = "SELECT entidade FROM Entidade entidade"),
         @NamedQuery(name = "entidade.count", query = "SELECT count(entidade) FROM Entidade entidade"),
         @NamedQuery(name = "entidade.getClients", query = "SELECT entidade FROM Entidade entidade WHERE entidade.tipoEntidade.id_TipoEntidade = :idTipoEntidade"),
+        @NamedQuery(name = "entidade.getNIF", query = "SELECT entidade FROM Entidade entidade WHERE entidade.NIF = :NIF"),
+        @NamedQuery(name = "entidade.getTelemovel", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Telemovel = :Telemovel"),
+        @NamedQuery(name = "entidade.getEmail", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Email = :Email"),
+
 })
 public class Entidade {
         @Id
@@ -38,14 +42,8 @@ public class Entidade {
         @Column(name = "N_Porta", nullable = false)
         private int N_Porta;
         @Basic
-        @Column(name = "username", nullable = false)
-        private String username;
-        @Basic
-        @Column(name = "password", nullable = false)
-        private String password;
-        @ManyToOne
-        @JoinColumn(name = "Cod_Postal",referencedColumnName = "Cod_Postal")
-        private CodigoPostal codigoPostal;
+        @Column(name = "Cod_Postal", nullable = false)
+        private String Cod_Postal;
         @ManyToOne
         @JoinColumn(name = "Id_TipoEntidade",referencedColumnName = "Id_TipoEntidade")
         private TipoEntidade tipoEntidade;
@@ -112,28 +110,12 @@ public class Entidade {
         N_Porta = n_Porta;
     }
 
-    public String getUsername() {
-        return username;
+    public String getCod_Postal() {
+        return Cod_Postal;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public CodigoPostal getCodigoPostal() {
-        return codigoPostal;
-    }
-
-    public void setCodigoPostal(CodigoPostal codigoPostal) {
-        this.codigoPostal = codigoPostal;
+    public void setCod_Postal(String cod_Postal) {
+        Cod_Postal = cod_Postal;
     }
 
     public TipoEntidade getTipoEntidade() {

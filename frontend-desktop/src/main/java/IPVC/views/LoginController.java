@@ -38,14 +38,14 @@ public class LoginController {
         if (user.isEmpty() || pass.isEmpty()) {
             invalidDetails.getStyleClass().add("invalid-details-error");
             invalidDetails.setText("Os dados de login são necessários!");
-            usernameTextField.getStyleClass().add("usernameTF-EmptyLogin");
-            passwordTextField.getStyleClass().add("passwordTF-EmptyLogin");
+            usernameTextField.getStyleClass().add("TF-EmptyLogin");
+            passwordTextField.getStyleClass().add("TF-EmptyLogin");
             PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
             pause.setOnFinished(e -> {
                 invalidDetails.setText("");
                 invalidDetails.getStyleClass().removeAll("invalid-details-error");
-                usernameTextField.getStyleClass().removeAll("usernameTF-EmptyLogin");
-                passwordTextField.getStyleClass().removeAll("passwordTF-EmptyLogin");
+                usernameTextField.getStyleClass().removeAll("TF-EmptyLogin");
+                passwordTextField.getStyleClass().removeAll("TF-EmptyLogin");
             });
             pause.play();
         } else if (UtilizadorBLL.checkLogin(user, pass)) {
@@ -75,14 +75,18 @@ public class LoginController {
                 stage.show();
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, ButtonType.OK.getText());
-            alert.setContentText("Dados Incorretos!");
-            DialogPane alertDialog = alert.getDialogPane();
-            alertDialog.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
-            alertDialog.getStyleClass().add("dialog");
-            alert.show();
-            usernameTextField.setText("");
-            passwordTextField.setText("");
+            invalidDetails.getStyleClass().add("invalid-details-error");
+            invalidDetails.setText("Dados Incorretos!");
+            usernameTextField.getStyleClass().add("TF-EmptyLogin");
+            passwordTextField.getStyleClass().add("TF-EmptyLogin");
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.setOnFinished(e -> {
+                invalidDetails.setText("");
+                invalidDetails.getStyleClass().removeAll("invalid-details-error");
+                usernameTextField.getStyleClass().removeAll("TF-EmptyLogin");
+                passwordTextField.getStyleClass().removeAll("TF-EmptyLogin");
+            });
+            pause.play();
         }
     }
 
