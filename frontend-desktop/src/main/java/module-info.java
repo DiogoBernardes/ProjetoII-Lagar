@@ -13,6 +13,7 @@ module Projeto.Lagar.frontend.desktop.main {
     opens IPVC.Admin.Purchase to javafx.fxml;
     opens IPVC.Admin.Production to javafx.fxml;
     opens IPVC.Admin.Packaging to javafx.fxml;
+    opens IPVC.Admin.Employees to javafx.fxml;
     exports IPVC;
 
 }

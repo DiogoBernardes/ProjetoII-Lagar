@@ -11,6 +11,8 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "tipoUtilizador.index", query = "SELECT tipoUtilizador FROM TipoUtilizador tipoUtilizador"),
         @NamedQuery(name = "tipoUtilizador.count", query = "SELECT count(tipoUtilizador) FROM TipoUtilizador tipoUtilizador"),
+        @NamedQuery(name = "tipoUtilizador.getEmployeeByRole", query = "SELECT tipoUtilizador FROM TipoUtilizador tipoUtilizador WHERE tipoUtilizador.cargo = :Cargo"),
+
 })
 public class TipoUtilizador {
         @Id

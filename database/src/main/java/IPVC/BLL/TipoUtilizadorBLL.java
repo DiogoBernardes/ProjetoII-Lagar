@@ -1,12 +1,17 @@
 package IPVC.BLL;
 
+import IPVC.DAL.Produto;
 import IPVC.DAL.TipoUtilizador;
+import IPVC.DAL.Utilizador;
 import IPVC.Database.Database;
 
 import java.util.List;
 
 public class TipoUtilizadorBLL {
     public static List<TipoUtilizador> index() { return Database.query("tipoUtilizador.index").getResultList(); }
+    public static TipoUtilizador getEmployeeByRole(String Cargo) { List<TipoUtilizador> tipoUtilizadors = Database.query("tipoUtilizador.getEmployeeByRole").setParameter("Cargo", Cargo).getResultList();
+        return tipoUtilizadors.isEmpty() ? null : tipoUtilizadors.get(0);
+    }
 
     public static TipoUtilizador get(int id){ return Database.find(TipoUtilizador.class, id); }
 

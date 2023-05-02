@@ -12,6 +12,9 @@ import java.util.List;
         @NamedQuery(name = "utilizador.index", query = "SELECT utilizador FROM Utilizador utilizador"),
         @NamedQuery(name = "utilizador.count", query = "SELECT count(utilizador) FROM Utilizador utilizador"),
         @NamedQuery(name = "utilizador.getDataLogin", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.username = :username AND utilizador.password = :pass"),
+        @NamedQuery(name = "utilizador.getTelemovel", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.telemovel = :Telemovel"),
+        @NamedQuery(name = "utilizador.getUsername", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.username = :username"),
+        @NamedQuery(name = "utilizador.getByRole", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.tipoUtilizador.cargo = :cargo"),
 })
 public class Utilizador {
 
