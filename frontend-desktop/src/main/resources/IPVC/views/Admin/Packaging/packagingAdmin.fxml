@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="920.0" style="-fx-background-color: #808000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Client.clientController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="920.0" style="-fx-background-color: #808000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Packaging.packagingController">
 <left>
     <AnchorPane prefHeight="480.0" prefWidth="187.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <children>
@@ -22,7 +22,7 @@
                         <Font name="Arial Bold" size="26.0" />
                      </font>
                   </Label>
-                  <Button fx:id="clientButton" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="77.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Clientes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <Button fx:id="clientButton" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="77.0" mnemonicParsing="false" onAction="#clientButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Clientes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -47,7 +47,7 @@
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="packagingButton" layoutX="28.0" layoutY="269.0" mnemonicParsing="false" onAction="#packagingButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="   Embalamentos" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="packagingButton" layoutX="28.0" layoutY="269.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="   Embalamentos" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -121,24 +121,22 @@
         <children>
             <TableView fx:id="dataView" layoutX="3.0" layoutY="86.0" prefHeight="390.0" prefWidth="725.0" style="-fx-background-color: #6b8e23; -fx-border-color: #000000;">
                 <columns>
-                    <TableColumn fx:id="nomeColumn" prefWidth="115.9999418258667" style="-fx-background-color: #808000;" text="Nome" />
-                    <TableColumn fx:id="NIFColumn" prefWidth="84.0" style="-fx-background-color: #808000;" text="NIF" />
-                    <TableColumn fx:id="emailColumn" prefWidth="166.3999786376953" style="-fx-background-color: #808000;" text="Email" />
-                    <TableColumn fx:id="telemovelColumn" prefWidth="78.39996337890625" style="-fx-background-color: #808000;" text="Telemóvel" />
-                    <TableColumn fx:id="ruaColumn" prefWidth="151.20001220703125" style="-fx-background-color: #808000;" text="Rua" />
-                    <TableColumn fx:id="numPortaColumn" minWidth="0.0" prefWidth="56.0" style="-fx-background-color: #808000;" text="Nº Porta" />
-                    <TableColumn fx:id="cpColumn" prefWidth="73.5999633789063" style="-fx-background-color: #808000;" text="Cod_Postal" />
+                    <TableColumn fx:id="embalamentoColumn" prefWidth="85.0" style="-fx-background-color: #808000;" text="Embalamento" />
+                    <TableColumn fx:id="produtoEMBColumn" prefWidth="180.0" style="-fx-background-color: #808000;" text="Produto Embalamento" />
+                    <TableColumn fx:id="quantidadeColumn" style="-fx-background-color: #808000;" text="Quantidade" />
+                    <TableColumn fx:id="produtoFColumn" prefWidth="180.0" style="-fx-background-color: #808000;" text="Produto Final" />
+                    <TableColumn fx:id="qtdProdColumn" style="-fx-background-color: #808000;" text="Qtd Prod. " />
+                  <TableColumn fx:id="dataColumn" prefWidth="115.0" style="-fx-background-color: #808000;" text="Data Emissão" />
                 </columns>
             </TableView>
-            <Button fx:id="removeButton" layoutX="624.0" layoutY="50.0" mnemonicParsing="false" onAction="#removeButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #DF4B49;" text="Remover" textFill="WHITE" />
-            <Label layoutX="47.0" layoutY="14.0" text="Clientes" textOverrun="CLIP" underline="true">
+            <Button fx:id="removeButton" layoutX="644.0" layoutY="50.0" mnemonicParsing="false" onAction="#removeButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #DF4B49;" text="Remover" textFill="WHITE" />
+            <Label layoutX="47.0" layoutY="14.0" text="Embalamento" textOverrun="CLIP" underline="true">
                 <font>
                     <Font name="Arial Bold Italic" size="18.0" />
                 </font>
             </Label>
             <TextField fx:id="searchTF" layoutX="14.0" layoutY="50.0" prefHeight="26.0" prefWidth="376.0" />
-            <Button fx:id="editButton" layoutX="539.0" layoutY="50.0" mnemonicParsing="false" onAction="#editButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #497DDF;" text="Editar" textFill="WHITE" />
-            <Button layoutX="456.0" layoutY="50.0" mnemonicParsing="false" onAction="#addButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #489617;" text="Adicionar" textFill="WHITE" />
+            <Button fx:id="editButton" layoutX="553.0" layoutY="50.0" mnemonicParsing="false" onAction="#editButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #497DDF;" text="Editar" textFill="WHITE" />
             <Button fx:id="back" layoutX="3.0" layoutY="10.0" mnemonicParsing="false" onAction="#backButtonOnAction" style="-fx-background-color: #808000;">
                 <graphic>
                     <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
@@ -157,6 +155,8 @@
                     </ImageView>
                 </graphic>
             </Button>
+            <Button fx:id="addButton" layoutX="460.0" layoutY="50.0" mnemonicParsing="false" onAction="#addButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #489617;" text="Adicionar" textFill="WHITE" />
+            <Button fx:id="addProdButton" layoutX="460.0" layoutY="11.0" mnemonicParsing="false" onAction="#addMoreProductsButtonOnAction" prefHeight="26.0" prefWidth="257.0" style="-fx-background-color: #489617;" text="Adicionar Produto a um Embalamento" textFill="WHITE" />
         </children>
     </AnchorPane>
 </center>

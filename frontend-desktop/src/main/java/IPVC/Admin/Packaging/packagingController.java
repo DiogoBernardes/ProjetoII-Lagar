@@ -1,13 +1,11 @@
-package IPVC.Admin.Production;
+package IPVC.Admin.Packaging;
 
-import IPVC.Admin.Purchase.editPurchaseController;
-import IPVC.BLL.FaturaBLL;
-import IPVC.BLL.LinhaFaturaBLL;
+import IPVC.Admin.Production.editProductionController;
+import IPVC.BLL.EmbalamentoBLL;
 import IPVC.BLL.ProducaoBLL;
+import IPVC.BLL.ProdutoEMBBLL;
 import IPVC.BLL.ProdutoMPBLL;
-import IPVC.DAL.LinhaFatura;
-import IPVC.DAL.Producao;
-import IPVC.DAL.ProdutoMP;
+import IPVC.DAL.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,59 +13,60 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class productionController {
+public class packagingController {
     @FXML
-    private TableView<ProdutoMP> dataView;
+    private TableView<ProdutoEMB> dataView;
     @FXML
-    private TableColumn<ProdutoMP, String> producaoColumn;
+    private TableColumn<ProdutoEMB, String> embalamentoColumn;
     @FXML
-    private TableColumn<ProdutoMP, String> produtoMPColumn;
+    private TableColumn<ProdutoEMB, String> produtoEMBColumn;
     @FXML
-    private TableColumn<ProdutoMP, String> quantidadeColumn;
+    private TableColumn<ProdutoEMB, String> quantidadeColumn;
     @FXML
-    private TableColumn<ProdutoMP, String> produtoFColumn;
+    private TableColumn<ProdutoEMB, String> produtoFColumn;
     @FXML
-    private TableColumn<ProdutoMP, String> qtdProdColumn;
+    private TableColumn<ProdutoEMB, String> qtdProdColumn;
     @FXML
-    private TableColumn<ProdutoMP, String> acidezColumn;
-    @FXML
-    private TableColumn<ProdutoMP, String> dataColumn;
+    private TableColumn<ProdutoEMB, String> dataColumn;
     @FXML
     private TextField searchTF;
+
     @FXML
-    private void initialize() {
-        List<ProdutoMP> produtoMPS = ProdutoMPBLL.index();
-
-        ObservableList<ProdutoMP> data = FXCollections.observableArrayList(produtoMPS);
-        //dataView.setItems(data);
+    private void initialize() throws IOException {
+        List<ProdutoEMB> produtoEMBS = ProdutoEMBBLL.index();
+        List<Embalamento> embalamentos = EmbalamentoBLL.index();
+        embalamentos.sort(Comparator.comparingInt(Embalamento::getId_Embalamento));
+        ObservableList<ProdutoEMB> data = FXCollections.observableArrayList(produtoEMBS);
         dataView.setItems(data);
-        producaoColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProducao().getId_Producao())));
-        produtoMPColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProduto().getNome())));
+        embalamentoColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getEmbalamento().getId_Embalamento())));
+        produtoEMBColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProduto().getNome())));
         quantidadeColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getQuantidade())));
-        produtoFColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProducao().getProduto().getNome())));
-        qtdProdColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProducao().getQtd_Produzida())));
-        acidezColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProducao().getAcidez())));
+        produtoFColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getEmbalamento().getProduto().getNome())));
+        qtdProdColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getEmbalamento().getQtd_Embalada())));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        dataColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(sdf.format(d.getValue().getProducao().getData()))));
-        dataView.getSortOrder().add(producaoColumn);
-        // Cria um FilteredList com a lista de clientes
-        FilteredList<ProdutoMP> filteredData = new FilteredList<>(data, p -> true);
+        dataColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(sdf.format(d.getValue().getEmbalamento().getData()))));
+        dataView.getSortOrder().add(embalamentoColumn);
 
+        // Cria um FilteredList com a lista de produtosEmbalados
+        FilteredList<ProdutoEMB> filteredData = new FilteredList<>(data, p -> true);
         // Adiciona um listener ao TextField de busca para filtrar a tabela quando o texto mudar
         searchTF.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(producao -> {
+            filteredData.setPredicate(embalamento -> {
                 // Se o texto de busca estiver vazio, exibe todos os clientes
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
@@ -76,15 +75,13 @@ public class productionController {
                 // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
-                if (String.valueOf(producao.getProducao().getId_Producao()).contains(lowerCaseFilter)) {
+                if (String.valueOf(embalamento.getEmbalamento().getId_Embalamento()).contains(lowerCaseFilter)) {
                     return true;
-                } else if (String.valueOf(producao.getProduto().getNome()).contains(lowerCaseFilter)) {
+                } else if (String.valueOf(embalamento.getProduto().getNome()).contains(lowerCaseFilter)) {
                     return true;
-                } else if (String.valueOf(producao.getProducao().getProduto().getNome()).contains(lowerCaseFilter)){
+                } else if (String.valueOf(embalamento.getEmbalamento().getProduto().getNome()).contains(lowerCaseFilter)){
                     return true;
-                } else if (String.valueOf(producao.getProducao().getAcidez()).contains(lowerCaseFilter)) {
-                    return true;
-                } else if(String.valueOf(producao.getProducao().getData()).contains(lowerCaseFilter)){
+                } else if(String.valueOf(embalamento.getEmbalamento().getData()).contains(lowerCaseFilter)){
                     return true;
                 }
                 return false;
@@ -92,26 +89,38 @@ public class productionController {
         });
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
+
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Production/addProduction.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/addPackaging.fxml"));
+                Parent parent = fxmlLoader.load();
+                Scene scene = new Scene(parent);
+                Stage dialogStage = new Stage();
+                dialogStage.initModality(Modality.APPLICATION_MODAL);
+                dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+                dialogStage.setTitle("Adicionar Embalamento");
+                dialogStage.setScene(scene);
+                dialogStage.showAndWait();
+    }
+
+    public void addMoreProductsButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/addMorePackaging.fxml"));
         Parent parent = fxmlLoader.load();
         Scene scene = new Scene(parent);
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-        dialogStage.setTitle("Adicionar Produção");
+        dialogStage.setTitle("Adicionar Produto a um Embalamento");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
     }
-
     public void removeButtonOnAction(ActionEvent event) throws IOException {
-        ProdutoMP selectedprodutoMP = dataView.getSelectionModel().getSelectedItem();
-        if (selectedprodutoMP != null) {
+        ProdutoEMB selectedprodutoEMB = dataView.getSelectionModel().getSelectedItem();
+        if (selectedprodutoEMB != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remover Produção");
-            alert.setHeaderText("Tem a certeza que deseja remover a produção '" + selectedprodutoMP.getProducao().getId_Producao() + "'?");
+            alert.setTitle("Remover Embalamento");
+            alert.setHeaderText("Tem a certeza que deseja remover o embalamento '" + selectedprodutoEMB.getEmbalamento().getId_Embalamento() + "'?");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             ButtonType cancelButton = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -119,16 +128,16 @@ public class productionController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == okButton) {
-                ProdutoMPBLL.removeByProducao(selectedprodutoMP.getProducao().getId_Producao());
-                ProducaoBLL.remove( selectedprodutoMP.getProducao().getId_Producao());
-                dataView.getItems().remove(selectedprodutoMP);
+                ProdutoEMBBLL.removeByEmbalamento(selectedprodutoEMB.getEmbalamento().getId_Embalamento());
+                EmbalamentoBLL.remove(selectedprodutoEMB.getEmbalamento().getId_Embalamento());
+                dataView.getItems().remove(selectedprodutoEMB);
             } else {
                 alert.close();
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remover Produção");
-            alert.setHeaderText("Para remover uma produção é necessário seleciona-la na tabela!");
+            alert.setTitle("Remover Embalamento");
+            alert.setHeaderText("Para remover um embalamento é necessário seleciona-lo na tabela!");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 
@@ -141,22 +150,22 @@ public class productionController {
     }
     }
 
-    public void editButtonOnAction(ActionEvent event) throws IOException {
-        ProdutoMP selectedprodutoMP = dataView.getSelectionModel().getSelectedItem();
-        if (selectedprodutoMP != null) {
+   public void editButtonOnAction(ActionEvent event) throws IOException {
+        ProdutoEMB selectedprodutoEMB = dataView.getSelectionModel().getSelectedItem();
+        if (selectedprodutoEMB != null) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Production/editProduction.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/editPackaging.fxml"));
             Parent root = loader.load();
-            editProductionController controller = loader.getController();
-            Producao selectedProducao = selectedprodutoMP.getProducao();
-            controller.setProduction(selectedprodutoMP, selectedProducao);
+            editPackagingController controller = loader.getController();
+            Embalamento selectedEmbalamento = selectedprodutoEMB.getEmbalamento();
+            controller.setPackaging(selectedprodutoEMB, selectedEmbalamento);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Editar Produção");
-            alert.setHeaderText("Para editar uma produção é necessário seleciona-lo na tabela!");
+            alert.setTitle("Editar Embalamento");
+            alert.setHeaderText("Para editar um embalamento é necessário seleciona-lo na tabela!");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 
@@ -197,14 +206,7 @@ public class productionController {
             stage.setTitle("Login");
             stage.show();        }
     }
-    public void clientButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Client/clientAdmin.fxml"));
-        Scene regCena = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Faturas");
-        stage.show();
-    }
+
     public void providerButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Provider/providerAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -213,6 +215,7 @@ public class productionController {
         stage.setTitle("Menu Admin - Clientes");
         stage.show();
     }
+
     public void productButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Product/productAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -222,12 +225,20 @@ public class productionController {
         stage.show();
     }
 
-    public void packagingButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Packaging/packagingAdmin.fxml"));
+    public void clientButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Client/clientAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Embalamento");
+        stage.setTitle("Menu Admin - Faturas");
+        stage.show();
+    }
+    public void productionButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Production/productionAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Produção");
         stage.show();
     }
     public void purchaseButtonOnAction(ActionEvent event) throws IOException {

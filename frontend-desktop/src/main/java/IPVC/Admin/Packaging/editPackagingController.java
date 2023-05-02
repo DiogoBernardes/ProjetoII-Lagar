@@ -1,8 +1,7 @@
-package IPVC.Admin.Production;
+package IPVC.Admin.Packaging;
 
 import IPVC.BLL.*;
 import IPVC.DAL.*;
-import IPVC.views.Session;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,9 +19,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-public class editProductionController {
+public class editPackagingController {
     @FXML
     private ComboBox<String> produtoCB;
     @FXML
@@ -40,45 +38,55 @@ public class editProductionController {
     @FXML
     private Label Details;
 
-    private ProdutoMP produto;
-    private Producao producao;
+    private ProdutoEMB produto;
+    private Embalamento embalamento;
 
-    public void setProduction(ProdutoMP ProdutoMP, Producao producoes) {
-        this.produto = ProdutoMP;
-        this.producao = producoes;
-        List<Produto> prodMP = ProdutoBLL.getTypeProduct(1);
-        List<Produto> prodFinal = ProdutoBLL.getTypeProduct(2);
+    public void setPackaging(ProdutoEMB produtoEMB, Embalamento embalamentos) {
+        this.produto = produtoEMB;
+        this.embalamento = embalamentos;
+        List<Produto> prodEMB = ProdutoBLL.getTypeProduct(3);
+        List<Produto> prodEMB2 = ProdutoBLL.getTypeProduct(4);
+        List<Produto> prodFinal = ProdutoBLL.getTypeProduct(5);
 
-        ObservableList<String> produtoMP = FXCollections.observableArrayList();
+        ObservableList<String> produtoEMB1 = FXCollections.observableArrayList();
+        ObservableList<String> produtoEMB2 = FXCollections.observableArrayList();
         ObservableList<String> produtoF = FXCollections.observableArrayList();
 
-        for (Produto p : prodMP) {
-            produtoMP.add(p.getNome());
+        for (Produto p : prodEMB) {
+            produtoEMB1.add(p.getNome());
+        }
+        for (Produto p : prodEMB2) {
+            produtoEMB2.add(p.getNome());
         }
         for (Produto p : prodFinal) {
             produtoF.add(p.getNome());
         }
+
         String produtoSelecionado = produto.getProduto().getNome();
-        if (produtoMP.contains(produtoSelecionado)) {
+        if (produtoEMB1.contains(produtoSelecionado)) {
             produtoCB.setValue(produtoSelecionado);
         }
-        String produtoFinalSelecionado = producao.getProduto().getNome();
+        String produtoEMB2Selecionado = produto.getProduto().getNome();
+        if (produtoEMB2.contains(produtoEMB2Selecionado)) {
+            produtoCB.setValue(produtoEMB2Selecionado);
+        }
+        String produtoFinalSelecionado = embalamentos.getProduto().getNome();
         if (produtoF.contains(produtoFinalSelecionado)) {
             produtoFCB.setValue(produtoFinalSelecionado);
         }
-        produtoCB.setItems(produtoMP);
+        produtoCB.setItems(produtoEMB1);
+        produtoCB.getItems().addAll(produtoEMB2);
         produtoFCB.setItems(produtoF);
-        quantidadeTF.setText(String.valueOf(produto.getQuantidade()));;
-        qtdProdTF.setText(String.valueOf(Math.round(producao.getQtd_Produzida())));
-        acidezTF.setText(String.valueOf(producao.getAcidez()));
+        quantidadeTF.setText(String.valueOf(produtoEMB.getQuantidade()));;
+        qtdProdTF.setText(String.valueOf(Math.round(embalamentos.getQtd_Embalada())));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        dataTF.setText(sdf.format(producao.getData()));
+        dataTF.setText(sdf.format(embalamentos.getData()));
     }
 
 
     @FXML
     private void updateProduction(ActionEvent event) throws IOException, ParseException {
-       if (producao != null && produto != null) {
+       if (embalamento != null && produto != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             Date data = sdf.parse(dataTF.getText());
 
@@ -88,20 +96,20 @@ public class editProductionController {
             Produto produtomp = ProdutoBLL.getName(produtoMPNome);
             Produto produtoFinal = ProdutoBLL.getName(produtoFinalNome);
 
-            producao.setProduto(produtoFinal);
-            producao.setQtd_Produzida(Integer.parseInt(qtdProdTF.getText()));
-            producao.setAcidez(Double.parseDouble(acidezTF.getText()));
-            producao.setData(data);
+            embalamento.setProduto(produtoFinal);
+            embalamento.setQtd_Embalada(Integer.parseInt(qtdProdTF.getText()));
+            embalamento.setData(data);
 
-            produto.setProducao(producao);
+
+            produto.setEmbalamento(embalamento);
             produto.setProduto(produtomp);
             produto.setQuantidade(Integer.parseInt(quantidadeTF.getText()));
 
-            ProducaoBLL.update(producao);
-            ProdutoMPBLL.update(produto);
+            EmbalamentoBLL.update(embalamento);
+            ProdutoEMBBLL.update(produto);
 
             Details.getStyleClass().add("valid-details");
-            Details.setText("Produção editada com Sucesso!");
+            Details.setText("Embalamento editado com Sucesso!");
             PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
             pause.setOnFinished(e -> {
                 Details.setText("");
@@ -110,7 +118,7 @@ public class editProductionController {
             pause.play();
        }else{
            Details.getStyleClass().add("valid-details");
-           Details.setText("Erro na edição da fatura!");
+           Details.setText("Erro na edição do embalamento!");
            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
            pause.setOnFinished(e -> {
                Details.setText("");

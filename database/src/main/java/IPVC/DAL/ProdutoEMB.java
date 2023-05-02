@@ -11,6 +11,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = "produtoEMB.index", query = "SELECT produtoEMB FROM ProdutoEMB produtoEMB"),
         @NamedQuery(name = "produtoEMB.count", query = "SELECT count(produtoEMB) FROM ProdutoEMB produtoEMB"),
+        @NamedQuery(name = "produtoEMB.findByEmbalamento", query = "SELECT produtoEMB FROM ProdutoEMB produtoEMB WHERE produtoEMB.embalamento.id_Embalamento = :idEmbalamento"),
 })
 public class ProdutoEMB implements Serializable {
 

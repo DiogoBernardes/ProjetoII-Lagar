@@ -71,17 +71,16 @@ public class productController {
                 // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
-                // Filtra o cliente se o nome, o NIF, o email ou o número de telefone contiverem o texto de busca
                 if (produto.getNome().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // O nome contém o texto de busca
+                    return true;
                 } else if (String.valueOf(produto.getId_Produto()).contains(lowerCaseFilter)) {
-                    return true; // O ID contém o texto de busca
+                    return true;
                 } else if (String.valueOf(produto.getValor_Unitario()).contains(lowerCaseFilter)) {
-                    return true; // O valor Unitário contém o texto de busca
+                    return true;
                 }else if (String.valueOf(produto.getTipoProduto().getDescricao()).contains(lowerCaseFilter)) {
-                    return true; // O tipoProduto contém o texto de busca
+                    return true;
                 }
-                return false; // Não há correspondência
+                return false;
             });
         });
 
@@ -201,6 +200,30 @@ public class productController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Provider");
+        stage.show();
+    }
+    public void productionButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Production/productionAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Produção");
+        stage.show();
+    }
+    public void packagingButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Packaging/packagingAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Embalamento");
+        stage.show();
+    }
+    public void purchaseButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Purchase/purchaseAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Compras");
         stage.show();
     }
 }

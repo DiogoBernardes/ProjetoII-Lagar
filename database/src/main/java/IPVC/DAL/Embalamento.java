@@ -52,4 +52,8 @@ public class Embalamento {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
+    @Override
+    public String toString() {
+        return String.valueOf(id_Embalamento);
+    }
 }

@@ -1,6 +1,7 @@
 package IPVC.BLL;
 
 import IPVC.DAL.ProdutoEMB;
+import IPVC.DAL.ProdutoMP;
 import IPVC.Database.Database;
 
 import java.util.List;
@@ -29,4 +30,13 @@ public class ProdutoEMBBLL {
     }
 
     public static int count() { return ((Long) Database.query("produtoEMB.count").getSingleResult()).intValue(); }
+
+    public static void removeByEmbalamento(int idEmbalamento) {
+        List<ProdutoEMB> produtoEMBS = Database.query("produtoEMB.findByEmbalamento").setParameter("idEmbalamento", idEmbalamento).getResultList();
+        Database.beginTransaction();
+        for (ProdutoEMB prodEMB : produtoEMBS) {
+            Database.delete(prodEMB);
+        }
+        Database.commitTransaction();
+    }
 }
