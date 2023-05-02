@@ -1,5 +1,6 @@
 package IPVC.BLL;
 
+import IPVC.DAL.LinhaFatura;
 import IPVC.DAL.ProdutoMP;
 import IPVC.Database.Database;
 
@@ -30,4 +31,13 @@ public class ProdutoMPBLL {
     }
 
     public static int count() { return ((Long) Database.query("produtoMP.count").getSingleResult()).intValue(); }
+
+    public static void removeByProducao(int idProducao) {
+        List<ProdutoMP> produtoMPS = Database.query("produtoMP.findByProducao").setParameter("idProducao", idProducao).getResultList();
+        Database.beginTransaction();
+        for (ProdutoMP prodMP : produtoMPS) {
+            Database.delete(prodMP);
+        }
+        Database.commitTransaction();
+    }
 }

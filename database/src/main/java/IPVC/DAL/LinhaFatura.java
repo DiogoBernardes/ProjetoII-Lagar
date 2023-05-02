@@ -11,16 +11,20 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = "linhaFatura.index", query = "SELECT linhaFatura FROM LinhaFatura linhaFatura"),
         @NamedQuery(name = "linhaFatura.count", query = "SELECT count(linhaFatura) FROM LinhaFatura linhaFatura"),
+        @NamedQuery(name = "linhaFatura.findByFatura", query = "SELECT linhaFatura FROM LinhaFatura linhaFatura WHERE linhaFatura.fatura.Id_Fatura = :idFatura"),
 })
 public class LinhaFatura implements Serializable {
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "Id_Produto",referencedColumnName = "id_Produto")
+    private Produto produto;
+
     @Id
     @ManyToOne
     @JoinColumn(name = "Id_Fatura",referencedColumnName = "Id_Fatura")
     private Fatura fatura;
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "Id_Produto",referencedColumnName = "Id_Produto")
-    private Produto produto;
+
     @Basic
     @Column(name = "Quantidade", nullable = false)
     private int quantidade;

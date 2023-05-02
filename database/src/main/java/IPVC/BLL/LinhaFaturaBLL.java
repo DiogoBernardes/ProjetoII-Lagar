@@ -1,6 +1,7 @@
 package IPVC.BLL;
 
 import IPVC.DAL.LinhaFatura;
+import IPVC.DAL.Produto;
 import IPVC.Database.Database;
 
 import java.util.List;
@@ -29,4 +30,13 @@ public class LinhaFaturaBLL {
     }
 
     public static int count() { return ((Long) Database.query("linhaFatura.count").getSingleResult()).intValue(); }
+
+    public static void removeByFatura(int idFatura) {
+        List<LinhaFatura> linhasFatura = Database.query("linhaFatura.findByFatura").setParameter("idFatura", idFatura).getResultList();
+        Database.beginTransaction();
+        for (LinhaFatura lf : linhasFatura) {
+            Database.delete(lf);
+        }
+        Database.commitTransaction();
+    }
 }

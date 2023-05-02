@@ -11,6 +11,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "tipoPagamento.index", query = "SELECT tipoPagamento FROM TipoPagamento tipoPagamento"),
         @NamedQuery(name = "tipoPagamento.count", query = "SELECT count(tipoPagamento) FROM TipoPagamento tipoPagamento"),
+        @NamedQuery(name = "tipoPagamento.getPaymentByDescription", query = "SELECT tipoPagamento FROM TipoPagamento tipoPagamento WHERE tipoPagamento.descricao = :descricao"),
 })
 public class TipoPagamento {
     @Id

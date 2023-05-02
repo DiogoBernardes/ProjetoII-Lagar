@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="920.0" style="-fx-background-color: #808000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Production.productionController">
+<left>
+    <AnchorPane prefHeight="480.0" prefWidth="187.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane fx:id="clientButtonOnAction" prefHeight="480.0" prefWidth="187.0" style="-fx-background-color: #2C2D27;">
+               <children>
+                  <Label layoutX="59.0" layoutY="26.0" text="Menu" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="clientButton" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="77.0" mnemonicParsing="false" onAction="#clientButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Clientes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="providerButton" layoutX="28.0" layoutY="125.0" mnemonicParsing="false" onAction="#providerButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="   Fornecedores" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="productButton" layoutX="28.0" layoutY="173.0" mnemonicParsing="false" onAction="#productButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Produtos" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="productionButton" layoutX="28.0" layoutY="221.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Produção" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="shoppingButton" layoutX="28.0" layoutY="317.0" mnemonicParsing="false" onAction="#purchaseButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Compras" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="packagingButton" layoutX="28.0" layoutY="269.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="   Embalamentos" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="salesButton" layoutX="28.0" layoutY="365.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Vendas" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="employeesButton" layoutX="28.0" layoutY="413.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Funcionários" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="logoutButton" layoutY="448.0" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="23.0" prefWidth="31.0" style="-fx-background-color: #2C2D27;">
+                     <graphic>
+                        <ImageView accessibleRole="BUTTON" fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../images/logout.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="40.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/client-search.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="40.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/provider-search.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="40.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/product-search.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="40.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/production-search.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="40.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/packaging-search.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="40.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/shopping-search.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="40.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/business-search.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="40.0" layoutY="422.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../icons/employee-search.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+    </AnchorPane>
+</left>
+<center>
+    <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <children>
+            <TableView fx:id="dataView" layoutX="3.0" layoutY="86.0" prefHeight="390.0" prefWidth="725.0" style="-fx-background-color: #6b8e23; -fx-border-color: #000000;">
+                <columns>
+                    <TableColumn fx:id="producaoColumn" prefWidth="70.0" style="-fx-background-color: #808000;" text="Produção" />
+                    <TableColumn fx:id="produtoMPColumn" prefWidth="160.0" style="-fx-background-color: #808000;" text="Produto Máteria Prima" />
+                    <TableColumn fx:id="quantidadeColumn" prefWidth="75.0" style="-fx-background-color: #808000;" text="Quantidade" />
+                    <TableColumn fx:id="produtoFColumn" prefWidth="160.0" style="-fx-background-color: #808000;" text="Produto Final" />
+                    <TableColumn fx:id="qtdProdColumn" prefWidth="75.0" style="-fx-background-color: #808000;" text="Qtd Prod. " />
+                    <TableColumn fx:id="acidezColumn" minWidth="0.0" prefWidth="75.0" style="-fx-background-color: #808000;" text="Acidez" />
+                  <TableColumn fx:id="dataColumn" prefWidth="105.0" style="-fx-background-color: #808000;" text="Data Emissão" />
+                </columns>
+            </TableView>
+            <Button fx:id="removeButton" layoutX="624.0" layoutY="50.0" mnemonicParsing="false" onAction="#removeButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #DF4B49;" text="Remover" textFill="WHITE" />
+            <Label layoutX="47.0" layoutY="14.0" text="Produção" textOverrun="CLIP" underline="true">
+                <font>
+                    <Font name="Arial Bold Italic" size="18.0" />
+                </font>
+            </Label>
+            <TextField fx:id="searchTF" layoutX="14.0" layoutY="50.0" prefHeight="26.0" prefWidth="376.0" />
+            <Button fx:id="editButton" layoutX="539.0" layoutY="50.0" mnemonicParsing="false" onAction="#editButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #497DDF;" text="Editar" textFill="WHITE" />
+            <Button layoutX="456.0" layoutY="50.0" mnemonicParsing="false" onAction="#addButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #489617;" text="Adicionar" textFill="WHITE" />
+            <Button fx:id="back" layoutX="3.0" layoutY="10.0" mnemonicParsing="false" onAction="#backButtonOnAction" style="-fx-background-color: #808000;">
+                <graphic>
+                    <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../../images/backArrrow.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="search" layoutX="390.0" layoutY="48.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="25.0" style="-fx-background-color: #808000;">
+                <graphic>
+                    <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../../images/search-icon.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </children>
+    </AnchorPane>
+</center>
+</BorderPane>

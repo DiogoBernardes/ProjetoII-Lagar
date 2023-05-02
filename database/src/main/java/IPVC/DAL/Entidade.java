@@ -16,6 +16,7 @@ import java.util.List;
         @NamedQuery(name = "entidade.getNIF", query = "SELECT entidade FROM Entidade entidade WHERE entidade.NIF = :NIF"),
         @NamedQuery(name = "entidade.getTelemovel", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Telemovel = :Telemovel"),
         @NamedQuery(name = "entidade.getEmail", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Email = :Email"),
+        @NamedQuery(name = "entidade.getEntityByName", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Nome = :Nome"),
 
 })
 public class Entidade {

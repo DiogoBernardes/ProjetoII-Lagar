@@ -23,8 +23,6 @@ public class LoginController {
     private TextField usernameTextField;
     @FXML
     private Label invalidDetails;
-    @FXML
-    private ProgressIndicator loginProgress;
 
     public void initialize() {
         loginButton.getStyleClass().add("login-button");
@@ -51,6 +49,9 @@ public class LoginController {
         } else if (UtilizadorBLL.checkLogin(user, pass)) {
             Utilizador utilizador = UtilizadorBLL.getDataLogin(user, pass);
             if (utilizador.getTipoUtilizador().getId_TipoUtilizador() == 1) {
+                Utilizador currentUser = utilizador;
+                Session.getInstance().setCurrentUser(currentUser);
+                currentUser = utilizador;
                 Parent root = FXMLLoader.load(getClass().getResource("Admin/mAdmin.fxml"));
                 Scene regCena = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

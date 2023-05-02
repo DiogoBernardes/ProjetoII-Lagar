@@ -11,6 +11,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = "produtoMP.index", query = "SELECT produtoMP FROM ProdutoMP produtoMP"),
         @NamedQuery(name = "produtoMP.count", query = "SELECT count(produtoMP) FROM ProdutoMP produtoMP"),
+        @NamedQuery(name = "produtoMP.findByProducao", query = "SELECT produtoMP FROM ProdutoMP produtoMP WHERE produtoMP.producao.id_Producao = :idProducao"),
 })
 public class ProdutoMP implements Serializable {
     @Id

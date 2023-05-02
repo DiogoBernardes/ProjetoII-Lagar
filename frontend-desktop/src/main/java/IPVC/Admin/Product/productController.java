@@ -3,6 +3,7 @@ package IPVC.Admin.Product;
 import IPVC.Admin.Product.editProductController;
 import IPVC.BLL.ProdutoBLL;
 import IPVC.DAL.Produto;
+import IPVC.DAL.ProdutoMP;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +45,7 @@ public class productController {
     private void initialize() {
         List<Produto> produtos = ProdutoBLL.index();
 
+        produtos.sort(Comparator.comparingInt(Produto::getId_Produto));
         // Cria um ObservableList com os clientes filtrados e atualiza a tabela
         ObservableList<Produto> data = FXCollections.observableArrayList(produtos);
 

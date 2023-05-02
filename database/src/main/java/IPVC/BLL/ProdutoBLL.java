@@ -11,6 +11,8 @@ public class ProdutoBLL {
     public static Produto getName(String Nome) { List<Produto> produtos = Database.query("produto.getName").setParameter("Nome", Nome).getResultList();
         return produtos.isEmpty() ? null : produtos.get(0);
     }
+    public static List<Produto> getTypeProduct(int idTipoProduto) { return Database.query("produto.getTypeProduct").setParameter("idTipoProduto", idTipoProduto).getResultList();
+    }
 
     public static Produto get(int id){ return Database.find(Produto.class, id); }
 

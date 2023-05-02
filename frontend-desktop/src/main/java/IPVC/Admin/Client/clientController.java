@@ -44,7 +44,7 @@ public class clientController {
     private TextField searchTF;
     @FXML
     private void initialize() {
-        List<Entidade> clientes = EntidadeBLL.getClients(2);
+        List<Entidade> clientes = EntidadeBLL.getEntities(2);
 
         // Cria um ObservableList com os clientes filtrados e atualiza a tabela
         ObservableList<Entidade> data = FXCollections.observableArrayList(clientes);

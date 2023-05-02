@@ -9,7 +9,7 @@ import java.util.List;
 public class EntidadeBLL {
 
     public static List<Entidade> index() { return Database.query("entidade.index").getResultList(); }
-    public static List<Entidade> getClients(int TipoEntidade) { return Database.query("entidade.getClients").setParameter("idTipoEntidade", TipoEntidade)
+    public static List<Entidade> getEntities(int TipoEntidade) { return Database.query("entidade.getClients").setParameter("idTipoEntidade", TipoEntidade)
             .getResultList();}
     public static Entidade getNIF(int NIF) { List<Entidade> entidades = Database.query("entidade.getNIF").setParameter("NIF", NIF).getResultList();
         return entidades.isEmpty() ? null : entidades.get(0);
@@ -20,6 +20,9 @@ public class EntidadeBLL {
     }
 
     public static Entidade getTelemovel(int Telemovel) {List<Entidade> entidades = Database.query("entidade.getTelemovel").setParameter("Telemovel", Telemovel).getResultList();
+        return entidades.isEmpty() ? null : entidades.get(0);
+    }
+    public static Entidade getEntityByName(String Nome) { List<Entidade> entidades = Database.query("entidade.getEntityByName").setParameter("Nome", Nome).getResultList();
         return entidades.isEmpty() ? null : entidades.get(0);
     }
     public static Entidade get(int id){ return Database.find(Entidade.class, id); }
