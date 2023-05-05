@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="920.0" style="-fx-background-color: #808000;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Purchase.purchaseController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="920.0" style="-fx-background-color: #D8D0BA;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Purchase.purchaseController">
 <left>
     <AnchorPane prefHeight="480.0" prefWidth="187.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="clientButtonOnAction" prefHeight="480.0" prefWidth="187.0" style="-fx-background-color: #2C2D27;">
+            <AnchorPane fx:id="clientButtonOnAction" prefHeight="480.0" prefWidth="187.0" style="-fx-background-color: #808000;">
                <children>
                   <Label layoutX="59.0" layoutY="26.0" text="Menu" textFill="WHITE">
                      <font>
@@ -62,7 +62,7 @@
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="logoutButton" layoutY="448.0" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="23.0" prefWidth="31.0" style="-fx-background-color: #2C2D27;">
+                  <Button fx:id="logoutButton" layoutY="448.0" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="23.0" prefWidth="31.0" style="-fx-background-color: #808000;">
                      <graphic>
                         <ImageView accessibleRole="BUTTON" fitHeight="28.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -119,17 +119,17 @@
 <center>
     <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <children>
-            <TableView fx:id="dataView" layoutX="3.0" layoutY="86.0" prefHeight="390.0" prefWidth="725.0" style="-fx-background-color: #6b8e23; -fx-border-color: #000000;">
+            <TableView fx:id="dataView" layoutX="3.0" layoutY="86.0" prefHeight="390.0" prefWidth="725.0" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000;">
                 <columns>
-                    <TableColumn fx:id="faturaColumn" prefWidth="42.39999294281006" style="-fx-background-color: #808000;" text="Fatura" />
-                    <TableColumn fx:id="produtoColumn" prefWidth="136.00000381469727" style="-fx-background-color: #808000;" text="Produto" />
-                    <TableColumn fx:id="quantidadeColumn" prefWidth="60.79998779296875" style="-fx-background-color: #808000;" text="Qtd" />
-                    <TableColumn fx:id="valorColumn" prefWidth="55.19999694824219" style="-fx-background-color: #808000;" text="Valor (€)" />
-                    <TableColumn fx:id="valorFinalColumn" prefWidth="70.39996337890625" style="-fx-background-color: #808000;" text="Valor Final " />
-                    <TableColumn fx:id="fornecedorColumn" minWidth="0.0" prefWidth="111.20001220703125" style="-fx-background-color: #808000;" text="Fornecedor" />
-                    <TableColumn fx:id="utilizadorColumn" prefWidth="93.5999755859375" style="-fx-background-color: #808000;" text="Utilizador" />
-                  <TableColumn fx:id="pagamentoColumn" prefWidth="68.800048828125" style="-fx-background-color: #808000;" text="Pagamento" />
-                  <TableColumn fx:id="dataColumn" prefWidth="83.199951171875" style="-fx-background-color: #808000;" text="Data Emissão" />
+                    <TableColumn fx:id="faturaColumn" prefWidth="42.39999294281006" style="-fx-background-color: #D8D0BA;" text="Fatura" />
+                    <TableColumn fx:id="produtoColumn" prefWidth="136.00000381469727" style="-fx-background-color: #D8D0BA;" text="Produto" />
+                    <TableColumn fx:id="quantidadeColumn" prefWidth="60.79998779296875" style="-fx-background-color: #D8D0BA;" text="Qtd" />
+                    <TableColumn fx:id="valorColumn" prefWidth="55.19999694824219" style="-fx-background-color: #D8D0BA;" text="Valor (€)" />
+                    <TableColumn fx:id="valorFinalColumn" prefWidth="70.39996337890625" style="-fx-background-color: #D8D0BA;" text="Valor Final " />
+                    <TableColumn fx:id="fornecedorColumn" minWidth="0.0" prefWidth="111.20001220703125" style="-fx-background-color: #D8D0BA;" text="Fornecedor" />
+                    <TableColumn fx:id="utilizadorColumn" prefWidth="93.5999755859375" style="-fx-background-color: #D8D0BA;" text="Utilizador" />
+                  <TableColumn fx:id="pagamentoColumn" prefWidth="68.800048828125" style="-fx-background-color: #D8D0BA;" text="Pagamento" />
+                  <TableColumn fx:id="dataColumn" prefWidth="83.199951171875" style="-fx-background-color: #D8D0BA;" text="Data Emissão" />
                 </columns>
             </TableView>
             <Button fx:id="removeButton" layoutX="624.0" layoutY="50.0" mnemonicParsing="false" onAction="#removeButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #DF4B49;" text="Remover" textFill="WHITE" />
@@ -141,7 +141,7 @@
             <TextField fx:id="searchTF" layoutX="14.0" layoutY="50.0" prefHeight="26.0" prefWidth="376.0" />
             <Button fx:id="editButton" layoutX="539.0" layoutY="50.0" mnemonicParsing="false" onAction="#editButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #497DDF;" text="Editar" textFill="WHITE" />
             <Button layoutX="456.0" layoutY="50.0" mnemonicParsing="false" onAction="#addButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #489617;" text="Adicionar" textFill="WHITE" />
-            <Button fx:id="back" layoutX="3.0" layoutY="10.0" mnemonicParsing="false" onAction="#backButtonOnAction" style="-fx-background-color: #808000;">
+            <Button fx:id="back" layoutX="3.0" layoutY="10.0" mnemonicParsing="false" onAction="#backButtonOnAction" style="-fx-background-color: #D8D0BA;">
                 <graphic>
                     <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                         <image>
@@ -150,7 +150,7 @@
                     </ImageView>
                 </graphic>
             </Button>
-            <Button fx:id="search" layoutX="390.0" layoutY="48.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="25.0" style="-fx-background-color: #808000;">
+            <Button fx:id="search" layoutX="390.0" layoutY="48.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="25.0" style="-fx-background-color: #D8D0BA;">
                 <graphic>
                     <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                         <image>
