@@ -4,6 +4,9 @@ import IPVC.DAL.LinhaFatura;
 import IPVC.DAL.ProdutoMP;
 import IPVC.Database.Database;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 public class ProdutoMPBLL {
@@ -25,8 +28,9 @@ public class ProdutoMPBLL {
 
     public static void remove(int id){
         ProdutoMP entity = get(id);
+        entity.setDeleted_on(Timestamp.from(Instant.now()));
         Database.beginTransaction();
-        Database.delete(entity);
+        Database.update(entity);
         Database.commitTransaction();
     }
 

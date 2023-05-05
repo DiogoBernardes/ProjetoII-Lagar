@@ -2,15 +2,17 @@ package IPVC.DAL;
 
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
+
+import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
 @Table(name="Tipo_Produto")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "tipoProduto.index", query = "SELECT tipoProduto FROM TipoProduto tipoProduto"),
-        @NamedQuery(name = "tipoProduto.count", query = "SELECT count(tipoProduto) FROM TipoProduto tipoProduto"),
-        @NamedQuery(name = "tipoProduto.getByDescription", query = "SELECT tipoProduto FROM TipoProduto tipoProduto WHERE tipoProduto.descricao = :descricao"),
+        @NamedQuery(name = "tipoProduto.index", query = "SELECT tipoProduto FROM TipoProduto tipoProduto WHERE tipoProduto.deleted_on = null"),
+        @NamedQuery(name = "tipoProduto.count", query = "SELECT count(tipoProduto) FROM TipoProduto tipoProduto WHERE tipoProduto.deleted_on = null"),
+        @NamedQuery(name = "tipoProduto.getByDescription", query = "SELECT tipoProduto FROM TipoProduto tipoProduto WHERE tipoProduto.descricao = :descricao and tipoProduto.deleted_on = null"),
 })
 public class TipoProduto{
         @Id
@@ -21,7 +23,9 @@ public class TipoProduto{
         @Basic
         @Column(name = "Descricao", nullable = false)
         private String descricao;
-
+        @Basic
+        @Column(name = "deleted_on")
+        private Timestamp deleted_on;
         @OneToMany(mappedBy = "tipoProduto")
         private List<Produto> produtos;
 
@@ -41,5 +45,13 @@ public class TipoProduto{
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

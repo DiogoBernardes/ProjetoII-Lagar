@@ -3,14 +3,15 @@ package IPVC.DAL;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name="Tipo_Entidade")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "tipoEntidade.index", query = "SELECT tipoEntidade FROM TipoEntidade tipoEntidade"),
-        @NamedQuery(name = "tipoEntidade.count", query = "SELECT count(tipoEntidade) FROM TipoEntidade tipoEntidade"),
+        @NamedQuery(name = "tipoEntidade.index", query = "SELECT tipoEntidade FROM TipoEntidade tipoEntidade WHERE tipoEntidade.deleted_on = null"),
+        @NamedQuery(name = "tipoEntidade.count", query = "SELECT count(tipoEntidade) FROM TipoEntidade tipoEntidade WHERE tipoEntidade.deleted_on = null"),
 })
 public class TipoEntidade {
 
@@ -22,6 +23,9 @@ public class TipoEntidade {
     @Basic
     @Column(name = "Descricao", nullable = false)
     private String descricao;
+    @Basic
+    @Column(name = "deleted_on")
+    private Timestamp deleted_on;
 
     @OneToMany(mappedBy = "tipoEntidade")
     private List<Entidade> entidades;
@@ -40,5 +44,13 @@ public class TipoEntidade {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

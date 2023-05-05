@@ -1,6 +1,7 @@
 package IPVC.Admin.Purchase;
 
 import IPVC.Admin.Client.editClientController;
+import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.BLL.EntidadeBLL;
 import IPVC.BLL.FaturaBLL;
 import IPVC.BLL.LinhaFaturaBLL;
@@ -114,6 +115,7 @@ public class purchaseController {
         dialogStage.setTitle("Adicionar Fatura");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
+        dataView.refresh();
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         LinhaFatura selectedFatura = dataView.getSelectionModel().getSelectedItem();
@@ -130,7 +132,7 @@ public class purchaseController {
             if (result.get() == okButton) {
                 LinhaFaturaBLL.removeByFatura(selectedFatura.getFatura().getId_Fatura());
                 FaturaBLL.remove(selectedFatura.getFatura().getId_Fatura());
-                dataView.getItems().remove(selectedFatura);
+                dataView.refresh();
             } else {
                 alert.close();
             }
@@ -152,15 +154,20 @@ public class purchaseController {
     public void editButtonOnAction(ActionEvent event) throws IOException {
         LinhaFatura selectedLinhaFatura = dataView.getSelectionModel().getSelectedItem();
         if (selectedLinhaFatura != null) {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Purchase/editPurchase.fxml"));
-            Parent root = loader.load();
+            Parent parent = loader.load();
             editPurchaseController controller = loader.getController();
             Fatura selectedFatura = selectedLinhaFatura.getFatura();
             controller.setPurchase(selectedLinhaFatura,selectedFatura);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Scene scene = new Scene(parent);
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            dialogStage.setTitle("Editar Compra");
+            dialogStage.setScene(scene);
+            dialogStage.showAndWait();
+            dataView.refresh();
+
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Editar Fatura");

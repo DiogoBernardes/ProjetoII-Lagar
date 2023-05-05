@@ -1,5 +1,6 @@
 package IPVC.Admin.Packaging;
 
+import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.Admin.Production.editProductionController;
 import IPVC.BLL.EmbalamentoBLL;
 import IPVC.BLL.ProducaoBLL;
@@ -102,6 +103,7 @@ public class packagingController {
                 dialogStage.setTitle("Adicionar Embalamento");
                 dialogStage.setScene(scene);
                 dialogStage.showAndWait();
+                dataView.refresh();
     }
 
     public void addMoreProductsButtonOnAction(ActionEvent event) throws IOException {
@@ -114,6 +116,7 @@ public class packagingController {
         dialogStage.setTitle("Adicionar Produto a um Embalamento");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
+        dataView.refresh();
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         ProdutoEMB selectedprodutoEMB = dataView.getSelectionModel().getSelectedItem();
@@ -130,7 +133,7 @@ public class packagingController {
             if (result.get() == okButton) {
                 ProdutoEMBBLL.removeByEmbalamento(selectedprodutoEMB.getEmbalamento().getId_Embalamento());
                 EmbalamentoBLL.remove(selectedprodutoEMB.getEmbalamento().getId_Embalamento());
-                dataView.getItems().remove(selectedprodutoEMB);
+                dataView.refresh();
             } else {
                 alert.close();
             }
@@ -155,13 +158,18 @@ public class packagingController {
         if (selectedprodutoEMB != null) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/editPackaging.fxml"));
-            Parent root = loader.load();
+            Parent parent = loader.load();
             editPackagingController controller = loader.getController();
             Embalamento selectedEmbalamento = selectedprodutoEMB.getEmbalamento();
             controller.setPackaging(selectedprodutoEMB, selectedEmbalamento);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Scene scene = new Scene(parent);
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            dialogStage.setTitle("Editar Embalamento");
+            dialogStage.setScene(scene);
+            dialogStage.showAndWait();
+            dataView.refresh();
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Editar Embalamento");

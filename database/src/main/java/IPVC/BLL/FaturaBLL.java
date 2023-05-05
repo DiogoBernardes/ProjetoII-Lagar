@@ -3,6 +3,9 @@ package IPVC.BLL;
 import IPVC.DAL.Fatura;
 import IPVC.Database.Database;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 public class FaturaBLL {
@@ -24,8 +27,10 @@ public class FaturaBLL {
 
         public static void remove(int id){
             Fatura entity = get(id);
+            entity.setDeleted_on(Timestamp.from(Instant.now()));
+
             Database.beginTransaction();
-            Database.delete(entity);
+            Database.update(entity);
             Database.commitTransaction();
         }
 

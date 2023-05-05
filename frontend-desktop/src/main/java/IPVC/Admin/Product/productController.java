@@ -1,5 +1,6 @@
 package IPVC.Admin.Product;
 
+import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.Admin.Product.editProductController;
 import IPVC.BLL.ProdutoBLL;
 import IPVC.DAL.Produto;
@@ -98,6 +99,7 @@ public class productController {
         dialogStage.setTitle("Adicionar Produto");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
+        dataView.refresh();
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         Produto selectedProduto = dataView.getSelectionModel().getSelectedItem();
@@ -113,7 +115,7 @@ public class productController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == okButton) {
                 ProdutoBLL.remove(selectedProduto.getId_Produto());
-                dataView.getItems().remove(selectedProduto);
+                dataView.refresh();
             } else {
                 alert.close();
             }
@@ -135,14 +137,18 @@ public class productController {
     public void editButtonOnAction(ActionEvent event) throws IOException {
         Produto selectedProduto = dataView.getSelectionModel().getSelectedItem();
         if (selectedProduto != null) {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Product/editProduct.fxml"));
-            Parent root = loader.load();
+            Parent parent = loader.load();
             editProductController controller = loader.getController();
             controller.setProduct(dataView.getSelectionModel().getSelectedItem());
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Scene scene = new Scene(parent);
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            dialogStage.setTitle("Editar Fornecedor");
+            dialogStage.setScene(scene);
+            dialogStage.showAndWait();
+            dataView.refresh();
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Editar fornecedor");

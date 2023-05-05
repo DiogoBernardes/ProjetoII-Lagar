@@ -3,6 +3,8 @@ package IPVC.BLL;
 import IPVC.DAL.TipoEntidade;
 import IPVC.Database.Database;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 public class TipoEntidadeBLL {
@@ -23,8 +25,9 @@ public class TipoEntidadeBLL {
 
     public static void remove(int id){
         TipoEntidade entity = get(id);
+        entity.setDeleted_on(Timestamp.from(Instant.now()));
         Database.beginTransaction();
-        Database.delete(entity);
+        Database.update(entity);
         Database.commitTransaction();
     }
 

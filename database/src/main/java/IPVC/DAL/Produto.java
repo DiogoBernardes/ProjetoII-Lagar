@@ -3,16 +3,17 @@ package IPVC.DAL;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name="Produto")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "produto.index", query = "SELECT produto FROM Produto produto"),
-        @NamedQuery(name = "produto.count", query = "SELECT count(produto) FROM Produto produto"),
-        @NamedQuery(name = "produto.getName", query = "SELECT produto FROM Produto produto WHERE produto.Nome = :Nome"),
-        @NamedQuery(name = "produto.getTypeProduct", query = "SELECT produto FROM Produto produto WHERE produto.tipoProduto.id_TipoProduto = :idTipoProduto"),
+        @NamedQuery(name = "produto.index", query = "SELECT produto FROM Produto produto WHERE produto.deleted_on = null"),
+        @NamedQuery(name = "produto.count", query = "SELECT count(produto) FROM Produto produto WHERE produto.deleted_on = null"),
+        @NamedQuery(name = "produto.getName", query = "SELECT produto FROM Produto produto WHERE produto.Nome = :Nome and produto.deleted_on = null"),
+        @NamedQuery(name = "produto.getTypeProduct", query = "SELECT produto FROM Produto produto WHERE produto.tipoProduto.id_TipoProduto = :idTipoProduto and produto.deleted_on = null"),
 
 })
 public class Produto {
@@ -33,6 +34,9 @@ public class Produto {
     @Column(name = "Quantidade", nullable = false)
     private int Quantidade;
 
+    @Basic
+    @Column(name = "deleted_on")
+    private Timestamp deleted_on;
     @ManyToOne
     @JoinColumn(name = "Id_TipoProduto",referencedColumnName = "Id_TipoProduto")
     private TipoProduto tipoProduto;
@@ -101,5 +105,13 @@ public class Produto {
     public void setTipoProduto(TipoProduto tipoProduto) {
 
         this.tipoProduto = tipoProduto;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

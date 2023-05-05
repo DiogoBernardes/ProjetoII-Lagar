@@ -1,5 +1,6 @@
 package IPVC.Admin.Production;
 
+import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.Admin.Purchase.editPurchaseController;
 import IPVC.BLL.FaturaBLL;
 import IPVC.BLL.LinhaFaturaBLL;
@@ -104,6 +105,7 @@ public class productionController {
         dialogStage.setTitle("Adicionar Produção");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
+        dataView.refresh();
     }
 
     public void removeButtonOnAction(ActionEvent event) throws IOException {
@@ -121,7 +123,7 @@ public class productionController {
             if (result.get() == okButton) {
                 ProdutoMPBLL.removeByProducao(selectedprodutoMP.getProducao().getId_Producao());
                 ProducaoBLL.remove( selectedprodutoMP.getProducao().getId_Producao());
-                dataView.getItems().remove(selectedprodutoMP);
+                dataView.refresh();
             } else {
                 alert.close();
             }
@@ -144,15 +146,19 @@ public class productionController {
     public void editButtonOnAction(ActionEvent event) throws IOException {
         ProdutoMP selectedprodutoMP = dataView.getSelectionModel().getSelectedItem();
         if (selectedprodutoMP != null) {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Production/editProduction.fxml"));
-            Parent root = loader.load();
+            Parent parent = loader.load();
             editProductionController controller = loader.getController();
             Producao selectedProducao = selectedprodutoMP.getProducao();
             controller.setProduction(selectedprodutoMP, selectedProducao);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Scene scene = new Scene(parent);
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            dialogStage.setTitle("Editar Produção");
+            dialogStage.setScene(scene);
+            dialogStage.showAndWait();
+            dataView.refresh();
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Editar Produção");

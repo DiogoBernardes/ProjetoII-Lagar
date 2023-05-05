@@ -3,6 +3,7 @@ package IPVC.DAL;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -10,13 +11,13 @@ import java.util.List;
 @Table(name="Entidade")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "entidade.index", query = "SELECT entidade FROM Entidade entidade"),
-        @NamedQuery(name = "entidade.count", query = "SELECT count(entidade) FROM Entidade entidade"),
-        @NamedQuery(name = "entidade.getClients", query = "SELECT entidade FROM Entidade entidade WHERE entidade.tipoEntidade.id_TipoEntidade = :idTipoEntidade"),
-        @NamedQuery(name = "entidade.getNIF", query = "SELECT entidade FROM Entidade entidade WHERE entidade.NIF = :NIF"),
-        @NamedQuery(name = "entidade.getTelemovel", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Telemovel = :Telemovel"),
-        @NamedQuery(name = "entidade.getEmail", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Email = :Email"),
-        @NamedQuery(name = "entidade.getEntityByName", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Nome = :Nome"),
+        @NamedQuery(name = "entidade.index", query = "SELECT entidade FROM Entidade entidade WHERE entidade.deleted_on = null"),
+        @NamedQuery(name = "entidade.count", query = "SELECT count(entidade) FROM Entidade entidade WHERE entidade.deleted_on = null"),
+        @NamedQuery(name = "entidade.getClients", query = "SELECT entidade FROM Entidade entidade WHERE entidade.tipoEntidade.id_TipoEntidade = :idTipoEntidade and entidade.deleted_on = null"),
+        @NamedQuery(name = "entidade.getNIF", query = "SELECT entidade FROM Entidade entidade WHERE entidade.NIF = :NIF and entidade.deleted_on = null"),
+        @NamedQuery(name = "entidade.getTelemovel", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Telemovel = :Telemovel and entidade.deleted_on = null"),
+        @NamedQuery(name = "entidade.getEmail", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Email = :Email and entidade.deleted_on = null"),
+        @NamedQuery(name = "entidade.getEntityByName", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Nome = :Nome and entidade.deleted_on = null"),
 
 })
 public class Entidade {
@@ -45,6 +46,9 @@ public class Entidade {
         @Basic
         @Column(name = "Cod_Postal", nullable = false)
         private String Cod_Postal;
+        @Basic
+        @Column(name = "deleted_on")
+        private Timestamp deleted_on;
         @ManyToOne
         @JoinColumn(name = "Id_TipoEntidade",referencedColumnName = "Id_TipoEntidade")
         private TipoEntidade tipoEntidade;
@@ -125,5 +129,13 @@ public class Entidade {
 
     public void setTipoEntidade(TipoEntidade tipoEntidade) {
         this.tipoEntidade = tipoEntidade;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

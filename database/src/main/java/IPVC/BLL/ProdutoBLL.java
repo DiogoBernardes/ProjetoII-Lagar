@@ -4,6 +4,8 @@ import IPVC.DAL.Entidade;
 import IPVC.DAL.Produto;
 import IPVC.Database.Database;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 public class ProdutoBLL {
@@ -29,8 +31,9 @@ public class ProdutoBLL {
 
     public static void remove(int id){
         Produto entity = get(id);
+        entity.setDeleted_on(Timestamp.from(Instant.now()));
         Database.beginTransaction();
-        Database.delete(entity);
+        Database.update(entity);
         Database.commitTransaction();
     }
 

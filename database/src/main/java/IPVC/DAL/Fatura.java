@@ -3,6 +3,7 @@ package IPVC.DAL;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +11,8 @@ import java.util.List;
 @Table(name="Fatura")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "fatura.index", query = "SELECT fatura FROM Fatura fatura"),
-        @NamedQuery(name = "fatura.count", query = "SELECT count(fatura) FROM Fatura fatura"),
+        @NamedQuery(name = "fatura.index", query = "SELECT fatura FROM Fatura fatura WHERE fatura.deleted_on = null"),
+        @NamedQuery(name = "fatura.count", query = "SELECT count(fatura) FROM Fatura fatura WHERE fatura.deleted_on = null"),
 })
 public class Fatura {
     @Id
@@ -33,6 +34,9 @@ public class Fatura {
     @Column(name = "IVA", nullable = false)
     private double iva;
 
+    @Basic
+    @Column(name = "deleted_on")
+    private Timestamp deleted_on;
     @ManyToOne
     @JoinColumn(name = "Id_TipoPagamento",referencedColumnName = "Id_TipoPagamento")
     private TipoPagamento tipoPagamento;
@@ -92,5 +96,13 @@ public class Fatura {
     }
     public void setEntidade(Entidade entidade) {
         this.entidade = entidade;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

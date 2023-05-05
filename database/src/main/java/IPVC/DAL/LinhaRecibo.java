@@ -3,13 +3,14 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="Linha_Recibo")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "linhaRecibo.index", query = "SELECT linhaRecibo FROM LinhaRecibo linhaRecibo"),
-        @NamedQuery(name = "linhaRecibo.count", query = "SELECT count(linhaRecibo) FROM LinhaRecibo linhaRecibo"),
+        @NamedQuery(name = "linhaRecibo.index", query = "SELECT linhaRecibo FROM LinhaRecibo linhaRecibo WHERE linhaRecibo.deleted_on = null"),
+        @NamedQuery(name = "linhaRecibo.count", query = "SELECT count(linhaRecibo) FROM LinhaRecibo linhaRecibo WHERE linhaRecibo.deleted_on = null"),
 })
 public class LinhaRecibo implements Serializable {
 
@@ -27,6 +28,10 @@ public class LinhaRecibo implements Serializable {
     @Basic
     @Column(name = "Valor", nullable = false)
     private double valor;
+
+    @Basic
+    @Column(name = "deleted_on")
+    private Timestamp deleted_on;
 
     public Recibo getRecibo() {
         return recibo;
@@ -51,5 +56,13 @@ public class LinhaRecibo implements Serializable {
     }
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

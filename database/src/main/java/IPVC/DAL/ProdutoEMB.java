@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="ProdutoEMB")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "produtoEMB.index", query = "SELECT produtoEMB FROM ProdutoEMB produtoEMB"),
-        @NamedQuery(name = "produtoEMB.count", query = "SELECT count(produtoEMB) FROM ProdutoEMB produtoEMB"),
-        @NamedQuery(name = "produtoEMB.findByEmbalamento", query = "SELECT produtoEMB FROM ProdutoEMB produtoEMB WHERE produtoEMB.embalamento.id_Embalamento = :idEmbalamento"),
+        @NamedQuery(name = "produtoEMB.index", query = "SELECT produtoEMB FROM ProdutoEMB produtoEMB WHERE produtoEMB.deleted_on = null"),
+        @NamedQuery(name = "produtoEMB.count", query = "SELECT count(produtoEMB) FROM ProdutoEMB produtoEMB WHERE produtoEMB.deleted_on = null"),
+        @NamedQuery(name = "produtoEMB.findByEmbalamento", query = "SELECT produtoEMB FROM ProdutoEMB produtoEMB WHERE produtoEMB.embalamento.id_Embalamento = :idEmbalamento and produtoEMB.deleted_on = null"),
 })
 public class ProdutoEMB implements Serializable {
 
@@ -26,6 +27,10 @@ public class ProdutoEMB implements Serializable {
     @Basic
     @Column(name = "Quantidade", nullable = false)
     private int quantidade;
+
+    @Basic
+    @Column(name = "deleted_on")
+    private Timestamp deleted_on;
 
     public Embalamento getEmbalamento() {
         return embalamento;
@@ -44,5 +49,12 @@ public class ProdutoEMB implements Serializable {
     }
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

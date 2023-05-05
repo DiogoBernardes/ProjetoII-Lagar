@@ -1,5 +1,6 @@
 package IPVC.Admin.Employees;
 
+import IPVC.Admin.Client.editClientController;
 import IPVC.BLL.EntidadeBLL;
 import IPVC.BLL.UtilizadorBLL;
 import IPVC.DAL.Utilizador;
@@ -90,6 +91,7 @@ public class employeesController {
         dialogStage.setTitle("Adicionar Utilizador");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
+        dataView.refresh();
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         Utilizador selectedUtilizador = dataView.getSelectionModel().getSelectedItem();
@@ -105,7 +107,7 @@ public class employeesController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == okButton) {
                 UtilizadorBLL.remove(selectedUtilizador.getId_Utilizador());
-                dataView.getItems().remove(selectedUtilizador);
+                dataView.refresh();
             } else {
                 alert.close();
             }
@@ -127,14 +129,18 @@ public class employeesController {
     public void editButtonOnAction(ActionEvent event) throws IOException {
         Utilizador selectedUtilizador = dataView.getSelectionModel().getSelectedItem();
         if (selectedUtilizador != null) {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Employees/editEmployee.fxml"));
-            Parent root = loader.load();
+            Parent parent = loader.load();
             editEmployeesController controller = loader.getController();
             controller.setUtilizador(dataView.getSelectionModel().getSelectedItem());
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Scene scene = new Scene(parent);
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+            dialogStage.setTitle("Editar Utilizador");
+            dialogStage.setScene(scene);
+            dialogStage.showAndWait();
+            dataView.refresh();
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Editar Utilizador");

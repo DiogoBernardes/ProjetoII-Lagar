@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="Linha_Fatura")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "linhaFatura.index", query = "SELECT linhaFatura FROM LinhaFatura linhaFatura"),
-        @NamedQuery(name = "linhaFatura.count", query = "SELECT count(linhaFatura) FROM LinhaFatura linhaFatura"),
-        @NamedQuery(name = "linhaFatura.findByFatura", query = "SELECT linhaFatura FROM LinhaFatura linhaFatura WHERE linhaFatura.fatura.Id_Fatura = :idFatura"),
+        @NamedQuery(name = "linhaFatura.index", query = "SELECT linhaFatura FROM LinhaFatura linhaFatura WHERE linhaFatura.deleted_on = null"),
+        @NamedQuery(name = "linhaFatura.count", query = "SELECT count(linhaFatura) FROM LinhaFatura linhaFatura WHERE linhaFatura.deleted_on = null"),
+        @NamedQuery(name = "linhaFatura.findByFatura", query = "SELECT linhaFatura FROM LinhaFatura linhaFatura WHERE linhaFatura.fatura.Id_Fatura = :idFatura and linhaFatura.deleted_on = null"),
 })
 public class LinhaFatura implements Serializable {
 
@@ -31,6 +32,10 @@ public class LinhaFatura implements Serializable {
     @Basic
     @Column(name = "Valor", nullable = false)
     private double valor;
+
+    @Basic
+    @Column(name = "deleted_on")
+    private Timestamp deleted_on;
 
     public Fatura getFatura() {
         return fatura;
@@ -55,5 +60,13 @@ public class LinhaFatura implements Serializable {
     }
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

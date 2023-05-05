@@ -3,18 +3,19 @@ package IPVC.DAL;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name="Utilizador")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "utilizador.index", query = "SELECT utilizador FROM Utilizador utilizador"),
+        @NamedQuery(name = "utilizador.index", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.deleted_on = null "),
         @NamedQuery(name = "utilizador.count", query = "SELECT count(utilizador) FROM Utilizador utilizador"),
-        @NamedQuery(name = "utilizador.getDataLogin", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.username = :username AND utilizador.password = :pass"),
-        @NamedQuery(name = "utilizador.getTelemovel", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.telemovel = :Telemovel"),
-        @NamedQuery(name = "utilizador.getUsername", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.username = :username"),
-        @NamedQuery(name = "utilizador.getByRole", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.tipoUtilizador.cargo = :cargo"),
+        @NamedQuery(name = "utilizador.getDataLogin", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.username = :username AND utilizador.password = :pass AND utilizador.deleted_on = null"),
+        @NamedQuery(name = "utilizador.getTelemovel", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.telemovel = :Telemovel AND utilizador.deleted_on = null"),
+        @NamedQuery(name = "utilizador.getUsername", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.username = :username AND utilizador.deleted_on = null"),
+        @NamedQuery(name = "utilizador.getByRole", query = "SELECT utilizador FROM Utilizador utilizador WHERE utilizador.tipoUtilizador.cargo = :cargo AND utilizador.deleted_on = null"),
 })
 public class Utilizador {
 
@@ -34,6 +35,9 @@ public class Utilizador {
         @Basic
         @Column(name = "password", nullable = false)
         private String password;
+        @Basic
+        @Column(name = "deleted_on")
+        private Timestamp deleted_on;
         @ManyToOne
         @JoinColumn(name = "Id_TipoUtilizador",referencedColumnName = "Id_TipoUtilizador")
         private TipoUtilizador tipoUtilizador;
@@ -87,5 +91,13 @@ public class Utilizador {
 
     public void setTipoUtilizador(TipoUtilizador tipoUtilizador) {
         this.tipoUtilizador = tipoUtilizador;
+    }
+
+    public Timestamp getDeleted_on() {
+        return deleted_on;
+    }
+
+    public void setDeleted_on(Timestamp deleted_on) {
+        this.deleted_on = deleted_on;
     }
 }

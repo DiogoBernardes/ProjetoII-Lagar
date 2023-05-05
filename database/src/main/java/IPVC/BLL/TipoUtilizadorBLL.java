@@ -5,6 +5,8 @@ import IPVC.DAL.TipoUtilizador;
 import IPVC.DAL.Utilizador;
 import IPVC.Database.Database;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 public class TipoUtilizadorBLL {
@@ -28,8 +30,9 @@ public class TipoUtilizadorBLL {
 
     public static void remove(int id){
         TipoUtilizador entity = get(id);
+        entity.setDeleted_on(Timestamp.from(Instant.now()));
         Database.beginTransaction();
-        Database.delete(entity);
+        Database.update(entity);
         Database.commitTransaction();
     }
 

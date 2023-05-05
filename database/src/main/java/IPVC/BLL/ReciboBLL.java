@@ -3,6 +3,8 @@ package IPVC.BLL;
 import IPVC.DAL.Recibo;
 import IPVC.Database.Database;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 public class ReciboBLL {
@@ -23,8 +25,9 @@ public class ReciboBLL {
 
     public static void remove(int id){
         Recibo entity = get(id);
+        entity.setDeleted_on(Timestamp.from(Instant.now()));
         Database.beginTransaction();
-        Database.delete(entity);
+        Database.update(entity);
         Database.commitTransaction();
     }
 
