@@ -11,10 +11,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ProgressIndicator?>
-<BorderPane stylesheets="/style.css" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="385.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.views.LoginController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="385.0" prefWidth="650.0" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.views.LoginController">
    <left>
-      <AnchorPane prefHeight="386.0" prefWidth="210.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="386.0" prefWidth="210.0" style="-fx-background-color: #808000;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="203.0" fitWidth="176.0" layoutX="14.0" layoutY="97.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" smooth="false">
                <image>
@@ -25,8 +24,13 @@
       </AnchorPane>
    </left>
    <center>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="386.0" prefWidth="442.0" style="-fx-background-color: #808000;" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="386.0" prefWidth="442.0" style="-fx-background-color: #D8D0BA;" BorderPane.alignment="CENTER">
          <children>
+            <ImageView disable="true" fitHeight="379.0" fitWidth="379.0" layoutX="81.0" layoutY="8.0" opacity="0.54" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/oliveira.png" />
+               </image>
+            </ImageView>
             <Label layoutX="69.0" layoutY="139.0" text="Username">
                <font>
                   <Font name="Arial Bold Italic" size="18.0" />
@@ -39,16 +43,11 @@
                   <Font name="Arial Bold Italic" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="loginButton" layoutX="175.0" layoutY="303.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="29.0" prefWidth="107.0" text="Login" textFill="WHITE">
+            <Button fx:id="loginButton" layoutX="175.0" layoutY="303.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="29.0" prefWidth="107.0" style="-fx-background-color: #808000;" text="Login" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Button>
-            <ImageView fitHeight="101.0" fitWidth="430.0" layoutX="43.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/galhoOliveira.png" />
-               </image>
-            </ImageView>
             <Label fx:id="invalidDetails" layoutX="113.0" layoutY="236.0" prefHeight="18.0" prefWidth="268.0">
                <opaqueInsets>
                   <Insets />
