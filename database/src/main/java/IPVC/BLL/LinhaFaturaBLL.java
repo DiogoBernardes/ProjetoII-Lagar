@@ -38,6 +38,7 @@ public class LinhaFaturaBLL {
         List<LinhaFatura> linhasFatura = Database.query("linhaFatura.findByFatura").setParameter("idFatura", idFatura).getResultList();
         Database.beginTransaction();
         for (LinhaFatura lf : linhasFatura) {
+            lf.setDeleted_on(Timestamp.from(Instant.now()));
             Database.delete(lf);
         }
         Database.commitTransaction();

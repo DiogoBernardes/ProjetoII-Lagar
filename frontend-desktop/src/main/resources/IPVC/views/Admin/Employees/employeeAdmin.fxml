@@ -22,7 +22,7 @@
                         <Font name="Arial Bold" size="26.0" />
                      </font>
                   </Label>
-                  <Button fx:id="clientButton" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="77.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #D8D0BA; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Clientes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <Button fx:id="clientButton" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="77.0" mnemonicParsing="false" onAction="#clientButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #D8D0BA; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Clientes" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -52,7 +52,7 @@
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="salesButton" layoutX="28.0" layoutY="365.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #D8D0BA; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Vendas" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="salesButton" layoutX="28.0" layoutY="365.0" mnemonicParsing="false" onAction="#salesButtonOnAction" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #808000; -fx-border-color: #D8D0BA; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Vendas" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>

@@ -103,6 +103,7 @@ public class purchaseController {
 
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
+        dataView.refresh();
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
@@ -211,6 +212,14 @@ public class purchaseController {
             stage.setTitle("Login");
             stage.show();        }
     }
+    public void clientButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Client/clientAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Faturas");
+        stage.show();
+    }
     public void providerButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Provider/providerAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -227,14 +236,6 @@ public class purchaseController {
         stage.setTitle("Menu Admin - Produtos");
         stage.show();
     }
-    public void clientButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Client/clientAdmin.fxml"));
-        Scene regCena = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Faturas");
-        stage.show();
-    }
     public void productionButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Production/productionAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -249,6 +250,22 @@ public class purchaseController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Embalamento");
+        stage.show();
+    }
+    public void salesButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Sales/salesAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Vendas");
+        stage.show();
+    }
+    public void employeesButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Employees/employeeAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Funcionário");
         stage.show();
     }
 }

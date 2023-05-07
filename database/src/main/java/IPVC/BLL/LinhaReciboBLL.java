@@ -1,5 +1,6 @@
 package IPVC.BLL;
 
+import IPVC.DAL.LinhaFatura;
 import IPVC.DAL.LinhaRecibo;
 import IPVC.Database.Database;
 
@@ -32,4 +33,14 @@ public class LinhaReciboBLL {
     }
 
     public static int count() { return ((Long) Database.query("linhaRecibo.count").getSingleResult()).intValue(); }
+
+    public static void removeByRecibo(int idRecibo) {
+        List<LinhaRecibo> linhasRecibo = Database.query("linhaRecibo.findByRecibo").setParameter("idRecibo", idRecibo).getResultList();
+        Database.beginTransaction();
+        for (LinhaRecibo lr : linhasRecibo) {
+            lr.setDeleted_on(Timestamp.from(Instant.now()));
+            Database.update(lr);
+        }
+        Database.commitTransaction();
+    }
 }

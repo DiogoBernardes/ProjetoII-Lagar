@@ -1,12 +1,14 @@
-package IPVC.Admin.Packaging;
+package IPVC.Admin.Sales;
 
-import IPVC.Admin.Employees.editEmployeesController;
-import IPVC.Admin.Production.editProductionController;
-import IPVC.BLL.EmbalamentoBLL;
-import IPVC.BLL.ProducaoBLL;
-import IPVC.BLL.ProdutoEMBBLL;
-import IPVC.BLL.ProdutoMPBLL;
-import IPVC.DAL.*;
+import IPVC.Admin.Purchase.editPurchaseController;
+import IPVC.BLL.FaturaBLL;
+import IPVC.BLL.LinhaFaturaBLL;
+import IPVC.BLL.LinhaReciboBLL;
+import IPVC.BLL.ReciboBLL;
+import IPVC.DAL.Fatura;
+import IPVC.DAL.LinhaFatura;
+import IPVC.DAL.LinhaRecibo;
+import IPVC.DAL.Recibo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,60 +16,62 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class packagingController {
+public class salesController {
     @FXML
-    private TableView<ProdutoEMB> dataView;
+    private TableView<LinhaRecibo> dataView;
     @FXML
-    private TableColumn<ProdutoEMB, String> embalamentoColumn;
+    private TableColumn<LinhaRecibo, String> reciboColumn;
     @FXML
-    private TableColumn<ProdutoEMB, String> produtoEMBColumn;
+    private TableColumn<LinhaRecibo, String> produtoColumn;
     @FXML
-    private TableColumn<ProdutoEMB, String> quantidadeColumn;
+    private TableColumn<LinhaRecibo, String> quantidadeColumn;
     @FXML
-    private TableColumn<ProdutoEMB, String> produtoFColumn;
+    private TableColumn<LinhaRecibo, String> valorColumn;
     @FXML
-    private TableColumn<ProdutoEMB, String> qtdProdColumn;
+    private TableColumn<LinhaRecibo, String> valorFinalColumn;
     @FXML
-    private TableColumn<ProdutoEMB, String> dataColumn;
+    private TableColumn<LinhaRecibo, String> clienteColumn;
+    @FXML
+    private TableColumn<LinhaRecibo, String> pagamentoColumn;
+    @FXML
+    private TableColumn<LinhaRecibo, String> dataColumn;
     @FXML
     private TextField searchTF;
-
     @FXML
-    private void initialize() throws IOException {
-        List<ProdutoEMB> produtoEMBS = ProdutoEMBBLL.index();
-        List<Embalamento> embalamentos = EmbalamentoBLL.index();
-        embalamentos.sort(Comparator.comparingInt(Embalamento::getId_Embalamento));
-        ObservableList<ProdutoEMB> data = FXCollections.observableArrayList(produtoEMBS);
-        dataView.setItems(data);
-        embalamentoColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getEmbalamento().getId_Embalamento())));
-        produtoEMBColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProduto().getNome())));
-        quantidadeColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getQuantidade())));
-        produtoFColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getEmbalamento().getProduto().getNome())));
-        qtdProdColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getEmbalamento().getQtd_Embalada())));
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        dataColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(sdf.format(d.getValue().getEmbalamento().getData()))));
-        dataView.getSortOrder().add(embalamentoColumn);
+    private void initialize() {
+        List<LinhaRecibo> linha_recibos = LinhaReciboBLL.index();
 
-        // Cria um FilteredList com a lista de produtosEmbalados
-        FilteredList<ProdutoEMB> filteredData = new FilteredList<>(data, p -> true);
+        ObservableList<LinhaRecibo> data = FXCollections.observableArrayList(linha_recibos);
+
+        dataView.setItems(data);
+        reciboColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getRecibo().getId_Recibo())));
+        produtoColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProduto().getNome())));
+        quantidadeColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getQuantidade())));
+        valorColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getValor())));
+        valorFinalColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getRecibo().getValor_Final())));
+        clienteColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getRecibo().getEntidade().getNome())));
+        pagamentoColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getRecibo().getTipoPagamento().getDescricao())));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        dataColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(sdf.format(d.getValue().getRecibo().getData()))));
+
+        // Cria um FilteredList com a lista de clientes
+        FilteredList<LinhaRecibo> filteredData = new FilteredList<>(data, p -> true);
+
         // Adiciona um listener ao TextField de busca para filtrar a tabela quando o texto mudar
         searchTF.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(embalamento -> {
+            filteredData.setPredicate(recibo -> {
                 // Se o texto de busca estiver vazio, exibe todos os clientes
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
@@ -76,54 +80,44 @@ public class packagingController {
                 // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
-                if (String.valueOf(embalamento.getEmbalamento().getId_Embalamento()).contains(lowerCaseFilter)) {
+                if (String.valueOf(recibo.getRecibo().getId_Recibo()).contains(lowerCaseFilter)) {
                     return true;
-                } else if (String.valueOf(embalamento.getProduto().getNome()).contains(lowerCaseFilter)) {
+                } else if (String.valueOf(recibo.getProduto().getNome()).contains(lowerCaseFilter)) {
                     return true;
-                } else if (String.valueOf(embalamento.getEmbalamento().getProduto().getNome()).contains(lowerCaseFilter)){
+                } else if (recibo.getRecibo().getEntidade().getNome().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if(String.valueOf(embalamento.getEmbalamento().getData()).contains(lowerCaseFilter)){
+                } else if (String.valueOf(recibo.getRecibo().getData()).contains(lowerCaseFilter)) {
+                    return true;
+                } else if(String.valueOf(recibo.getRecibo().getValor_Final()).contains(lowerCaseFilter)){
                     return true;
                 }
                 return false;
             });
         });
+
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
-
+        dataView.refresh();
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/addPackaging.fxml"));
-                Parent parent = fxmlLoader.load();
-                Scene scene = new Scene(parent);
-                Stage dialogStage = new Stage();
-                dialogStage.initModality(Modality.APPLICATION_MODAL);
-                dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-                dialogStage.setTitle("Adicionar Embalamento");
-                dialogStage.setScene(scene);
-                dialogStage.showAndWait();
-                dataView.refresh();
-    }
-
-    public void addMoreProductsButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/addMorePackaging.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Sales/addSales.fxml"));
         Parent parent = fxmlLoader.load();
         Scene scene = new Scene(parent);
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-        dialogStage.setTitle("Adicionar Produto a um Embalamento");
+        dialogStage.setTitle("Adicionar Recibo");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
         dataView.refresh();
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
-        ProdutoEMB selectedprodutoEMB = dataView.getSelectionModel().getSelectedItem();
-        if (selectedprodutoEMB != null) {
+        LinhaRecibo selectedRecibo = dataView.getSelectionModel().getSelectedItem();
+        if (selectedRecibo != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remover Embalamento");
-            alert.setHeaderText("Tem a certeza que deseja remover o embalamento '" + selectedprodutoEMB.getEmbalamento().getId_Embalamento() + "'?");
+            alert.setTitle("Remover Recibo");
+            alert.setHeaderText("Tem a certeza que deseja remover o recibo '" + selectedRecibo.getRecibo().getId_Recibo() + "'?");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
             ButtonType cancelButton = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -131,16 +125,16 @@ public class packagingController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == okButton) {
-                ProdutoEMBBLL.removeByEmbalamento(selectedprodutoEMB.getEmbalamento().getId_Embalamento());
-                EmbalamentoBLL.remove(selectedprodutoEMB.getEmbalamento().getId_Embalamento());
+                LinhaReciboBLL.removeByRecibo(selectedRecibo.getRecibo().getId_Recibo());
+                ReciboBLL.remove(selectedRecibo.getRecibo().getId_Recibo());
                 dataView.refresh();
             } else {
                 alert.close();
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remover Embalamento");
-            alert.setHeaderText("Para remover um embalamento é necessário seleciona-lo na tabela!");
+            alert.setTitle("Remover Recibo");
+            alert.setHeaderText("Para remover uma fatura é necessário seleciona-la na tabela!");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 
@@ -152,28 +146,27 @@ public class packagingController {
             }
     }
     }
-
-   public void editButtonOnAction(ActionEvent event) throws IOException {
-        ProdutoEMB selectedprodutoEMB = dataView.getSelectionModel().getSelectedItem();
-        if (selectedprodutoEMB != null) {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/editPackaging.fxml"));
+    public void editButtonOnAction(ActionEvent event) throws IOException {
+        LinhaRecibo selectedLinhaRecibo = dataView.getSelectionModel().getSelectedItem();
+        if (selectedLinhaRecibo != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Sales/editSales.fxml"));
             Parent parent = loader.load();
-            editPackagingController controller = loader.getController();
-            Embalamento selectedEmbalamento = selectedprodutoEMB.getEmbalamento();
-            controller.setPackaging(selectedprodutoEMB, selectedEmbalamento);
+            editSalesController controller = loader.getController();
+            Recibo selectedRecibo = selectedLinhaRecibo.getRecibo();
+            controller.setSales(selectedLinhaRecibo,selectedRecibo);
             Scene scene = new Scene(parent);
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
-            dialogStage.setTitle("Editar Embalamento");
+            dialogStage.setTitle("Editar Recibo");
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
             dataView.refresh();
+
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Editar Embalamento");
-            alert.setHeaderText("Para editar um embalamento é necessário seleciona-lo na tabela!");
+            alert.setTitle("Editar Recibo");
+            alert.setHeaderText("Para remover um recibo é necessário seleciona-lo na tabela!");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 
@@ -194,7 +187,6 @@ public class packagingController {
         stage.setTitle("Menu Admin");
         stage.show();
     }
-
     public void logoutButtonOnAction(ActionEvent event) throws IOException {
         ButtonType confirmButtonType = new ButtonType("Confirmar", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButtonType = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -214,7 +206,6 @@ public class packagingController {
             stage.setTitle("Login");
             stage.show();        }
     }
-
     public void clientButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Client/clientAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -247,6 +238,14 @@ public class packagingController {
         stage.setTitle("Menu Admin - Produção");
         stage.show();
     }
+    public void packagingButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Packaging/packagingAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Embalamento");
+        stage.show();
+    }
     public void purchaseButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Purchase/purchaseAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -255,20 +254,13 @@ public class packagingController {
         stage.setTitle("Menu Admin - Compras");
         stage.show();
     }
-    public void salesButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Sales/salesAdmin.fxml"));
-        Scene regCena = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Vendas");
-        stage.show();
-    }
     public void employeesButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Employees/employeeAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Funcionário");
+        stage.setTitle("Menu Admin - Funcionários");
         stage.show();
     }
+
 }

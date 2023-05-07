@@ -46,6 +46,14 @@ public class menuController {
         stage.setTitle("Menu Admin - Compras");
         stage.show();
     }
+    public void salesButtonOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Sales/salesAdmin.fxml"));
+        Scene regCena = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(regCena);
+        stage.setTitle("Menu Admin - Recibos");
+        stage.show();
+    }
     public void productionButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Production/productionAdmin.fxml"));
         Scene regCena = new Scene(root);
