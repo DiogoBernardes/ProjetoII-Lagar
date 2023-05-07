@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="405.0" style="-fx-background-color: #6b8e23;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Packaging.editPackagingController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="405.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Packaging.editPackagingController">
    <top>
       <BorderPane prefHeight="54.0" prefWidth="418.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <center>
@@ -23,27 +23,27 @@
    <left>
       <AnchorPane prefHeight="350.0" prefWidth="406.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="22.0" layoutY="38.0" text="Produto Embalamento" textFill="#fcfcfc">
+            <Label layoutX="22.0" layoutY="38.0" text="Produto Embalamento">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="233.0" layoutY="38.0" text="Quantidade" textFill="#fcfcfc">
+            <Label layoutX="233.0" layoutY="38.0" text="Quantidade">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="22.0" layoutY="100.0" text="Produto Final" textFill="#fcfcfc">
+            <Label layoutX="22.0" layoutY="100.0" text="Produto Final">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="updateButton" layoutX="82.0" layoutY="260.0" mnemonicParsing="false" onAction="#updateProduction" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar" textFill="WHITE">
+            <Button fx:id="updateButton" layoutX="82.0" layoutY="260.0" mnemonicParsing="false" onAction="#updateProduction" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="closeButton" layoutX="225.0" layoutY="260.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="90.0" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar" textFill="WHITE">
+            <Button fx:id="closeButton" layoutX="225.0" layoutY="260.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="90.0" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -53,17 +53,17 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="produtoCB" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="190.0" style="-fx-background-color: #C7F5B6;" />
-            <TextField fx:id="quantidadeTF" layoutX="232.0" layoutY="54.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #C7F5B6;" />
-            <TextField fx:id="qtdProdTF" layoutX="232.0" layoutY="115.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #C7F5B6;" />
-            <TextField fx:id="dataTF" disable="true" layoutX="22.0" layoutY="178.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="20.0" layoutY="162.0" text="Data Emissão" textFill="#fcfcfc">
+            <ComboBox fx:id="produtoCB" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="190.0" style="-fx-background-color: #F0E5D8;" />
+            <TextField fx:id="quantidadeTF" layoutX="232.0" layoutY="54.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #F0E5D8;" />
+            <TextField fx:id="qtdProdTF" layoutX="232.0" layoutY="115.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #F0E5D8;" />
+            <TextField fx:id="dataTF" disable="true" layoutX="22.0" layoutY="178.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="20.0" layoutY="162.0" text="Data Emissão">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="produtoFCB" layoutX="22.0" layoutY="115.0" prefHeight="26.0" prefWidth="190.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="232.0" layoutY="100.0" text="Quantidade Produzida" textFill="#fcfcfc">
+            <ComboBox fx:id="produtoFCB" layoutX="22.0" layoutY="115.0" prefHeight="26.0" prefWidth="190.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="232.0" layoutY="100.0" text="Quantidade Produzida">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>

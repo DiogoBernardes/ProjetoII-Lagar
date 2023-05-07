@@ -12,7 +12,7 @@
    <top>
       <BorderPane prefHeight="54.0" prefWidth="418.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <center>
-            <Label text="Adicionar Fatura" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label text="Adicionar Recibo" textFill="WHITE" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>

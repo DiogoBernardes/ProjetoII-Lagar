@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="405.0" style="-fx-background-color: #6b8e23;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Employees.editEmployeesController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="405.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Employees.editEmployeesController">
    <top>
       <BorderPane prefHeight="54.0" prefWidth="418.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <center>
@@ -24,35 +24,35 @@
    <center>
       <AnchorPane prefHeight="368.0" prefWidth="406.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="22.0" layoutY="38.0" text="Nome" textFill="#fcfcfc">
+            <Label layoutX="22.0" layoutY="38.0" text="Nome">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="nomeTF" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="22.0" layoutY="105.0" text="Username" textFill="#fcfcfc">
+            <TextField fx:id="nomeTF" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="22.0" layoutY="105.0" text="Username">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="usernameTF" layoutX="22.0" layoutY="121.0" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="215.0" layoutY="105.0" text="Password" textFill="#fcfcfc">
+            <TextField fx:id="usernameTF" layoutX="22.0" layoutY="121.0" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="215.0" layoutY="105.0" text="Password">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="263.0" layoutY="38.0" text="Telemóvel" textFill="#fcfcfc">
+            <Label layoutX="263.0" layoutY="38.0" text="Telemóvel">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="telemovelTF" layoutX="263.0" layoutY="54.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #C7F5B6;" />
-            <Button fx:id="editButton" layoutX="92.0" layoutY="269.0" mnemonicParsing="false" onAction="#updateEmployees" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar" textFill="WHITE">
+            <TextField fx:id="telemovelTF" layoutX="263.0" layoutY="54.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #F0E5D8;" />
+            <Button fx:id="editButton" layoutX="92.0" layoutY="269.0" mnemonicParsing="false" onAction="#updateEmployees" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="closeButton" layoutX="224.0" layoutY="269.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar" textFill="WHITE">
+            <Button fx:id="closeButton" layoutX="224.0" layoutY="269.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -62,13 +62,13 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="tipoUtilizadorCB" layoutX="22.0" layoutY="187.0" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="22.0" layoutY="171.0" text="Tipo de Utilizador" textFill="#fcfcfc">
+            <ComboBox fx:id="tipoUtilizadorCB" layoutX="22.0" layoutY="187.0" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="22.0" layoutY="171.0" text="Tipo de Utilizador">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordPF" layoutX="213.0" layoutY="121.0" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: #C7F5B6;" />
+            <PasswordField fx:id="passwordPF" layoutX="213.0" layoutY="121.0" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: #F0E5D8;" />
          </children>
       </AnchorPane>
    </center>

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="405.0" style="-fx-background-color: #6b8e23;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Client.editClientController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="405.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Client.editClientController">
    <top>
       <BorderPane prefHeight="54.0" prefWidth="418.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <center>
@@ -22,54 +22,54 @@
    <center>
       <AnchorPane prefHeight="368.0" prefWidth="406.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="22.0" layoutY="38.0" text="Primeiro Nome" textFill="#fcfcfc">
+            <Label layoutX="22.0" layoutY="38.0" text="Primeiro Nome">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="firstNameTF" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="22.0" layoutY="105.0" text="Email" textFill="#fcfcfc">
+            <TextField fx:id="firstNameTF" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="22.0" layoutY="105.0" text="Email">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="emailTF" layoutX="22.0" layoutY="121.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="263.0" layoutY="235.0" text="Telemóvel" textFill="#fcfcfc">
+            <TextField fx:id="emailTF" layoutX="22.0" layoutY="121.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="263.0" layoutY="235.0" text="Telemóvel">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="phoneTF" layoutX="266.0" layoutY="250.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="22.0" layoutY="171.0" text="Rua" textFill="#fcfcfc">
+            <TextField fx:id="phoneTF" layoutX="266.0" layoutY="250.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="22.0" layoutY="171.0" text="Rua">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="roadTF" layoutX="22.0" layoutY="185.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="22.0" layoutY="235.0" text="Nº Porta" textFill="#fcfcfc">
+            <TextField fx:id="roadTF" layoutX="22.0" layoutY="185.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="22.0" layoutY="235.0" text="Nº Porta">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="portNumberTF" layoutX="22.0" layoutY="250.0" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="128.0" layoutY="235.0" text="Código Postal" textFill="#fcfcfc">
+            <TextField fx:id="portNumberTF" layoutX="22.0" layoutY="250.0" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="128.0" layoutY="235.0" text="Código Postal">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="postalCodeTF" layoutX="130.0" layoutY="250.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="263.0" layoutY="38.0" text="NIF" textFill="#fcfcfc">
+            <TextField fx:id="postalCodeTF" layoutX="130.0" layoutY="250.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="263.0" layoutY="38.0" text="NIF">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="nifTF" layoutX="263.0" layoutY="54.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #C7F5B6;" />
-            <Button fx:id="editButton" layoutX="90.0" layoutY="325.0" mnemonicParsing="false" onAction="#updateClient" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar" textFill="WHITE">
+            <TextField fx:id="nifTF" layoutX="263.0" layoutY="54.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: #F0E5D8;" />
+            <Button fx:id="editButton" layoutX="90.0" layoutY="325.0" mnemonicParsing="false" onAction="#updateClient" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="closeButton" layoutX="224.0" layoutY="325.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar" textFill="WHITE">
+            <Button fx:id="closeButton" layoutX="224.0" layoutY="325.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>

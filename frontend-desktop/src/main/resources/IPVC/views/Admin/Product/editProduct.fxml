@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="405.0" style="-fx-background-color: #6b8e23;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Product.editProductController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="405.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Product.editProductController">
    <top>
       <BorderPane prefHeight="54.0" prefWidth="418.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <center>
@@ -23,41 +23,41 @@
    <center>
       <AnchorPane prefHeight="350.0" prefWidth="406.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="22.0" layoutY="38.0" text="Nome" textFill="#fcfcfc">
+            <Label layoutX="22.0" layoutY="38.0" text="Nome">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="nomeTF" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="22.0" layoutY="105.0" text="Valor Unitário" textFill="#fcfcfc">
+            <TextField fx:id="nomeTF" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="22.0" layoutY="105.0" text="Valor Unitário">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="valorTF" layoutX="22.0" layoutY="120.0" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="167.0" layoutY="105.0" text="Quantidade" textFill="#fcfcfc">
+            <TextField fx:id="valorTF" layoutX="22.0" layoutY="120.0" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="167.0" layoutY="105.0" text="Quantidade">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="quantidadeTF" layoutX="167.0" layoutY="120.0" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="313.0" layoutY="105.0" text="Unidade" textFill="#fcfcfc">
+            <TextField fx:id="quantidadeTF" layoutX="167.0" layoutY="120.0" prefHeight="26.0" prefWidth="96.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="313.0" layoutY="105.0" text="Unidade">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="unidadeTF" layoutX="313.0" layoutY="120.0" prefHeight="26.0" prefWidth="65.0" style="-fx-background-color: #C7F5B6;" />
-            <Label layoutX="21.0" layoutY="169.0" text="Tipo de Produto" textFill="#fcfcfc">
+            <TextField fx:id="unidadeTF" layoutX="313.0" layoutY="120.0" prefHeight="26.0" prefWidth="65.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="21.0" layoutY="169.0" text="Tipo de Produto">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="editButton" layoutX="89.0" layoutY="262.0" mnemonicParsing="false" onAction="#updateProduct" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar" textFill="WHITE">
+            <Button fx:id="editButton" layoutX="89.0" layoutY="262.0" mnemonicParsing="false" onAction="#updateProduct" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="closeButton" layoutX="224.0" layoutY="262.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #808000; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar" textFill="WHITE">
+            <Button fx:id="closeButton" layoutX="224.0" layoutY="262.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -67,7 +67,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="tipoProdutoCB" layoutX="22.0" layoutY="185.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #C7F5B6;" />
+            <ComboBox fx:id="tipoProdutoCB" layoutX="22.0" layoutY="185.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #F0E5D8;" />
          </children>
       </AnchorPane>
    </center>
