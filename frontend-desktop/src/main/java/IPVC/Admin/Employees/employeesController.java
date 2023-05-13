@@ -2,8 +2,11 @@ package IPVC.Admin.Employees;
 
 import IPVC.Admin.Client.editClientController;
 import IPVC.BLL.EntidadeBLL;
+import IPVC.BLL.LinhaReciboBLL;
 import IPVC.BLL.UtilizadorBLL;
+import IPVC.DAL.LinhaRecibo;
 import IPVC.DAL.Utilizador;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +23,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +47,7 @@ public class employeesController {
     @FXML
     private void initialize() {
         List<Utilizador> utilizadores = UtilizadorBLL.index();
-
-        // Cria um ObservableList com os clientes filtrados e atualiza a tabela
+        Collections.sort(utilizadores, Comparator.comparingInt(utilizador -> utilizador.getId_Utilizador()));
         ObservableList<Utilizador> data = FXCollections.observableArrayList(utilizadores);
 
         dataView.setItems(data);
@@ -79,8 +83,14 @@ public class employeesController {
         });
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
-    }
 
+        // Adiciona um ouvinte à lista data para atualizar a dataView quando ocorrerem alterações
+        data.addListener((Observable observable) -> {
+            dataView.setItems(data);
+            dataView.refresh();
+        });
+
+    }
     public void addButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Employees/addEmployee.fxml"));
         Parent parent = fxmlLoader.load();
@@ -91,7 +101,9 @@ public class employeesController {
         dialogStage.setTitle("Adicionar Utilizador");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
-        dataView.refresh();
+
+        List<Utilizador> utilizadores = UtilizadorBLL.index();
+        updateDataView(utilizadores);
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         Utilizador selectedUtilizador = dataView.getSelectionModel().getSelectedItem();
@@ -107,7 +119,15 @@ public class employeesController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == okButton) {
                 UtilizadorBLL.remove(selectedUtilizador.getId_Utilizador());
-                dataView.refresh();
+
+                List<Utilizador> utilizadores = UtilizadorBLL.index();
+                updateDataView(utilizadores);
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Remoção bem-sucedida");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("O funcionário foi removido com sucesso!");
+                successAlert.showAndWait();
             } else {
                 alert.close();
             }
@@ -184,7 +204,6 @@ public class employeesController {
             stage.show();
         }
     }
-
     public void clientButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Client/clientAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -240,5 +259,11 @@ public class employeesController {
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Vendas");
         stage.show();
+    }
+    private void updateDataView(List<Utilizador> utilizadores) {
+        Collections.sort(utilizadores, Comparator.comparingInt(utilizador -> utilizador.getId_Utilizador()));
+        ObservableList<Utilizador> data = FXCollections.observableArrayList(utilizadores);
+        dataView.setItems(data);
+        dataView.refresh();
     }
 }

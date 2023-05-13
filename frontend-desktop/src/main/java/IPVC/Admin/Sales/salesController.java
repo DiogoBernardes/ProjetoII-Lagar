@@ -9,6 +9,8 @@ import IPVC.DAL.Fatura;
 import IPVC.DAL.LinhaFatura;
 import IPVC.DAL.LinhaRecibo;
 import IPVC.DAL.Recibo;
+import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +27,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +56,8 @@ public class salesController {
     @FXML
     private void initialize() {
         List<LinhaRecibo> linha_recibos = LinhaReciboBLL.index();
-
+        //Ordenar a Lista pelo IdRecibo
+        Collections.sort(linha_recibos, Comparator.comparingInt(recibo -> recibo.getRecibo().getId_Recibo()));
         ObservableList<LinhaRecibo> data = FXCollections.observableArrayList(linha_recibos);
 
         dataView.setItems(data);
@@ -77,7 +82,6 @@ public class salesController {
                     return true;
                 }
 
-                // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
                 if (String.valueOf(recibo.getRecibo().getId_Recibo()).contains(lowerCaseFilter)) {
@@ -97,7 +101,12 @@ public class salesController {
 
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
-        dataView.refresh();
+
+        // Adiciona um ouvinte à lista data para atualizar a dataView quando ocorrerem alterações
+        data.addListener((Observable observable) -> {
+            dataView.setItems(data);
+            dataView.refresh();
+        });
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
@@ -110,7 +119,9 @@ public class salesController {
         dialogStage.setTitle("Adicionar Recibo");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
-        dataView.refresh();
+
+        List<LinhaRecibo> linha_recibos = LinhaReciboBLL.index();
+        updateDataView(linha_recibos);
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         LinhaRecibo selectedRecibo = dataView.getSelectionModel().getSelectedItem();
@@ -127,7 +138,14 @@ public class salesController {
             if (result.get() == okButton) {
                 LinhaReciboBLL.removeByRecibo(selectedRecibo.getRecibo().getId_Recibo());
                 ReciboBLL.remove(selectedRecibo.getRecibo().getId_Recibo());
-                dataView.refresh();
+                List<LinhaRecibo> linha_recibos = LinhaReciboBLL.index();
+                updateDataView(linha_recibos);
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Remoção bem-sucedida");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("A fatura foi removida com sucesso!");
+                successAlert.showAndWait();
             } else {
                 alert.close();
             }
@@ -178,7 +196,6 @@ public class salesController {
             }
         }
     }
-
     public void backButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/mAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -261,6 +278,12 @@ public class salesController {
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Funcionários");
         stage.show();
+    }
+    private void updateDataView(List<LinhaRecibo> linha_recibos) {
+        Collections.sort(linha_recibos, Comparator.comparingInt(recibo -> recibo.getRecibo().getId_Recibo()));
+        ObservableList<LinhaRecibo> data = FXCollections.observableArrayList(linha_recibos);
+        dataView.setItems(data);
+        dataView.refresh();
     }
 
 }

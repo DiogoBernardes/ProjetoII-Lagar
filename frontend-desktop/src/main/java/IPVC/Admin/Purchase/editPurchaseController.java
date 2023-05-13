@@ -32,6 +32,8 @@ public class editPurchaseController {
     @FXML
     private ComboBox<String> pagamentoCB;
     @FXML
+    private ComboBox<String> tipoProdutoCB;
+    @FXML
     private TextField dataTF;
     @FXML
     private TextField utilizadorTF;
@@ -39,6 +41,8 @@ public class editPurchaseController {
     private TextField valorTF;
     @FXML
     private TextField valorFinalTF;
+    @FXML
+    private TextField valorUnitarioTF;
     @FXML
     private Button closeButton;
     @FXML
@@ -51,24 +55,28 @@ public class editPurchaseController {
     public void setPurchase(LinhaFatura linhaFatura, Fatura fatura) {
         this.linhaFatura = linhaFatura;
         this.fatura = fatura;
-        List<Produto> produtos = ProdutoBLL.index();
+
         List<Entidade> entidades = EntidadeBLL.getEntities(1);
         List<TipoPagamento> pagamentos = TipoPagamentoBLL.index();
-        ObservableList<String> produto = FXCollections.observableArrayList();
-        ObservableList<String> fornecedor = FXCollections.observableArrayList();
+        List<TipoProduto> tiposProduto = TipoProdutoBLL.index();
+
+        ObservableList<String> fornecedores = FXCollections.observableArrayList();
         ObservableList<String> pagamento = FXCollections.observableArrayList();
-        for (Produto p : produtos) {
-            produto.add(p.getNome());
-        }
+        ObservableList<String> tiposProdutoDescricoes = FXCollections.observableArrayList();
+
         for (Entidade e : entidades) {
-            fornecedor.add(e.getNome());
+            fornecedores.add(e.getNome());
         }
         for (TipoPagamento tp : pagamentos) {
             pagamento.add(tp.getDescricao());
         }
-        produtoCB.setItems(produto);
-        fornecedorCB.setItems(fornecedor);;
+        for (TipoProduto tipo : tiposProduto) {
+            tiposProdutoDescricoes.add(tipo.getDescricao());
+        }
+
+        fornecedorCB.setItems(fornecedores);;
         pagamentoCB.setItems(pagamento);
+        tipoProdutoCB.setItems(tiposProdutoDescricoes);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         dataTF.setText(sdf.format(linhaFatura.getFatura().getData()));
         utilizadorTF.setText(currentUser.getNome());
@@ -77,65 +85,93 @@ public class editPurchaseController {
         produtoCB.setValue(linhaFatura.getProduto().getNome());
         fornecedorCB.setValue(fatura.getEntidade().getNome());
         pagamentoCB.setValue(fatura.getTipoPagamento().getDescricao());
-        double valorFinal = Double.parseDouble(valorTF.getText()) * fatura.getIva();
-        valorFinalTF.setText(String.format("%.2f", valorFinal));
+
+
 
         // Adiciona listeners para atualizar o valor final
         quantidadeTF.textProperty().addListener((observable, oldValue, newValue) -> {
-            atualizarValorFinal();
+            atualizarValor();
         });
 
         valorTF.textProperty().addListener((observable, oldValue, newValue) -> {
             atualizarValorFinal();
         });
+        valorUnitarioTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarValor();
+        });
 
+        tipoProdutoCB.valueProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarProduto();
+        });
+
+
+    }
+
+    private void atualizarProduto(){
+        String tipoProdutoDescricao = tipoProdutoCB.getSelectionModel().getSelectedItem();
+        TipoProduto tipoProduto = TipoProdutoBLL.getByDescription(tipoProdutoDescricao);
+        List<Produto> produtos = ProdutoBLL.getTypeProduct(tipoProduto.getId_TipoProduto());
+        ObservableList<String> produto = FXCollections.observableArrayList();
+        for (Produto p : produtos) {
+            produto.add(p.getNome());
+        }
+        produtoCB.setItems(produto);
+    }
+    private void atualizarValor(){
+        String produtoName = produtoCB.getSelectionModel().getSelectedItem();
+        Produto produto  = ProdutoBLL.getName(produtoName);
+        Double valor = produto.getValor_Unitario() * Double.parseDouble(quantidadeTF.getText());
+
+        valorTF.setText(String.format(Locale.US, "%.2f", valor));
     }
     private void atualizarValorFinal() {
         double valor = Double.parseDouble(valorTF.getText());
         double valorFinal = valor * 1.23;
         valorFinalTF.setText(String.format(Locale.US, "%.2f", valorFinal));
     }
-    //Problemas com a linhaFatura, é passada a null..
+
+
     @FXML
     private void updatePurchase(ActionEvent event) throws IOException, ParseException {
-       if (fatura != null && linhaFatura != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            Date data = sdf.parse(dataTF.getText());
-            String fornecedorNome = fornecedorCB.getSelectionModel().getSelectedItem();
-            String tipoPagamentoDesc = pagamentoCB.getSelectionModel().getSelectedItem();
-            String produtoNome = produtoCB.getSelectionModel().getSelectedItem();
-            Entidade fornecedor = EntidadeBLL.getEntityByName(fornecedorNome);
-            TipoPagamento pagamento = TipoPagamentoBLL.getPaymentByDescription(tipoPagamentoDesc);
-            Produto produto = ProdutoBLL.getName(produtoNome);
-
-            fatura.setEntidade(fornecedor);
-            fatura.setUtilizador(currentUser);
-            fatura.setData(data);
-            fatura.setValor(Double.parseDouble(valorTF.getText()));
-            fatura.setIva(1.23);
-            String valorF = valorFinalTF.getText().replace(",", ".");
-            fatura.setValor_Total(Double.parseDouble(valorF));
-            fatura.setTipoPagamento(pagamento);
-
-            linhaFatura.setProduto(produto);
-            linhaFatura.setFatura(fatura);
-            linhaFatura.setQuantidade(Integer.parseInt(quantidadeTF.getText()));
-            linhaFatura.setValor(Double.parseDouble(valorTF.getText()));
-
-            FaturaBLL.update(fatura);
-            LinhaFaturaBLL.update(linhaFatura);
-
-            Details.getStyleClass().add("valid-details");
-            Details.setText("Fatura editada com Sucesso!");
-            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-            pause.setOnFinished(e -> {
-                Details.setText("");
-                Details.getStyleClass().removeAll("invalid-details-error");
-            });
-            pause.play();
-       }else{
+       if (fatura == null || linhaFatura == null) {
            Details.getStyleClass().add("valid-details");
            Details.setText("ERRO!");
+           PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+           pause.setOnFinished(e -> {
+               Details.setText("");
+               Details.getStyleClass().removeAll("invalid-details-error");
+           });
+           pause.play();
+
+       }else{
+           SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+           Date data = sdf.parse(dataTF.getText());
+           String fornecedorNome = fornecedorCB.getSelectionModel().getSelectedItem();
+           String tipoPagamentoDesc = pagamentoCB.getSelectionModel().getSelectedItem();
+           String produtoNome = produtoCB.getSelectionModel().getSelectedItem();
+           Entidade fornecedor = EntidadeBLL.getEntityByName(fornecedorNome);
+           TipoPagamento pagamento = TipoPagamentoBLL.getPaymentByDescription(tipoPagamentoDesc);
+           Produto produto = ProdutoBLL.getName(produtoNome);
+
+           fatura.setEntidade(fornecedor);
+           fatura.setUtilizador(currentUser);
+           fatura.setData(data);
+           fatura.setValor(Double.parseDouble(valorTF.getText()));
+           fatura.setIva(1.23);
+           String valorF = valorFinalTF.getText().replace(",", ".");
+           fatura.setValor_Total(Double.parseDouble(valorF));
+           fatura.setTipoPagamento(pagamento);
+
+           linhaFatura.setProduto(produto);
+           linhaFatura.setFatura(fatura);
+           linhaFatura.setQuantidade(Integer.parseInt(quantidadeTF.getText()));
+           linhaFatura.setValor(Double.parseDouble(valorTF.getText()));
+
+           FaturaBLL.update(fatura);
+           LinhaFaturaBLL.update(linhaFatura);
+
+           Details.getStyleClass().add("valid-details");
+           Details.setText("Fatura editada com Sucesso!");
            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
            pause.setOnFinished(e -> {
                Details.setText("");

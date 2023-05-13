@@ -23,22 +23,22 @@
    <left>
       <AnchorPane prefHeight="350.0" prefWidth="406.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="22.0" layoutY="38.0" text="Produto">
+            <Label layoutX="232.0" layoutY="38.0" text="Produto">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="22.0" layoutY="160.0" text="Valor">
+            <Label layoutX="22.0" layoutY="219.0" text="Subtotal">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="233.0" layoutY="38.0" text="Quantidade">
+            <Label layoutX="234.0" layoutY="159.0" text="Quantidade">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="236.0" layoutY="160.0" text="Valor Final">
+            <Label layoutX="145.0" layoutY="219.0" text="Total">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -63,12 +63,12 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="produtoCB" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="190.0" style="-fx-background-color: #F0E5D8;" />
-            <TextField fx:id="quantidadeTF" layoutX="232.0" layoutY="54.0" prefHeight="26.0" prefWidth="154.0" style="-fx-background-color: #F0E5D8;" />
-            <TextField fx:id="valorTF" layoutX="22.0" layoutY="175.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: #F0E5D8;" />
-            <TextField fx:id="valorFinalTF" disable="true" layoutX="233.0" layoutY="175.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: #F0E5D8;" />
-            <TextField fx:id="dataTF" disable="true" layoutX="22.0" layoutY="235.0" prefHeight="26.0" prefWidth="166.0" style="-fx-background-color: #F0E5D8;" />
-            <Label layoutX="22.0" layoutY="219.0" text="Data Emissão">
+            <ComboBox fx:id="produtoCB" layoutX="232.0" layoutY="54.0" prefHeight="26.0" prefWidth="154.0" style="-fx-background-color: #F0E5D8;" />
+            <TextField fx:id="quantidadeTF" layoutX="232.0" layoutY="175.0" prefHeight="26.0" prefWidth="154.0" style="-fx-background-color: #F0E5D8;" />
+            <TextField fx:id="valorTF" disable="true" layoutX="22.0" layoutY="235.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: #F0E5D8;" />
+            <TextField fx:id="valorFinalTF" disable="true" layoutX="145.0" layoutY="235.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: #F0E5D8;" />
+            <TextField fx:id="dataTF" disable="true" layoutX="268.0" layoutY="235.0" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="270.0" layoutY="219.0" text="Data Emissão">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -80,6 +80,18 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
+            <Label layoutX="24.0" layoutY="159.0" text="Valor Unitário">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="valorUnitarioTF" disable="true" layoutX="22.0" layoutY="175.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="23.0" layoutY="38.0" text="Tipo Produto">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="tipoProdutoCB" layoutX="22.0" layoutY="54.0" prefHeight="26.0" prefWidth="154.0" style="-fx-background-color: #F0E5D8;" />
          </children>
       </AnchorPane>
    </left>

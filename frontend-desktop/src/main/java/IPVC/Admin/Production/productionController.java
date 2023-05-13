@@ -2,13 +2,12 @@ package IPVC.Admin.Production;
 
 import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.Admin.Purchase.editPurchaseController;
-import IPVC.BLL.FaturaBLL;
-import IPVC.BLL.LinhaFaturaBLL;
-import IPVC.BLL.ProducaoBLL;
-import IPVC.BLL.ProdutoMPBLL;
+import IPVC.BLL.*;
 import IPVC.DAL.LinhaFatura;
+import IPVC.DAL.LinhaRecibo;
 import IPVC.DAL.Producao;
 import IPVC.DAL.ProdutoMP;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +24,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,9 +51,9 @@ public class productionController {
     @FXML
     private void initialize() {
         List<ProdutoMP> produtoMPS = ProdutoMPBLL.index();
-
+        Collections.sort(produtoMPS, Comparator.comparingInt(produtoMP -> produtoMP.getProducao().getId_Producao()));
         ObservableList<ProdutoMP> data = FXCollections.observableArrayList(produtoMPS);
-        //dataView.setItems(data);
+
         dataView.setItems(data);
         producaoColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProducao().getId_Producao())));
         produtoMPColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getProduto().getNome())));
@@ -63,6 +64,7 @@ public class productionController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         dataColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(sdf.format(d.getValue().getProducao().getData()))));
         dataView.getSortOrder().add(producaoColumn);
+
         // Cria um FilteredList com a lista de clientes
         FilteredList<ProdutoMP> filteredData = new FilteredList<>(data, p -> true);
 
@@ -74,7 +76,6 @@ public class productionController {
                     return true;
                 }
 
-                // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
                 if (String.valueOf(producao.getProducao().getId_Producao()).contains(lowerCaseFilter)) {
@@ -91,10 +92,16 @@ public class productionController {
                 return false;
             });
         });
+
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
-    }
 
+        // Adiciona um ouvinte à lista data para atualizar a dataView quando ocorrerem alterações
+        data.addListener((Observable observable) -> {
+            dataView.setItems(data);
+            dataView.refresh();
+        });
+    }
     public void addButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Production/addProduction.fxml"));
         Parent parent = fxmlLoader.load();
@@ -105,9 +112,10 @@ public class productionController {
         dialogStage.setTitle("Adicionar Produção");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
-        dataView.refresh();
-    }
 
+        List<ProdutoMP> produtoMPS = ProdutoMPBLL.index();
+        updateDataView(produtoMPS);
+    }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         ProdutoMP selectedprodutoMP = dataView.getSelectionModel().getSelectedItem();
         if (selectedprodutoMP != null) {
@@ -123,7 +131,15 @@ public class productionController {
             if (result.get() == okButton) {
                 ProdutoMPBLL.removeByProducao(selectedprodutoMP.getProducao().getId_Producao());
                 ProducaoBLL.remove( selectedprodutoMP.getProducao().getId_Producao());
-                dataView.refresh();
+
+                List<ProdutoMP> produtoMPS = ProdutoMPBLL.index();
+                updateDataView(produtoMPS);
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Remoção bem-sucedida");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("A produção foi removida com sucesso!");
+                successAlert.showAndWait();
             } else {
                 alert.close();
             }
@@ -142,7 +158,6 @@ public class productionController {
             }
     }
     }
-
     public void editButtonOnAction(ActionEvent event) throws IOException {
         ProdutoMP selectedprodutoMP = dataView.getSelectionModel().getSelectedItem();
         if (selectedprodutoMP != null) {
@@ -174,7 +189,6 @@ public class productionController {
             }
         }
     }
-
     public void backButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/mAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -183,7 +197,6 @@ public class productionController {
         stage.setTitle("Menu Admin");
         stage.show();
     }
-
     public void logoutButtonOnAction(ActionEvent event) throws IOException {
         ButtonType confirmButtonType = new ButtonType("Confirmar", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButtonType = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -258,5 +271,11 @@ public class productionController {
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Funcionário");
         stage.show();
+    }
+    private void updateDataView(List<ProdutoMP> produtoMPS) {
+        Collections.sort(produtoMPS, Comparator.comparingInt(produtoMP -> produtoMP.getProducao().getId_Producao()));
+        ObservableList<ProdutoMP> data = FXCollections.observableArrayList(produtoMPS);
+        dataView.setItems(data);
+        dataView.refresh();
     }
 }

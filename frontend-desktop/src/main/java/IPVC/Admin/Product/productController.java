@@ -2,9 +2,12 @@ package IPVC.Admin.Product;
 
 import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.Admin.Product.editProductController;
+import IPVC.BLL.LinhaReciboBLL;
 import IPVC.BLL.ProdutoBLL;
+import IPVC.DAL.LinhaRecibo;
 import IPVC.DAL.Produto;
 import IPVC.DAL.ProdutoMP;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -45,9 +49,7 @@ public class productController {
     @FXML
     private void initialize() {
         List<Produto> produtos = ProdutoBLL.index();
-
-        produtos.sort(Comparator.comparingInt(Produto::getId_Produto));
-        // Cria um ObservableList com os clientes filtrados e atualiza a tabela
+        Collections.sort(produtos, Comparator.comparingInt(produto -> produto.getId_Produto()));
         ObservableList<Produto> data = FXCollections.observableArrayList(produtos);
 
         dataView.setItems(data);
@@ -64,12 +66,10 @@ public class productController {
         // Adiciona um listener ao TextField de busca para filtrar a tabela quando o texto mudar
         searchTF.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(produto -> {
-                // Se o texto de busca estiver vazio, exibe todos os clientes
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
-                // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
                 if (produto.getNome().toLowerCase().contains(lowerCaseFilter)) {
@@ -87,6 +87,12 @@ public class productController {
 
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
+
+        // Adiciona um ouvinte à lista data para atualizar a dataView quando ocorrerem alterações
+        data.addListener((Observable observable) -> {
+            dataView.setItems(data);
+            dataView.refresh();
+        });
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
@@ -99,7 +105,9 @@ public class productController {
         dialogStage.setTitle("Adicionar Produto");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
-        dataView.refresh();
+
+        List<Produto> produtos = ProdutoBLL.index();
+        updateDataView(produtos);
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         Produto selectedProduto = dataView.getSelectionModel().getSelectedItem();
@@ -115,7 +123,15 @@ public class productController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == okButton) {
                 ProdutoBLL.remove(selectedProduto.getId_Produto());
-                dataView.refresh();
+
+                List<Produto> produtos = ProdutoBLL.index();
+                updateDataView(produtos);
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Remoção bem-sucedida");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("O produto foi removido com sucesso!");
+                successAlert.showAndWait();
             } else {
                 alert.close();
             }
@@ -248,4 +264,11 @@ public class productController {
         stage.setTitle("Menu Admin - Funcionário");
         stage.show();
     }
+    private void updateDataView(List<Produto> produtos) {
+        Collections.sort(produtos, Comparator.comparingInt(produto -> produto.getId_Produto()));
+        ObservableList<Produto> data = FXCollections.observableArrayList(produtos);
+        dataView.setItems(data);
+        dataView.refresh();
+    }
+
 }

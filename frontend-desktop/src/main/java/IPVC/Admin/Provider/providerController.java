@@ -3,7 +3,10 @@ package IPVC.Admin.Provider;
 import IPVC.Admin.Client.editClientController;
 import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.BLL.EntidadeBLL;
+import IPVC.BLL.LinhaReciboBLL;
 import IPVC.DAL.Entidade;
+import IPVC.DAL.LinhaRecibo;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +23,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +50,7 @@ public class providerController {
     @FXML
     private void initialize() {
         List<Entidade> clientes = EntidadeBLL.getEntities(1);
-
-        // Cria um ObservableList com os clientes filtrados e atualiza a tabela
+        Collections.sort(clientes, Comparator.comparingInt(entidade -> entidade.getId_Entidade()));
         ObservableList<Entidade> data = FXCollections.observableArrayList(clientes);
 
         dataView.setItems(data);
@@ -69,31 +73,34 @@ public class providerController {
                     return true;
                 }
 
-                // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
-                // Filtra o cliente se o nome, o NIF, o email ou o número de telefone contiverem o texto de busca
                 if (entidade.getNome().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // O nome contém o texto de busca
+                    return true;
                 } else if (String.valueOf(entidade.getNIF()).contains(lowerCaseFilter)) {
-                    return true; // O NIF contém o texto de busca
+                    return true;
                 } else if (entidade.getEmail().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // O email contém o texto de busca
+                    return true;
                 } else if (String.valueOf(entidade.getTelemovel()).contains(lowerCaseFilter)) {
-                    return true; // O número de telefone contém o texto de busca
+                    return true;
                 } else if(entidade.getRua().toLowerCase().contains(lowerCaseFilter)){
-                    return true; // A rua contém o texto de busca
+                    return true;
                 } else if(String.valueOf(entidade.getCod_Postal()).contains(lowerCaseFilter)){
-                    return true; // O codigo de Postal contém o texto de busca
+                    return true;
                 }
-                return false; // Não há correspondência
+                return false;
             });
         });
 
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
-    }
 
+        // Adiciona um ouvinte à lista data para atualizar a dataView quando ocorrerem alterações
+        data.addListener((Observable observable) -> {
+            dataView.setItems(data);
+            dataView.refresh();
+        });
+    }
     public void addButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Provider/addProvider.fxml"));
         Parent parent = fxmlLoader.load();
@@ -104,7 +111,9 @@ public class providerController {
         dialogStage.setTitle("Adicionar Fornecedor");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
-        dataView.refresh();
+
+        List<Entidade> clientes = EntidadeBLL.index();
+        updateDataView(clientes);
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         Entidade selectedEntidade = dataView.getSelectionModel().getSelectedItem();
@@ -120,7 +129,15 @@ public class providerController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == okButton) {
                 EntidadeBLL.remove(selectedEntidade.getId_Entidade());
-                dataView.refresh();
+
+                List<Entidade> clientes = EntidadeBLL.index();
+                updateDataView(clientes);
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Remoção bem-sucedida");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("O fornecedor foi removido com sucesso!");
+                successAlert.showAndWait();
             } else {
                 alert.close();
             }
@@ -252,5 +269,11 @@ public class providerController {
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Funcionário");
         stage.show();
+    }
+    private void updateDataView(List<Entidade> clientes) {
+        Collections.sort(clientes, Comparator.comparingInt(entidade -> entidade.getId_Entidade()));
+        ObservableList<Entidade> data = FXCollections.observableArrayList(clientes);
+        dataView.setItems(data);
+        dataView.refresh();
     }
 }

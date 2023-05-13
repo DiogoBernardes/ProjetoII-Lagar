@@ -2,11 +2,9 @@ package IPVC.Admin.Packaging;
 
 import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.Admin.Production.editProductionController;
-import IPVC.BLL.EmbalamentoBLL;
-import IPVC.BLL.ProducaoBLL;
-import IPVC.BLL.ProdutoEMBBLL;
-import IPVC.BLL.ProdutoMPBLL;
+import IPVC.BLL.*;
 import IPVC.DAL.*;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +49,7 @@ public class packagingController {
     @FXML
     private void initialize() throws IOException {
         List<ProdutoEMB> produtoEMBS = ProdutoEMBBLL.index();
-        List<Embalamento> embalamentos = EmbalamentoBLL.index();
-        embalamentos.sort(Comparator.comparingInt(Embalamento::getId_Embalamento));
+        Collections.sort(produtoEMBS, Comparator.comparingInt(produtoEMB -> produtoEMB.getEmbalamento().getId_Embalamento()));
         ObservableList<ProdutoEMB> data = FXCollections.observableArrayList(produtoEMBS);
         dataView.setItems(data);
         embalamentoColumn.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getEmbalamento().getId_Embalamento())));
@@ -73,7 +71,6 @@ public class packagingController {
                     return true;
                 }
 
-                // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
                 if (String.valueOf(embalamento.getEmbalamento().getId_Embalamento()).contains(lowerCaseFilter)) {
@@ -91,6 +88,11 @@ public class packagingController {
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
 
+        // Adiciona um ouvinte à lista data para atualizar a dataView quando ocorrerem alterações
+        data.addListener((Observable observable) -> {
+            dataView.setItems(data);
+            dataView.refresh();
+        });
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
@@ -103,9 +105,10 @@ public class packagingController {
                 dialogStage.setTitle("Adicionar Embalamento");
                 dialogStage.setScene(scene);
                 dialogStage.showAndWait();
-                dataView.refresh();
-    }
 
+                List<ProdutoEMB> produtoEMBS = ProdutoEMBBLL.index();
+                updateDataView(produtoEMBS);
+    }
     public void addMoreProductsButtonOnAction(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/addMorePackaging.fxml"));
         Parent parent = fxmlLoader.load();
@@ -116,7 +119,9 @@ public class packagingController {
         dialogStage.setTitle("Adicionar Produto a um Embalamento");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
-        dataView.refresh();
+
+        List<ProdutoEMB> produtoEMBS = ProdutoEMBBLL.index();
+        updateDataView(produtoEMBS);
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         ProdutoEMB selectedprodutoEMB = dataView.getSelectionModel().getSelectedItem();
@@ -133,7 +138,15 @@ public class packagingController {
             if (result.get() == okButton) {
                 ProdutoEMBBLL.removeByEmbalamento(selectedprodutoEMB.getEmbalamento().getId_Embalamento());
                 EmbalamentoBLL.remove(selectedprodutoEMB.getEmbalamento().getId_Embalamento());
-                dataView.refresh();
+
+                List<ProdutoEMB> produtoEMBS = ProdutoEMBBLL.index();
+                updateDataView(produtoEMBS);
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Remoção bem-sucedida");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("O embalamento foi removido com sucesso!");
+                successAlert.showAndWait();
             } else {
                 alert.close();
             }
@@ -152,8 +165,7 @@ public class packagingController {
             }
     }
     }
-
-   public void editButtonOnAction(ActionEvent event) throws IOException {
+    public void editButtonOnAction(ActionEvent event) throws IOException {
         ProdutoEMB selectedprodutoEMB = dataView.getSelectionModel().getSelectedItem();
         if (selectedprodutoEMB != null) {
 
@@ -185,7 +197,6 @@ public class packagingController {
             }
         }
     }
-
     public void backButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/mAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -194,7 +205,6 @@ public class packagingController {
         stage.setTitle("Menu Admin");
         stage.show();
     }
-
     public void logoutButtonOnAction(ActionEvent event) throws IOException {
         ButtonType confirmButtonType = new ButtonType("Confirmar", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButtonType = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -214,7 +224,6 @@ public class packagingController {
             stage.setTitle("Login");
             stage.show();        }
     }
-
     public void clientButtonOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Client/clientAdmin.fxml"));
         Scene regCena = new Scene(root);
@@ -270,5 +279,11 @@ public class packagingController {
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Funcionário");
         stage.show();
+    }
+    private void updateDataView(List<ProdutoEMB> produtoEMBS) {
+        Collections.sort(produtoEMBS, Comparator.comparingInt(produtoEMB -> produtoEMB.getEmbalamento().getId_Embalamento()));
+        ObservableList<ProdutoEMB> data = FXCollections.observableArrayList(produtoEMBS);
+        dataView.setItems(data);
+        dataView.refresh();
     }
 }

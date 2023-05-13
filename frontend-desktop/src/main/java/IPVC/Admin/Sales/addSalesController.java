@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class addSalesController {
-
+    @FXML
+    private ComboBox<String> tipoProdutoCB;
     @FXML
     private ComboBox<String> produtoCB;
     @FXML
@@ -34,6 +35,8 @@ public class addSalesController {
     private ComboBox<String> pagamentoCB;
     @FXML
     private TextField dataTF;
+    @FXML
+    private TextField valorUnitarioTF;
     @FXML
     private TextField valorTF;
     @FXML
@@ -46,53 +49,127 @@ public class addSalesController {
 
     @FXML
     private void initialize() throws IOException{
-        List<Produto> produtos = ProdutoBLL.index();
+
         List<Entidade> entidades = EntidadeBLL.getEntities(2);
         List<TipoPagamento> pagamentos = TipoPagamentoBLL.index();
-        ObservableList<String> produto = FXCollections.observableArrayList();
+        List<TipoProduto> tiposProduto = TipoProdutoBLL.index();
+
+
         ObservableList<String> cliente = FXCollections.observableArrayList();
         ObservableList<String> pagamento = FXCollections.observableArrayList();
-        for (Produto p : produtos) {
-            produto.add(p.getNome());
-        }
+        ObservableList<String> tiposProdutoDescricoes = FXCollections.observableArrayList();
+
+
         for (Entidade e : entidades) {
             cliente.add(e.getNome());
         }
         for (TipoPagamento tp : pagamentos) {
             pagamento.add(tp.getDescricao());
         }
-        produtoCB.setItems(produto);
-        clienteCB.setItems(cliente);;
-        pagamentoCB.setItems(pagamento);
+        for (TipoProduto tipo : tiposProduto) {
+            tiposProdutoDescricoes.add(tipo.getDescricao());
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         Date dataAtual = new Date();
+
+
+        clienteCB.setItems(cliente);;
+        pagamentoCB.setItems(pagamento);
+        tipoProdutoCB.setItems(tiposProdutoDescricoes);
         String dataFormatada = sdf.format(dataAtual);
         dataTF.setText(dataFormatada);
-        valorTF.setText("0");
         quantidadeTF.setText("0");
-        double valorFinal = Double.parseDouble(valorTF.getText())*1.23;
-        valorFinalTF.setText(String.format("%.2f", valorFinal));
 
         // Adiciona listeners para atualizar o valor final
         quantidadeTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarValor();
             atualizarValorFinal();
         });
 
         valorTF.textProperty().addListener((observable, oldValue, newValue) -> {
             atualizarValorFinal();
         });
+
+        produtoCB.valueProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarPrecoUnitario();
+        });
+
+        tipoProdutoCB.valueProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarProduto();
+        });
     }
 
+    private void atualizarProduto(){
+        String tipoProdutoDescricao = tipoProdutoCB.getSelectionModel().getSelectedItem();
+        TipoProduto tipoProduto = TipoProdutoBLL.getByDescription(tipoProdutoDescricao);
+        List<Produto> produtos = ProdutoBLL.getTypeProduct(tipoProduto.getId_TipoProduto());
+        ObservableList<String> produto = FXCollections.observableArrayList();
+        for (Produto p : produtos) {
+            produto.add(p.getNome());
+        }
+        produtoCB.setItems(produto);
+    }
+    private void atualizarPrecoUnitario(){
+        String produtoName = produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod  = ProdutoBLL.getName(produtoName);
+        valorUnitarioTF.setText(String.valueOf(prod.getValor_Unitario()));
+    }
+    private void atualizarValor(){
+        String produtoName = produtoCB.getSelectionModel().getSelectedItem();
+        Produto produto  = ProdutoBLL.getName(produtoName);
+        Double valor = produto.getValor_Unitario() * Double.parseDouble(quantidadeTF.getText());
+
+        valorTF.setText(String.format(Locale.US, "%.2f", valor));
+    }
     private void atualizarValorFinal() {
+        String produtoName = produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod  = ProdutoBLL.getName(produtoName);
         double valor = Double.parseDouble(valorTF.getText());
         double valorFinal = valor * 1.23;
         valorFinalTF.setText(String.format(Locale.US, "%.2f", valorFinal));
     }
 
 
-    //Problemas com a linhaFatura,diz que o Id_Produto não existe..
     public void addSalesButtonOnAction(ActionEvent event) throws IOException, ParseException {
-        if (!produtoCB.getValue().isEmpty() || !clienteCB.getValue().isEmpty() || !quantidadeTF.getText().isEmpty() || !pagamentoCB.getValue().isEmpty()) {
+
+        if (produtoCB.getValue() == null || produtoCB.getValue() == null || clienteCB.getValue() == null ||
+                quantidadeTF.getText().isEmpty() || pagamentoCB.getValue() == null){
+            Details.getStyleClass().add("invalid-details-error");
+            Details.setText("Os dados do recibo são necessários!");
+            produtoCB.getStyleClass().add("TF-EmptyLogin");
+            valorTF.getStyleClass().add("TF-EmptyLogin");
+            quantidadeTF.getStyleClass().add("TF-EmptyLogin");
+            valorFinalTF.getStyleClass().add("TF-EmptyLogin");
+            valorUnitarioTF.getStyleClass().add("TF-EmptyLogin");
+            tipoProdutoCB.getStyleClass().add("TF-EmptyLogin");
+            dataTF.getStyleClass().add("TF-EmptyLogin");
+            clienteCB.getStyleClass().add("TF-EmptyLogin");
+            pagamentoCB.getStyleClass().add("TF-EmptyLogin");
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.setOnFinished(e -> {
+                Details.setText("");
+                Details.getStyleClass().removeAll("invalid-details-error");
+                produtoCB.getStyleClass().removeAll("TF-EmptyLogin");
+                valorTF.getStyleClass().removeAll("TF-EmptyLogin");
+                quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
+                valorFinalTF.getStyleClass().removeAll("TF-EmptyLogin");
+                valorUnitarioTF.getStyleClass().removeAll("TF-EmptyLogin");
+                tipoProdutoCB.getStyleClass().removeAll("TF-EmptyLogin");
+                dataTF.getStyleClass().removeAll("TF-EmptyLogin");
+                clienteCB.getStyleClass().removeAll("TF-EmptyLogin");
+                pagamentoCB.getStyleClass().removeAll("TF-EmptyLogin");
+            });
+            pause.play();
+
+        }
+
+        String prodNome= produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod = ProdutoBLL.getName(prodNome);
+        int prodQuantidade = prod.getQuantidade();
+        int qtdInserida = Integer.parseInt(quantidadeTF.getText());
+
+        if(qtdInserida <= prodQuantidade) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             Date data = sdf.parse(dataTF.getText());
             String clienteNome = clienteCB.getSelectionModel().getSelectedItem();
@@ -104,11 +181,12 @@ public class addSalesController {
 
             Recibo newRecibo = new Recibo();
             LinhaRecibo newLinhaRecibo = new LinhaRecibo();
+
             newRecibo.setEntidade(cliente);
             newRecibo.setData(data);
             newRecibo.setValor(Double.parseDouble(valorTF.getText()));
             newRecibo.setIva(1.23);
-            newRecibo.setValor_Final(Double.parseDouble(valorTF.getText()) * newRecibo.getIva());
+            newRecibo.setValor_Final(Double.parseDouble(valorFinalTF.getText()));
             newRecibo.setTipoPagamento(pagamento);
 
             newLinhaRecibo.setProduto(produto);
@@ -135,27 +213,16 @@ public class addSalesController {
                 Details.getStyleClass().removeAll("invalid-details-error");
             });
             pause.play();
-        }else {
+
+
+        } else{
             Details.getStyleClass().add("invalid-details-error");
-            Details.setText("Os dados do recibo são necessários!");
-            produtoCB.getStyleClass().add("TF-EmptyLogin");
-            valorTF.getStyleClass().add("TF-EmptyLogin");
+            Details.setText("Não existe stock suficiente desse produto!");
             quantidadeTF.getStyleClass().add("TF-EmptyLogin");
-            valorFinalTF.getStyleClass().add("TF-EmptyLogin");
-            dataTF.getStyleClass().add("TF-EmptyLogin");
-            clienteCB.getStyleClass().add("TF-EmptyLogin");
-            pagamentoCB.getStyleClass().add("TF-EmptyLogin");
             PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
             pause.setOnFinished(e -> {
                 Details.setText("");
-                Details.getStyleClass().removeAll("invalid-details-error");
-                produtoCB.getStyleClass().removeAll("TF-EmptyLogin");
-                valorTF.getStyleClass().removeAll("TF-EmptyLogin");
                 quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
-                valorFinalTF.getStyleClass().removeAll("TF-EmptyLogin");
-                dataTF.getStyleClass().removeAll("TF-EmptyLogin");
-                clienteCB.getStyleClass().removeAll("TF-EmptyLogin");
-                pagamentoCB.getStyleClass().removeAll("TF-EmptyLogin");
             });
             pause.play();
         }

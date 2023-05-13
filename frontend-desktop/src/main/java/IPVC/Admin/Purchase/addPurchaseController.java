@@ -36,6 +36,8 @@ public class addPurchaseController {
     @FXML
     private ComboBox<String> pagamentoCB;
     @FXML
+    private ComboBox<String> tipoProdutoCB;
+    @FXML
     private TextField dataTF;
     @FXML
     private TextField utilizadorTF;
@@ -44,6 +46,8 @@ public class addPurchaseController {
     @FXML
     private TextField valorFinalTF;
     @FXML
+    private TextField valorUnitarioTF;
+    @FXML
     private Button closeButton;
     @FXML
     private Label Details;
@@ -51,44 +55,70 @@ public class addPurchaseController {
 
     @FXML
     private void initialize() throws IOException{
-        List<Produto> produtos = ProdutoBLL.index();
+
         List<Entidade> entidades = EntidadeBLL.getEntities(1);
         List<TipoPagamento> pagamentos = TipoPagamentoBLL.index();
-        ObservableList<String> produto = FXCollections.observableArrayList();
+        List<TipoProduto> tiposProduto = TipoProdutoBLL.index();
+
+
         ObservableList<String> fornecedor = FXCollections.observableArrayList();
         ObservableList<String> pagamento = FXCollections.observableArrayList();
-        for (Produto p : produtos) {
-            produto.add(p.getNome());
-        }
+        ObservableList<String> tiposProdutoDescricoes = FXCollections.observableArrayList();
+
+
         for (Entidade e : entidades) {
             fornecedor.add(e.getNome());
         }
         for (TipoPagamento tp : pagamentos) {
             pagamento.add(tp.getDescricao());
         }
-        produtoCB.setItems(produto);
-        fornecedorCB.setItems(fornecedor);;
+        for (TipoProduto tipo : tiposProduto) {
+            tiposProdutoDescricoes.add(tipo.getDescricao());
+        }
+        fornecedorCB.setItems(fornecedor);
         pagamentoCB.setItems(pagamento);
+        tipoProdutoCB.setItems(tiposProdutoDescricoes);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         Date dataAtual = new Date();
         String dataFormatada = sdf.format(dataAtual);
         dataTF.setText(dataFormatada);
         utilizadorTF.setText(currentUser.getNome());
-        valorTF.setText("0");
         quantidadeTF.setText("0");
-        double valorFinal = Double.parseDouble(valorTF.getText())*1.23;
-        valorFinalTF.setText(String.format("%.2f", valorFinal));
+        valorUnitarioTF.setText("0  ");
 
         // Adiciona listeners para atualizar o valor final
         quantidadeTF.textProperty().addListener((observable, oldValue, newValue) -> {
-            atualizarValorFinal();
+            atualizarValor();
         });
 
         valorTF.textProperty().addListener((observable, oldValue, newValue) -> {
             atualizarValorFinal();
         });
+        valorUnitarioTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarValor();
+        });
+
+        tipoProdutoCB.valueProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarProduto();
+        });
+    }
+    private void atualizarProduto(){
+        String tipoProdutoDescricao = tipoProdutoCB.getSelectionModel().getSelectedItem();
+        TipoProduto tipoProduto = TipoProdutoBLL.getByDescription(tipoProdutoDescricao);
+        List<Produto> produtos = ProdutoBLL.getTypeProduct(tipoProduto.getId_TipoProduto());
+        ObservableList<String> produto = FXCollections.observableArrayList();
+        for (Produto p : produtos) {
+            produto.add(p.getNome());
+        }
+        produtoCB.setItems(produto);
     }
 
+    private void atualizarValor(){
+
+        Double valor = Integer.parseInt(valorUnitarioTF.getText())* Double.parseDouble(quantidadeTF.getText());
+
+        valorTF.setText(String.format(Locale.US, "%.2f", valor));
+    }
     private void atualizarValorFinal() {
         double valor = Double.parseDouble(valorTF.getText());
         double valorFinal = valor * 1.23;

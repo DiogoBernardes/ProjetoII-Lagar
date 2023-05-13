@@ -32,9 +32,11 @@ public class editSalesController {
     @FXML
     private ComboBox<String> pagamentoCB;
     @FXML
+    private ComboBox<String> tipoProdutoCB;
+    @FXML
     private TextField dataTF;
     @FXML
-    private TextField utilizadorTF;
+    private TextField valorUnitarioTF;
     @FXML
     private TextField valorTF;
     @FXML
@@ -50,24 +52,29 @@ public class editSalesController {
     public void setSales(LinhaRecibo linhaRecibo, Recibo recibo) {
         this.linhaRecibo = linhaRecibo;
         this.recibo = recibo;
-        List<Produto> produtos = ProdutoBLL.index();
+
+
         List<Entidade> entidades = EntidadeBLL.getEntities(2);
         List<TipoPagamento> pagamentos = TipoPagamentoBLL.index();
-        ObservableList<String> produto = FXCollections.observableArrayList();
+        List<TipoProduto> tiposProduto = TipoProdutoBLL.index();
+
         ObservableList<String> clientes = FXCollections.observableArrayList();
         ObservableList<String> pagamento = FXCollections.observableArrayList();
-        for (Produto p : produtos) {
-            produto.add(p.getNome());
-        }
+        ObservableList<String> tiposProdutoDescricoes = FXCollections.observableArrayList();
+
         for (Entidade e : entidades) {
             clientes.add(e.getNome());
         }
         for (TipoPagamento tp : pagamentos) {
             pagamento.add(tp.getDescricao());
         }
-        produtoCB.setItems(produto);
+        for (TipoProduto tipo : tiposProduto) {
+            tiposProdutoDescricoes.add(tipo.getDescricao());
+        }
+
         clienteCB.setItems(clientes);;
         pagamentoCB.setItems(pagamento);
+        tipoProdutoCB.setItems(tiposProdutoDescricoes);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         dataTF.setText(sdf.format(linhaRecibo.getRecibo().getData()));
         valorTF.setText(String.valueOf(linhaRecibo.getValor()));
@@ -75,11 +82,11 @@ public class editSalesController {
         produtoCB.setValue(linhaRecibo.getProduto().getNome());
         clienteCB.setValue(recibo.getEntidade().getNome());
         pagamentoCB.setValue(recibo.getTipoPagamento().getDescricao());
-        double valorFinal = Double.parseDouble(valorTF.getText()) * recibo.getIva();
-        valorFinalTF.setText(String.format("%.2f", valorFinal));
+        valorFinalTF.setText(String.valueOf(recibo.getValor_Final()));
 
         // Adiciona listeners para atualizar o valor final
         quantidadeTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarValor();
             atualizarValorFinal();
         });
 
@@ -87,6 +94,37 @@ public class editSalesController {
             atualizarValorFinal();
         });
 
+        produtoCB.valueProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarPrecoUnitario();
+        });
+
+        tipoProdutoCB.valueProperty().addListener((observable, oldValue, newValue) -> {
+            atualizarProduto();
+        });
+
+    }
+
+    private void atualizarProduto(){
+        String tipoProdutoDescricao = tipoProdutoCB.getSelectionModel().getSelectedItem();
+        TipoProduto tipoProduto = TipoProdutoBLL.getByDescription(tipoProdutoDescricao);
+        List<Produto> produtos = ProdutoBLL.getTypeProduct(tipoProduto.getId_TipoProduto());
+        ObservableList<String> produto = FXCollections.observableArrayList();
+        for (Produto p : produtos) {
+            produto.add(p.getNome());
+        }
+        produtoCB.setItems(produto);
+    }
+    private void atualizarPrecoUnitario(){
+        String produtoName = produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod  = ProdutoBLL.getName(produtoName);
+        valorUnitarioTF.setText(String.valueOf(prod.getValor_Unitario()));
+    }
+    private void atualizarValor(){
+        String produtoName = produtoCB.getSelectionModel().getSelectedItem();
+        Produto produto  = ProdutoBLL.getName(produtoName);
+        Double valor = produto.getValor_Unitario() * Double.parseDouble(quantidadeTF.getText());
+
+        valorTF.setText(String.format(Locale.US, "%.2f", valor));
     }
     private void atualizarValorFinal() {
         double valor = Double.parseDouble(valorTF.getText());
@@ -94,10 +132,28 @@ public class editSalesController {
         valorFinalTF.setText(String.format(Locale.US, "%.2f", valorFinal));
     }
 
-    //Problemas com a linhaFatura, é passada a null..
     @FXML
     private void updateSales(ActionEvent event) throws IOException, ParseException {
-       if (recibo != null && linhaRecibo != null) {
+       if (recibo == null || linhaRecibo == null) {
+
+           Details.getStyleClass().add("valid-details");
+           Details.setText("ERRO!");
+           PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+           pause.setOnFinished(e -> {
+               Details.setText("");
+               Details.getStyleClass().removeAll("invalid-details-error");
+           });
+           pause.play();
+
+
+       }
+
+        String prodNome= produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod = ProdutoBLL.getName(prodNome);
+        int prodQuantidade = prod.getQuantidade();
+        int qtdInserida = Integer.parseInt(quantidadeTF.getText());
+
+        if(qtdInserida <= prodQuantidade) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             Date data = sdf.parse(dataTF.getText());
             String clienteNome = clienteCB.getSelectionModel().getSelectedItem();
@@ -124,23 +180,24 @@ public class editSalesController {
             LinhaReciboBLL.update(linhaRecibo);
 
             Details.getStyleClass().add("valid-details");
-            Details.setText("Recibo editada com Sucesso!");
+            Details.setText("Recibo editado com Sucesso!");
             PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
             pause.setOnFinished(e -> {
                 Details.setText("");
                 Details.getStyleClass().removeAll("invalid-details-error");
             });
             pause.play();
-       }else{
-           Details.getStyleClass().add("valid-details");
-           Details.setText("ERRO!");
-           PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-           pause.setOnFinished(e -> {
-               Details.setText("");
-               Details.getStyleClass().removeAll("invalid-details-error");
-           });
-           pause.play();
-       }
+        } else{
+            Details.getStyleClass().add("invalid-details-error");
+            Details.setText("Não existe stock suficiente desse produto!");
+            quantidadeTF.getStyleClass().add("TF-EmptyLogin");
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.setOnFinished(e -> {
+                Details.setText("");
+                quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
+            });
+            pause.play();
+        }
     }
 
     public void closeButtonOnAction(ActionEvent event) throws IOException {

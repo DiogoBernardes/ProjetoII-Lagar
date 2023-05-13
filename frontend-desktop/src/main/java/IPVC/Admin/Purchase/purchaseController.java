@@ -5,9 +5,12 @@ import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.BLL.EntidadeBLL;
 import IPVC.BLL.FaturaBLL;
 import IPVC.BLL.LinhaFaturaBLL;
+import IPVC.BLL.LinhaReciboBLL;
 import IPVC.DAL.Entidade;
 import IPVC.DAL.Fatura;
 import IPVC.DAL.LinhaFatura;
+import IPVC.DAL.LinhaRecibo;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +28,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +59,7 @@ public class purchaseController {
     @FXML
     private void initialize() {
         List<LinhaFatura> linha_faturas = LinhaFaturaBLL.index();
-
+        Collections.sort(linha_faturas, Comparator.comparingInt(fatura -> fatura.getFatura().getId_Fatura()));
         ObservableList<LinhaFatura> data = FXCollections.observableArrayList(linha_faturas);
 
         dataView.setItems(data);
@@ -80,30 +85,33 @@ public class purchaseController {
                     return true;
                 }
 
-                // Converte o texto de busca em minúsculas e remove espaços no início e no final
                 String lowerCaseFilter = newValue.toLowerCase().trim();
 
-                // Filtra o cliente se o nome, o NIF, o email ou o número de telefone contiverem o texto de busca
                 if (String.valueOf(fatura.getFatura().getId_Fatura()).contains(lowerCaseFilter)) {
-                    return true; // O nome contém o texto de busca
+                    return true;
                 } else if (String.valueOf(fatura.getProduto().getNome()).contains(lowerCaseFilter)) {
-                    return true; // O NIF contém o texto de busca
+                    return true;
                 } else if (fatura.getFatura().getEntidade().getNome().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // O email contém o texto de busca
+                    return true;
                 } else if (String.valueOf(fatura.getFatura().getData()).contains(lowerCaseFilter)) {
-                    return true; // O número de telefone contém o texto de busca
+                    return true;
                 } else if(fatura.getFatura().getUtilizador().getNome().toLowerCase().contains(lowerCaseFilter)){
-                    return true; // A rua contém o texto de busca
+                    return true;
                 } else if(String.valueOf(fatura.getFatura().getValor_Total()).contains(lowerCaseFilter)){
-                    return true; // O codigo de Postal contém o texto de busca
+                    return true;
                 }
-                return false; // Não há correspondência
+                return false;
             });
         });
 
         // Adiciona o FilteredList à tabela
         dataView.setItems(filteredData);
-        dataView.refresh();
+
+        // Adiciona um ouvinte à lista data para atualizar a dataView quando ocorrerem alterações
+        data.addListener((Observable observable) -> {
+            dataView.setItems(data);
+            dataView.refresh();
+        });
     }
 
     public void addButtonOnAction(ActionEvent event) throws IOException {
@@ -116,7 +124,8 @@ public class purchaseController {
         dialogStage.setTitle("Adicionar Fatura");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
-        dataView.refresh();
+        List<LinhaFatura> linha_faturas = LinhaFaturaBLL.index();
+        updateDataView(linha_faturas);
     }
     public void removeButtonOnAction(ActionEvent event) throws IOException {
         LinhaFatura selectedFatura = dataView.getSelectionModel().getSelectedItem();
@@ -133,14 +142,21 @@ public class purchaseController {
             if (result.get() == okButton) {
                 LinhaFaturaBLL.removeByFatura(selectedFatura.getFatura().getId_Fatura());
                 FaturaBLL.remove(selectedFatura.getFatura().getId_Fatura());
-                dataView.refresh();
+                List<LinhaFatura> linha_faturas = LinhaFaturaBLL.index();
+                updateDataView(linha_faturas);
+
+                Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                successAlert.setTitle("Remoção bem-sucedida");
+                successAlert.setHeaderText(null);
+                successAlert.setContentText("A fatura foi removida com sucesso!");
+                successAlert.showAndWait();
             } else {
                 alert.close();
             }
-        }else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Remover Fatura");
-            alert.setHeaderText("Para remover uma fatura é necessário seleciona-la na tabela!");
+            alert.setHeaderText("Para remover uma fatura é necessário selecioná-la na tabela!");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 
@@ -150,7 +166,7 @@ public class purchaseController {
             if (result.get() == okButton) {
                 alert.close();
             }
-    }
+        }
     }
     public void editButtonOnAction(ActionEvent event) throws IOException {
         LinhaFatura selectedLinhaFatura = dataView.getSelectionModel().getSelectedItem();
@@ -192,7 +208,6 @@ public class purchaseController {
         stage.setTitle("Menu Admin");
         stage.show();
     }
-
     public void logoutButtonOnAction(ActionEvent event) throws IOException {
         ButtonType confirmButtonType = new ButtonType("Confirmar", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButtonType = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -267,5 +282,11 @@ public class purchaseController {
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Funcionário");
         stage.show();
+    }
+    private void updateDataView(List<LinhaFatura> linha_faturas) {
+        Collections.sort(linha_faturas, Comparator.comparingInt(fatura -> fatura.getFatura().getId_Fatura()));
+        ObservableList<LinhaFatura> data = FXCollections.observableArrayList(linha_faturas);
+        dataView.setItems(data);
+        dataView.refresh();
     }
 }
