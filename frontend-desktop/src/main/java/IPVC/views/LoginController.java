@@ -71,7 +71,10 @@ public class LoginController {
                 stage.show();
             } else if (utilizador.getTipoUtilizador().getId_TipoUtilizador() == 3) {
                 //Menu Funcionário
-                Parent root = FXMLLoader.load(getClass().getResource("Admin/mAdmin.fxml"));
+                Utilizador currentUser = utilizador;
+                Session.getInstance().setCurrentUser(currentUser);
+                currentUser = utilizador;
+                Parent root = FXMLLoader.load(getClass().getResource("Funcionario/mFuncionario.fxml"));
                 Scene regCena = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(regCena);

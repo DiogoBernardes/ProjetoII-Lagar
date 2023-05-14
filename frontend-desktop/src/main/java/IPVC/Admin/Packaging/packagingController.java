@@ -214,6 +214,13 @@ public class packagingController {
             stage.setScene(regCena);
             stage.setTitle("Menu Gestor ");
             stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 3){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Funcionario/mFuncionario.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Funcionário");
+            stage.show();
         }
     }
     public void logoutButtonOnAction(ActionEvent event) throws IOException {
@@ -285,6 +292,13 @@ public class packagingController {
             stage.setScene(regCena);
             stage.setTitle("Menu Gestor - Produtos");
             stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 3){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Funcionario/Product/productFuncionario.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Funcionário - Produtos");
+            stage.show();
         }
     }
     public void productionButtonOnAction(ActionEvent event) throws IOException {
@@ -302,22 +316,12 @@ public class packagingController {
             stage.setScene(regCena);
             stage.setTitle("Menu Gestor - Produção");
             stage.show();
-        }
-    }
-    public void packagingButtonOnAction(ActionEvent event) throws IOException {
-        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1) {
-            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Packaging/packagingAdmin.fxml"));
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 3){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Funcionario/Production/productionFuncionario.fxml"));
             Scene regCena = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(regCena);
-            stage.setTitle("Menu Admin - Embalamento");
-            stage.show();
-        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
-            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/Packaging/packagingGestor.fxml"));
-            Scene regCena = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(regCena);
-            stage.setTitle("Menu Gestor - Embalamento");
+            stage.setTitle("Menu Funcionário - Produção");
             stage.show();
         }
     }

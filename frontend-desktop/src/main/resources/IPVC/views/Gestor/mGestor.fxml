@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="800.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Gestor.menuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="800.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.menuController">
    <left>
       <AnchorPane fx:id="clientButtonOnAction" prefHeight="480.0" prefWidth="187.0" style="-fx-background-color: #808000;" BorderPane.alignment="CENTER">
          <children>

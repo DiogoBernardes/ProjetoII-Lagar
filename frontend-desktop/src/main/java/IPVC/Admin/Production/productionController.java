@@ -217,6 +217,13 @@ public class productionController {
             stage.setScene(regCena);
             stage.setTitle("Menu Gestor ");
             stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 3){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Funcionario/mFuncionario.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Funcionário");
+            stage.show();
         }
     }
     public void logoutButtonOnAction(ActionEvent event) throws IOException {
@@ -288,6 +295,13 @@ public class productionController {
             stage.setScene(regCena);
             stage.setTitle("Menu Gestor - Produtos");
             stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 3){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Funcionario/Product/productFuncionario.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Funcionário - Produtos");
+            stage.show();
         }
     }
     public void packagingButtonOnAction(ActionEvent event) throws IOException {
@@ -304,6 +318,13 @@ public class productionController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(regCena);
             stage.setTitle("Menu Gestor - Embalamento");
+            stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 3){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Funcionario/Packaging/packagingFuncionario.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Funcionário - Embalamento");
             stage.show();
         }
     }
