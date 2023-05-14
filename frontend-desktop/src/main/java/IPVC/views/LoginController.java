@@ -60,7 +60,10 @@ public class LoginController {
                 stage.show();
             } else if (utilizador.getTipoUtilizador().getId_TipoUtilizador() == 2) {
                 //Menu Gestor
-                Parent root = FXMLLoader.load(getClass().getResource("Admin/mAdmin.fxml"));
+                Utilizador currentUser = utilizador;
+                Session.getInstance().setCurrentUser(currentUser);
+                currentUser = utilizador;
+                Parent root = FXMLLoader.load(getClass().getResource("Gestor/mGestor.fxml"));
                 Scene regCena = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(regCena);

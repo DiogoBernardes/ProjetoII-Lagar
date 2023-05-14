@@ -2,8 +2,11 @@ package IPVC.Admin.Client;
 
 import IPVC.BLL.EntidadeBLL;
 import IPVC.BLL.LinhaReciboBLL;
+import IPVC.BLL.UtilizadorBLL;
 import IPVC.DAL.Entidade;
 import IPVC.DAL.LinhaRecibo;
+import IPVC.DAL.Utilizador;
+import IPVC.views.Session;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -47,6 +50,8 @@ public class clientController {
     private TableColumn<Entidade, String> cpColumn;
     @FXML
     private TextField searchTF;
+
+    private final Utilizador currentUser = Session.getInstance().getCurrentUser();
     @FXML
     private void initialize() {
         List<Entidade> clientes = EntidadeBLL.getEntities(2);
@@ -188,12 +193,21 @@ public class clientController {
         }
     }
     public void backButtonOnAction(ActionEvent event) throws IOException {
+        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1){
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/mAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
         stage.setTitle("Menu Admin");
         stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/mGestor.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Gestor ");
+            stage.show();
+        }
     }
     public void logoutButtonOnAction(ActionEvent event) throws IOException {
         ButtonType confirmButtonType = new ButtonType("Confirmar", ButtonBar.ButtonData.OK_DONE);
@@ -216,60 +230,124 @@ public class clientController {
         }
     }
     public void providerButtonOnAction(ActionEvent event) throws IOException {
+        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1){
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Provider/providerAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Clientes");
+        stage.setTitle("Menu Admin - Fornecedores");
         stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/Provider/providerGestor.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Gestor - Fornecedores");
+            stage.show();
+        }
+
     }
     public void productButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Product/productAdmin.fxml"));
-        Scene regCena = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Produtos");
-        stage.show();
+        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1) {
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Product/productAdmin.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Admin - Produtos");
+            stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/Product/productGestor.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Gestor - Produtos");
+            stage.show();
+        }
     }
     public void productionButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Production/productionAdmin.fxml"));
-        Scene regCena = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Produção");
-        stage.show();
+        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1) {
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Production/productionAdmin.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Admin - Produção");
+            stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/Production/productionGestor.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Gestor - Produção");
+            stage.show();
+        }
     }
     public void packagingButtonOnAction(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Packaging/packagingAdmin.fxml"));
-        Scene regCena = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(regCena);
-        stage.setTitle("Menu Admin - Embalamento");
-        stage.show();
+        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1) {
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Packaging/packagingAdmin.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Admin - Embalamento");
+            stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/Packaging/packagingGestor.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Gestor - Embalamento");
+            stage.show();
+        }
     }
     public void purchaseButtonOnAction(ActionEvent event) throws IOException {
+        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1) {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Purchase/purchaseAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Compras");
         stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/Purchase/purchaseGestor.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Gestor - Compras");
+            stage.show();
+        }
     }
     public void salesButtonOnAction(ActionEvent event) throws IOException {
+        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1) {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Sales/salesAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Vendas");
         stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/Sales/salesGestor.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Gestor - Vendas");
+            stage.show();
+        }
     }
     public void employeesButtonOnAction(ActionEvent event) throws IOException {
+        if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 1) {
         Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Admin/Employees/employeeAdmin.fxml"));
         Scene regCena = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(regCena);
         stage.setTitle("Menu Admin - Funcionário");
         stage.show();
+        }else if(currentUser.getTipoUtilizador().getId_TipoUtilizador() == 2){
+            Parent root = FXMLLoader.load(getClass().getResource("/IPVC/views/Gestor/Employees/employeeGestor.fxml"));
+            Scene regCena = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(regCena);
+            stage.setTitle("Menu Gestor - Funcionário");
+            stage.show();
+        }
     }
     private void updateDataView(List<Entidade> clientes) {
         Collections.sort(clientes, Comparator.comparingInt(cliente -> cliente.getId_Entidade()));
