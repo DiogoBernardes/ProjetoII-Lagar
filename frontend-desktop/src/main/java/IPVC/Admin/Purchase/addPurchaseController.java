@@ -72,20 +72,22 @@ public class addPurchaseController {
         for (TipoProduto tipo : tiposProduto) {
             tiposProdutoDescricoes.add(tipo.getDescricao());
         }
-        fornecedorCB.setItems(fornecedor);
-        pagamentoCB.setItems(pagamento);
-        tipoProdutoCB.setItems(tiposProdutoDescricoes);
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         Date dataAtual = new Date();
         String dataFormatada = sdf.format(dataAtual);
+
+        fornecedorCB.setItems(fornecedor);
+        pagamentoCB.setItems(pagamento);
+        tipoProdutoCB.setItems(tiposProdutoDescricoes);
         dataTF.setText(dataFormatada);
         utilizadorTF.setText(currentUser.getNome());
         quantidadeTF.setText("0");
-        valorUnitarioTF.setText("0");
 
         // Adiciona listeners para atualizar o valor final
         quantidadeTF.textProperty().addListener((observable, oldValue, newValue) -> {
             atualizarValor();
+            atualizarValorFinal();
         });
 
         valorTF.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -119,6 +121,7 @@ public class addPurchaseController {
         double valor = Double.parseDouble(valorTF.getText());
         double valorFinal = valor * 1.23;
         valorFinalTF.setText(String.format(Locale.US, "%.2f", valorFinal));
+
     }
 
 
@@ -196,7 +199,7 @@ public class addPurchaseController {
                 newFatura.setData(data);
                 newFatura.setValor(Double.parseDouble(valorTF.getText()));
                 newFatura.setIva(1.23);
-                newFatura.setValor_Total(Double.parseDouble(valorTF.getText()) * 1.23);
+                newFatura.setValor_Total(Double.parseDouble(valorFinalTF.getText()));
                 newFatura.setTipoPagamento(pagamento);
 
                 newLinhaFatura.setProduto(produto);
@@ -244,7 +247,7 @@ public class addPurchaseController {
             newFatura.setData(data);
             newFatura.setValor(Double.parseDouble(valorTF.getText()));
             newFatura.setIva(1.23);
-            newFatura.setValor_Total(Double.parseDouble(valorTF.getText()) * 1.23);
+            newFatura.setValor_Total(newFatura.getValor() * 1.23);
             newFatura.setTipoPagamento(pagamento);
 
             newLinhaFatura.setProduto(produto);

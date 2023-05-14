@@ -72,12 +72,11 @@ public class addSalesController {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         Date dataAtual = new Date();
-
+        String dataFormatada = sdf.format(dataAtual);
 
         clienteCB.setItems(cliente);;
         pagamentoCB.setItems(pagamento);
         tipoProdutoCB.setItems(tiposProdutoDescricoes);
-        String dataFormatada = sdf.format(dataAtual);
         dataTF.setText(dataFormatada);
         quantidadeTF.setText("0");
 
@@ -90,7 +89,6 @@ public class addSalesController {
         valorTF.textProperty().addListener((observable, oldValue, newValue) -> {
             atualizarValorFinal();
         });
-
         produtoCB.valueProperty().addListener((observable, oldValue, newValue) -> {
             atualizarPrecoUnitario();
         });

@@ -91,6 +91,7 @@ public class editPurchaseController {
         // Adiciona listeners para atualizar o valor final
         quantidadeTF.textProperty().addListener((observable, oldValue, newValue) -> {
             atualizarValor();
+            atualizarValorFinal();
         });
 
         valorTF.textProperty().addListener((observable, oldValue, newValue) -> {
