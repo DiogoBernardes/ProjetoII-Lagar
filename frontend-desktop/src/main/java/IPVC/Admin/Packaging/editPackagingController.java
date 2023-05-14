@@ -32,8 +32,6 @@ public class editPackagingController {
     @FXML
     private TextField dataTF;
     @FXML
-    private TextField acidezTF;
-    @FXML
     private Button closeButton;
     @FXML
     private Label Details;
@@ -82,14 +80,33 @@ public class editPackagingController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         dataTF.setText(sdf.format(embalamentos.getData()));
     }
-
-
     @FXML
     private void updateProduction(ActionEvent event) throws IOException, ParseException {
-       if (embalamento != null && produto != null) {
+
+        String prodNome= produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod = ProdutoBLL.getName(prodNome);
+        int prodQuantidade = prod.getQuantidade();
+        int qtdInserida = Integer.parseInt(quantidadeTF.getText());
+
+
+        if (embalamento == null || produto == null) {
+
+           Details.getStyleClass().add("valid-details");
+           Details.setText("Erro na edição do embalamento!");
+           PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+           pause.setOnFinished(e -> {
+               Details.setText("");
+               Details.getStyleClass().removeAll("invalid-details-error");
+           });
+           pause.play();
+
+
+       }
+
+        if(qtdInserida <= prodQuantidade) {
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             Date data = sdf.parse(dataTF.getText());
-
 
             String produtoMPNome = produtoCB.getSelectionModel().getSelectedItem();
             String produtoFinalNome = produtoFCB.getSelectionModel().getSelectedItem();
@@ -116,18 +133,18 @@ public class editPackagingController {
                 Details.getStyleClass().removeAll("invalid-details-error");
             });
             pause.play();
-       }else{
-           Details.getStyleClass().add("valid-details");
-           Details.setText("Erro na edição do embalamento!");
-           PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-           pause.setOnFinished(e -> {
-               Details.setText("");
-               Details.getStyleClass().removeAll("invalid-details-error");
-           });
-           pause.play();
-       }
+        }else{
+            Details.getStyleClass().add("invalid-details-error");
+            Details.setText("Não existe stock suficiente desse produto!");
+            quantidadeTF.getStyleClass().add("TF-EmptyLogin");
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.setOnFinished(e -> {
+                Details.setText("");
+                quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
+            });
+            pause.play();
+        }
     }
-
     public void closeButtonOnAction(ActionEvent event) throws IOException {
         Stage dialogStage = (Stage) closeButton.getScene().getWindow();
         dialogStage.close();

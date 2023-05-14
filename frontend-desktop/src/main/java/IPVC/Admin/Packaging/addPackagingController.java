@@ -71,8 +71,37 @@ public class addPackagingController {
     }
 
     public void addPackagingButtonOnAction(ActionEvent event) throws IOException, ParseException {
-        if (!produtoCB.getValue().isEmpty() || !produtoFCB.getValue().isEmpty() || !quantidadeTF.getText().isEmpty() || !qtdProdTF.getText().isEmpty()){
 
+        String prodNome= produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod = ProdutoBLL.getName(prodNome);
+        int prodQuantidade = prod.getQuantidade();
+        int qtdInserida = Integer.parseInt(quantidadeTF.getText());
+
+
+        if (produtoCB.getValue().isEmpty() || produtoFCB.getValue().isEmpty() || quantidadeTF.getText().isEmpty() || qtdProdTF.getText().isEmpty()){
+
+            Details.getStyleClass().add("invalid-details-error");
+            Details.setText("Os dados do embalamento são necessários!");
+            produtoCB.getStyleClass().add("TF-EmptyLogin");
+            produtoFCB.getStyleClass().add("TF-EmptyLogin");
+            qtdProdTF.getStyleClass().add("TF-EmptyLogin");
+            quantidadeTF.getStyleClass().add("TF-EmptyLogin");
+            dataTF.getStyleClass().add("TF-EmptyLogin");
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.setOnFinished(e -> {
+                Details.setText("");
+                Details.getStyleClass().removeAll("invalid-details-error");
+                produtoCB.getStyleClass().removeAll("TF-EmptyLogin");
+                produtoFCB.getStyleClass().removeAll("TF-EmptyLogin");
+                qtdProdTF.getStyleClass().removeAll("TF-EmptyLogin");
+                quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
+                dataTF.getStyleClass().removeAll("TF-EmptyLogin");
+            });
+            pause.play();
+        }
+
+
+        if(qtdInserida <= prodQuantidade) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             Date data = sdf.parse(dataTF.getText());
             String produtoEMBNome = produtoCB.getSelectionModel().getSelectedItem();
@@ -110,23 +139,14 @@ public class addPackagingController {
                 Details.getStyleClass().removeAll("invalid-details-error");
             });
             pause.play();
-        }else {
+        }else{
             Details.getStyleClass().add("invalid-details-error");
-            Details.setText("Os dados do embalamento são necessários!");
-            produtoCB.getStyleClass().add("TF-EmptyLogin");
-            produtoFCB.getStyleClass().add("TF-EmptyLogin");
-            qtdProdTF.getStyleClass().add("TF-EmptyLogin");
+            Details.setText("Não existe stock suficiente desse produto!");
             quantidadeTF.getStyleClass().add("TF-EmptyLogin");
-            dataTF.getStyleClass().add("TF-EmptyLogin");
             PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
             pause.setOnFinished(e -> {
                 Details.setText("");
-                Details.getStyleClass().removeAll("invalid-details-error");
-                produtoCB.getStyleClass().removeAll("TF-EmptyLogin");
-                produtoFCB.getStyleClass().removeAll("TF-EmptyLogin");
-                qtdProdTF.getStyleClass().removeAll("TF-EmptyLogin");
                 quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
-                dataTF.getStyleClass().removeAll("TF-EmptyLogin");
             });
             pause.play();
         }

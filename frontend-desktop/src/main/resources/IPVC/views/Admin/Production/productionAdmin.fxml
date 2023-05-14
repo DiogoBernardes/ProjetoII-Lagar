@@ -130,15 +130,15 @@
                   <TableColumn fx:id="dataColumn" prefWidth="105.0" style="-fx-background-color: #D8D0BA;" text="Data Emissão" />
                 </columns>
             </TableView>
-            <Button fx:id="removeButton" layoutX="624.0" layoutY="50.0" mnemonicParsing="false" onAction="#removeButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #DF4B49;" text="Remover" textFill="WHITE" />
+            <Button fx:id="removeButton" layoutX="644.0" layoutY="50.0" mnemonicParsing="false" onAction="#removeButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #DF4B49;" text="Remover" textFill="WHITE" />
             <Label layoutX="47.0" layoutY="14.0" text="Produção" textOverrun="CLIP" underline="true">
                 <font>
                     <Font name="Arial Bold Italic" size="18.0" />
                 </font>
             </Label>
             <TextField fx:id="searchTF" layoutX="14.0" layoutY="50.0" prefHeight="26.0" prefWidth="376.0" />
-            <Button fx:id="editButton" layoutX="539.0" layoutY="50.0" mnemonicParsing="false" onAction="#editButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #497DDF;" text="Editar" textFill="WHITE" />
-            <Button layoutX="456.0" layoutY="50.0" mnemonicParsing="false" onAction="#addButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #489617;" text="Adicionar" textFill="WHITE" />
+            <Button fx:id="editButton" layoutX="553.0" layoutY="50.0" mnemonicParsing="false" onAction="#editButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #497DDF;" text="Editar" textFill="WHITE" />
+            <Button layoutX="460.0" layoutY="50.0" mnemonicParsing="false" onAction="#addButtonOnAction" prefHeight="26.0" prefWidth="74.0" style="-fx-background-color: #489617;" text="Adicionar" textFill="WHITE" />
             <Button fx:id="back" layoutX="3.0" layoutY="10.0" mnemonicParsing="false" onAction="#backButtonOnAction" style="-fx-background-color: #D8D0BA;">
                 <graphic>
                     <ImageView fitHeight="21.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
@@ -157,6 +157,7 @@
                     </ImageView>
                 </graphic>
             </Button>
+            <Button fx:id="addProdButton" layoutX="460.0" layoutY="11.0" mnemonicParsing="false" onAction="#addMoreProductsButtonOnAction" prefHeight="26.0" prefWidth="257.0" style="-fx-background-color: #489617;" text="Adicionar Produto a um Embalamento" textFill="WHITE" />
         </children>
     </AnchorPane>
 </center>

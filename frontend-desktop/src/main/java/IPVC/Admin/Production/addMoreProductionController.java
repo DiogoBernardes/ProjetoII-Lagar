@@ -2,7 +2,6 @@ package IPVC.Admin.Production;
 
 import IPVC.BLL.*;
 import IPVC.DAL.*;
-import IPVC.views.Session;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,84 +17,95 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
-public class addProductionController {
-
+public class addMoreProductionController {
+    @FXML
+    private ComboBox<Producao> producaoCB;
     @FXML
     private ComboBox<String> produtoCB;
     @FXML
     private TextField quantidadeTF;
     @FXML
-    private ComboBox<String> produtoFCB;
+    private TextField produtoFTF;
     @FXML
     private TextField qtdProdTF;
     @FXML
     private TextField dataTF;
     @FXML
     private TextField acidezTF;
-
     @FXML
     private Button closeButton;
     @FXML
     private Label Details;
 
+
     @FXML
     private void initialize() throws IOException{
-        List<Produto> prodMP = ProdutoBLL.getTypeProduct(1);
+        List<Produto> prod = ProdutoBLL.getTypeProduct(1);
         List<Produto> prodFinal = ProdutoBLL.getTypeProduct(2);
+        List<Producao> producao = ProducaoBLL.index();
 
-        ObservableList<String> produtoMP = FXCollections.observableArrayList();
+        ObservableList<String> prodMP = FXCollections.observableArrayList();
         ObservableList<String> produtoF = FXCollections.observableArrayList();
+        ObservableList<Producao> producaoList = FXCollections.observableArrayList();
 
-        for (Produto p : prodMP) {
-            produtoMP.add(p.getNome());
+        Collections.sort(producao, Comparator.comparingInt(Producao::getId_Producao));
+
+        for (Produto p : prod) {
+            prodMP.add(p.getNome());
         }
         for (Produto p : prodFinal) {
             produtoF.add(p.getNome());
         }
+        for(Producao p : producao){
+            producaoList.add(p);
+        }
 
-        produtoCB.setItems(produtoMP);
+        produtoCB.setItems(prodMP);
         quantidadeTF.setText("0");
-        produtoFCB.setItems(produtoF);
-        qtdProdTF.setText("0");
-        acidezTF.setText("0");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        Date dataAtual = new Date();
-        String dataFormatada = sdf.format(dataAtual);
-        dataTF.setText(dataFormatada);
-
+        producaoCB.setItems(producaoList);
+        producaoCB.setOnAction(event -> {
+            Producao selectedProducao = producaoCB.getSelectionModel().getSelectedItem();
+            if (selectedProducao != null) {
+                produtoFTF.setText(selectedProducao.getProduto().getNome());
+                qtdProdTF.setText(String.valueOf(selectedProducao.getQtd_Produzida()));
+                acidezTF.setText(String.valueOf(selectedProducao.getAcidez()));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                dataTF.setText(sdf.format(selectedProducao.getData()));
+            }
+        });
     }
-
     public void addProductionButtonOnAction(ActionEvent event) throws IOException, ParseException {
+
         String prodNome= produtoCB.getSelectionModel().getSelectedItem();
         Produto prod = ProdutoBLL.getName(prodNome);
         int prodQuantidade = prod.getQuantidade();
         int qtdInserida = Integer.parseInt(quantidadeTF.getText());
 
 
-        if (produtoCB.getValue().isEmpty() || produtoFCB.getValue().isEmpty() || quantidadeTF.getText().isEmpty() ||
-                qtdProdTF.getText().isEmpty() || acidezTF.getText().isEmpty()){
+        if (produtoCB.getValue().isEmpty() || quantidadeTF.getText().isEmpty() || (producaoCB.getValue() == null)){
 
             Details.getStyleClass().add("invalid-details-error");
-            Details.setText("Os dados da produção são necessários!");
+            Details.setText("Os dados de Embalamento são necessários!");
             produtoCB.getStyleClass().add("TF-EmptyLogin");
-            produtoFCB.getStyleClass().add("TF-EmptyLogin");
+            produtoFTF.getStyleClass().add("TF-EmptyLogin");
             qtdProdTF.getStyleClass().add("TF-EmptyLogin");
             quantidadeTF.getStyleClass().add("TF-EmptyLogin");
-            acidezTF.getStyleClass().add("TF-EmptyLogin");
             dataTF.getStyleClass().add("TF-EmptyLogin");
+            producaoCB.getStyleClass().add("TF-EmptyLogin");
             PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
             pause.setOnFinished(e -> {
                 Details.setText("");
                 Details.getStyleClass().removeAll("invalid-details-error");
                 produtoCB.getStyleClass().removeAll("TF-EmptyLogin");
-                produtoFCB.getStyleClass().removeAll("TF-EmptyLogin");
+                produtoFTF.getStyleClass().removeAll("TF-EmptyLogin");
                 qtdProdTF.getStyleClass().removeAll("TF-EmptyLogin");
                 quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
-                acidezTF.getStyleClass().removeAll("TF-EmptyLogin");
+                producaoCB.getStyleClass().removeAll("TF-EmptyLogin");
                 dataTF.getStyleClass().removeAll("TF-EmptyLogin");
             });
             pause.play();
@@ -104,37 +114,27 @@ public class addProductionController {
         }
 
         if(qtdInserida <= prodQuantidade) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            Date data = sdf.parse(dataTF.getText());
+
             String produtoMPNome = produtoCB.getSelectionModel().getSelectedItem();
-            String produtoFinalNome = produtoFCB.getSelectionModel().getSelectedItem();
-            Produto produtomp = ProdutoBLL.getName(produtoMPNome);
-            Produto produtoFinal = ProdutoBLL.getName(produtoFinalNome);
+            Produto produtoMP = ProdutoBLL.getName(produtoMPNome);
+            Producao producao = producaoCB.getSelectionModel().getSelectedItem();
 
-
-            Producao newProducao = new Producao();
             ProdutoMP newProdutoMP = new ProdutoMP();
-            newProducao.setProduto(produtoFinal);
-            newProducao.setQtd_Produzida(Integer.parseInt(qtdProdTF.getText()));
-            newProducao.setData(data);
-            newProducao.setAcidez(Double.parseDouble(acidezTF.getText()));
 
-            newProdutoMP.setProduto(produtomp);
+            newProdutoMP.setProduto(produtoMP);
             newProdutoMP.setQuantidade(Integer.parseInt(quantidadeTF.getText()));
-            newProdutoMP.setProducao(newProducao);
+            newProdutoMP.setProducao(producao);
 
-
-            ProducaoBLL.create(newProducao);
             ProdutoMPBLL.create(newProdutoMP);
 
             Details.getStyleClass().add("valid-details");
-            Details.setText("Produção inserida com Sucesso!");
+            Details.setText("Produto adicionado ao embalamento com Sucesso!");
             produtoCB.setValue("");
             quantidadeTF.setText("");
             qtdProdTF.setText("");
-            produtoFCB.setValue("");
-            acidezTF.setText("");
+            produtoFTF.setText("");
             dataTF.setText("");
+            producaoCB.setValue(null);
 
             PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
             pause.setOnFinished(e -> {
@@ -142,7 +142,7 @@ public class addProductionController {
                 Details.getStyleClass().removeAll("invalid-details-error");
             });
             pause.play();
-        } else{
+        }else{
             Details.getStyleClass().add("invalid-details-error");
             Details.setText("Não existe stock suficiente desse produto!");
             quantidadeTF.getStyleClass().add("TF-EmptyLogin");
@@ -153,9 +153,7 @@ public class addProductionController {
             });
             pause.play();
         }
-
     }
-
     public void closeButtonOnAction(ActionEvent event) throws IOException {
         Stage dialogStage = (Stage) closeButton.getScene().getWindow();
         dialogStage.close();

@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="405.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Packaging.addMorePackagingController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="405.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Production.addMoreProductionController">
    <top>
       <BorderPane prefHeight="54.0" prefWidth="418.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <center>
-            <Label text="Adicionar Produto ao Embalamento" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label text="Adicionar Produto à Produção" textFill="WHITE" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
@@ -23,7 +23,12 @@
    <left>
       <AnchorPane prefHeight="350.0" prefWidth="406.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="22.0" layoutY="38.0" text="Produto Embalamento">
+            <Label layoutX="22.0" layoutY="37.0" text="Produto Matéria Prima">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="171.0" layoutY="162.0" text="Acidez">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -38,12 +43,12 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="addButton" layoutX="82.0" layoutY="260.0" mnemonicParsing="false" onAction="#addProductionButtonOnAction" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Adicionar">
+            <Button fx:id="addButton" layoutX="74.0" layoutY="259.0" mnemonicParsing="false" onAction="#addProductionButtonOnAction" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Adicionar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="closeButton" layoutX="225.0" layoutY="260.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="90.0" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar">
+            <Button fx:id="closeButton" layoutX="217.0" layoutY="259.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="90.0" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -56,8 +61,8 @@
             <ComboBox fx:id="produtoCB" layoutX="22.0" layoutY="55.0" prefHeight="26.0" prefWidth="190.0" style="-fx-background-color: #F0E5D8;" />
             <TextField fx:id="quantidadeTF" layoutX="232.0" layoutY="54.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #F0E5D8;" />
             <TextField fx:id="qtdProdTF" disable="true" layoutX="233.0" layoutY="115.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #F0E5D8;" />
-            <TextField fx:id="dataTF" disable="true" layoutX="233.0" layoutY="178.0" prefHeight="26.0" prefWidth="155.0" style="-fx-background-color: #F0E5D8;" />
-            <Label layoutX="233.0" layoutY="162.0" text="Data Emissão">
+            <TextField fx:id="dataTF" disable="true" layoutX="271.0" layoutY="178.0" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="271.0" layoutY="162.0" text="Data Emissão">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -67,8 +72,9 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="embalamentoCB" layoutX="22.0" layoutY="178.0" prefHeight="26.0" prefWidth="190.0" style="-fx-background-color: #F0E5D8;" />
-            <Label layoutX="20.0" layoutY="162.0" text="Embalamento">
+            <TextField fx:id="acidezTF" disable="true" layoutX="171.0" layoutY="179.0" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #F0E5D8;" />
+            <ComboBox fx:id="producaoCB" layoutX="22.0" layoutY="179.0" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="22.0" layoutY="162.0" text="Produção">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>

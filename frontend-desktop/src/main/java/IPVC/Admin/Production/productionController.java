@@ -3,10 +3,7 @@ package IPVC.Admin.Production;
 import IPVC.Admin.Employees.editEmployeesController;
 import IPVC.Admin.Purchase.editPurchaseController;
 import IPVC.BLL.*;
-import IPVC.DAL.LinhaFatura;
-import IPVC.DAL.LinhaRecibo;
-import IPVC.DAL.Producao;
-import IPVC.DAL.ProdutoMP;
+import IPVC.DAL.*;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -110,6 +107,20 @@ public class productionController {
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
         dialogStage.setTitle("Adicionar Produção");
+        dialogStage.setScene(scene);
+        dialogStage.showAndWait();
+
+        List<ProdutoMP> produtoMPS = ProdutoMPBLL.index();
+        updateDataView(produtoMPS);
+    }
+    public void addMoreProductsButtonOnAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Production/addMoreProduction.fxml"));
+        Parent parent = fxmlLoader.load();
+        Scene scene = new Scene(parent);
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+        dialogStage.setTitle("Adicionar Produto a uma produção");
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
 

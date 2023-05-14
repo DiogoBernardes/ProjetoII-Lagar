@@ -11,10 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -84,7 +81,7 @@ public class addPurchaseController {
         dataTF.setText(dataFormatada);
         utilizadorTF.setText(currentUser.getNome());
         quantidadeTF.setText("0");
-        valorUnitarioTF.setText("0  ");
+        valorUnitarioTF.setText("0");
 
         // Adiciona listeners para atualizar o valor final
         quantidadeTF.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -112,10 +109,9 @@ public class addPurchaseController {
         }
         produtoCB.setItems(produto);
     }
-
     private void atualizarValor(){
 
-        Double valor = Integer.parseInt(valorUnitarioTF.getText())* Double.parseDouble(quantidadeTF.getText());
+        Double valor = Double.parseDouble(valorUnitarioTF.getText())* Double.parseDouble(quantidadeTF.getText());
 
         valorTF.setText(String.format(Locale.US, "%.2f", valor));
     }
@@ -126,9 +122,112 @@ public class addPurchaseController {
     }
 
 
-    //Problemas com a linhaFatura,diz que o Id_Produto não existe..
     public void addPurchaseButtonOnAction(ActionEvent event) throws IOException, ParseException {
-        if (!produtoCB.getValue().isEmpty() || !fornecedorCB.getValue().isEmpty() || !quantidadeTF.getText().isEmpty() || !pagamentoCB.getValue().isEmpty()) {
+        String prodNome= produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod = ProdutoBLL.getName(prodNome);
+        if(prod == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Nenhum produto selecionado");
+            alert.setContentText("Por favor, selecione um produto válido.");
+            alert.showAndWait();
+            return;
+        }
+        double prodPrecoUnitario = prod.getValor_Unitario();
+        double precoUnitarioInserido = Double.parseDouble(quantidadeTF.getText());
+
+
+        if (produtoCB.getValue() == null || fornecedorCB.getValue() == null || quantidadeTF.getText().isEmpty() || pagamentoCB.getValue() == null) {
+
+            Details.getStyleClass().add("invalid-details-error");
+            Details.setText("Os dados da Fatura são necessários!");
+            produtoCB.getStyleClass().add("TF-EmptyLogin");
+            valorTF.getStyleClass().add("TF-EmptyLogin");
+            quantidadeTF.getStyleClass().add("TF-EmptyLogin");
+            valorFinalTF.getStyleClass().add("TF-EmptyLogin");
+            dataTF.getStyleClass().add("TF-EmptyLogin");
+            fornecedorCB.getStyleClass().add("TF-EmptyLogin");
+            utilizadorTF.getStyleClass().add("TF-EmptyLogin");
+            pagamentoCB.getStyleClass().add("TF-EmptyLogin");
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.setOnFinished(e -> {
+                Details.setText("");
+                Details.getStyleClass().removeAll("invalid-details-error");
+                produtoCB.getStyleClass().removeAll("TF-EmptyLogin");
+                valorTF.getStyleClass().removeAll("TF-EmptyLogin");
+                quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
+                valorFinalTF.getStyleClass().removeAll("TF-EmptyLogin");
+                dataTF.getStyleClass().removeAll("TF-EmptyLogin");
+                fornecedorCB.getStyleClass().removeAll("TF-EmptyLogin");
+                utilizadorTF.getStyleClass().removeAll("TF-EmptyLogin");
+                pagamentoCB.getStyleClass().removeAll("TF-EmptyLogin");
+            });
+            pause.play();
+
+
+
+        }
+
+        if(precoUnitarioInserido >= prodPrecoUnitario){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aviso Preço Produto");
+            alert.setHeaderText("O preço pela qual vai comprar esse produto é superior ou igual ao seu preço de venda (" +  prod.getNome() + ": " +
+                    prod.getValor_Unitario() +"€)\n, tem a certeza que deseja continuar a compra? ");
+
+            ButtonType okButton = new ButtonType("Sim", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelButton = new ButtonType("Não", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(okButton, cancelButton);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == okButton) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                Date data = sdf.parse(dataTF.getText());
+                String fornecedorNome = fornecedorCB.getSelectionModel().getSelectedItem();
+                String pagamentoDescricao = pagamentoCB.getSelectionModel().getSelectedItem();
+                String produtoNome = produtoCB.getSelectionModel().getSelectedItem();
+                Entidade fornecedor = EntidadeBLL.getEntityByName(fornecedorNome);
+                TipoPagamento pagamento = TipoPagamentoBLL.getPaymentByDescription(pagamentoDescricao);
+                Produto produto = ProdutoBLL.getName(produtoNome);
+
+                Fatura newFatura = new Fatura();
+                LinhaFatura newLinhaFatura = new LinhaFatura();
+                newFatura.setEntidade(fornecedor);
+                newFatura.setUtilizador(currentUser);
+                newFatura.setData(data);
+                newFatura.setValor(Double.parseDouble(valorTF.getText()));
+                newFatura.setIva(1.23);
+                newFatura.setValor_Total(Double.parseDouble(valorTF.getText()) * 1.23);
+                newFatura.setTipoPagamento(pagamento);
+
+                newLinhaFatura.setProduto(produto);
+                newLinhaFatura.setQuantidade(Integer.parseInt(quantidadeTF.getText()));
+                newLinhaFatura.setValor(Double.parseDouble(valorTF.getText()));
+                newLinhaFatura.setFatura(newFatura);
+
+                FaturaBLL.create(newFatura);
+                LinhaFaturaBLL.create(newLinhaFatura);
+
+                Details.getStyleClass().add("valid-details");
+                Details.setText("Fatura inserida com Sucesso!");
+                produtoCB.setValue("");
+                valorTF.setText("");
+                valorFinalTF.setText("");
+                quantidadeTF.setText("");
+                dataTF.setText("");
+                fornecedorCB.setValue("");
+                utilizadorTF.setText("");
+                pagamentoCB.setValue("");
+
+                PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+                pause.setOnFinished(e -> {
+                    Details.setText("");
+                    Details.getStyleClass().removeAll("invalid-details-error");
+                });
+                pause.play();
+            } else {
+                alert.close();
+            }
+        }else {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             Date data = sdf.parse(dataTF.getText());
             String fornecedorNome = fornecedorCB.getSelectionModel().getSelectedItem();
@@ -171,31 +270,6 @@ public class addPurchaseController {
             pause.setOnFinished(e -> {
                 Details.setText("");
                 Details.getStyleClass().removeAll("invalid-details-error");
-            });
-            pause.play();
-        }else {
-            Details.getStyleClass().add("invalid-details-error");
-            Details.setText("Os dados da Fatura são necessários!");
-            produtoCB.getStyleClass().add("TF-EmptyLogin");
-            valorTF.getStyleClass().add("TF-EmptyLogin");
-            quantidadeTF.getStyleClass().add("TF-EmptyLogin");
-            valorFinalTF.getStyleClass().add("TF-EmptyLogin");
-            dataTF.getStyleClass().add("TF-EmptyLogin");
-            fornecedorCB.getStyleClass().add("TF-EmptyLogin");
-            utilizadorTF.getStyleClass().add("TF-EmptyLogin");
-            pagamentoCB.getStyleClass().add("TF-EmptyLogin");
-            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-            pause.setOnFinished(e -> {
-                Details.setText("");
-                Details.getStyleClass().removeAll("invalid-details-error");
-                produtoCB.getStyleClass().removeAll("TF-EmptyLogin");
-                valorTF.getStyleClass().removeAll("TF-EmptyLogin");
-                quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
-                valorFinalTF.getStyleClass().removeAll("TF-EmptyLogin");
-                dataTF.getStyleClass().removeAll("TF-EmptyLogin");
-                fornecedorCB.getStyleClass().removeAll("TF-EmptyLogin");
-                utilizadorTF.getStyleClass().removeAll("TF-EmptyLogin");
-                pagamentoCB.getStyleClass().removeAll("TF-EmptyLogin");
             });
             pause.play();
         }

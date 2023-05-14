@@ -78,37 +78,12 @@ public class editProductionController {
 
     @FXML
     private void updateProduction(ActionEvent event) throws IOException, ParseException {
-       if (producao != null && produto != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            Date data = sdf.parse(dataTF.getText());
+        String prodNome = produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod = ProdutoBLL.getName(prodNome);
+        int prodQuantidade = prod.getQuantidade();
+        int qtdInserida = Integer.parseInt(quantidadeTF.getText());
 
-
-            String produtoMPNome = produtoCB.getSelectionModel().getSelectedItem();
-            String produtoFinalNome = produtoFCB.getSelectionModel().getSelectedItem();
-            Produto produtomp = ProdutoBLL.getName(produtoMPNome);
-            Produto produtoFinal = ProdutoBLL.getName(produtoFinalNome);
-
-            producao.setProduto(produtoFinal);
-            producao.setQtd_Produzida(Integer.parseInt(qtdProdTF.getText()));
-            producao.setAcidez(Double.parseDouble(acidezTF.getText()));
-            producao.setData(data);
-
-            produto.setProducao(producao);
-            produto.setProduto(produtomp);
-            produto.setQuantidade(Integer.parseInt(quantidadeTF.getText()));
-
-            ProducaoBLL.update(producao);
-            ProdutoMPBLL.update(produto);
-
-            Details.getStyleClass().add("valid-details");
-            Details.setText("Produção editada com Sucesso!");
-            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
-            pause.setOnFinished(e -> {
-                Details.setText("");
-                Details.getStyleClass().removeAll("invalid-details-error");
-            });
-            pause.play();
-       }else{
+       if (producao == null || produto == null) {
            Details.getStyleClass().add("valid-details");
            Details.setText("Erro na edição da fatura!");
            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
@@ -117,7 +92,52 @@ public class editProductionController {
                Details.getStyleClass().removeAll("invalid-details-error");
            });
            pause.play();
+
        }
+
+       if(qtdInserida <= prodQuantidade) {
+           SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+           Date data = sdf.parse(dataTF.getText());
+
+
+           String produtoMPNome = produtoCB.getSelectionModel().getSelectedItem();
+           String produtoFinalNome = produtoFCB.getSelectionModel().getSelectedItem();
+           Produto produtomp = ProdutoBLL.getName(produtoMPNome);
+           Produto produtoFinal = ProdutoBLL.getName(produtoFinalNome);
+
+           producao.setProduto(produtoFinal);
+           producao.setQtd_Produzida(Integer.parseInt(qtdProdTF.getText()));
+           producao.setAcidez(Double.parseDouble(acidezTF.getText()));
+           producao.setData(data);
+
+           produto.setProducao(producao);
+           produto.setProduto(produtomp);
+           produto.setQuantidade(Integer.parseInt(quantidadeTF.getText()));
+
+           ProducaoBLL.update(producao);
+           ProdutoMPBLL.update(produto);
+
+           Details.getStyleClass().add("valid-details");
+           Details.setText("Produção editada com Sucesso!");
+           PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+           pause.setOnFinished(e -> {
+               Details.setText("");
+               Details.getStyleClass().removeAll("invalid-details-error");
+           });
+           pause.play();
+       } else{
+           Details.getStyleClass().add("invalid-details-error");
+           Details.setText("Não existe stock suficiente desse produto!");
+           quantidadeTF.getStyleClass().add("TF-EmptyLogin");
+           PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+           pause.setOnFinished(e -> {
+               Details.setText("");
+               quantidadeTF.getStyleClass().removeAll("TF-EmptyLogin");
+           });
+           pause.play();
+       }
+
+
     }
 
     public void closeButtonOnAction(ActionEvent event) throws IOException {

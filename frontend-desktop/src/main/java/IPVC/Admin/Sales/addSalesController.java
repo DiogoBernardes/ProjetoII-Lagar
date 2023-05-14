@@ -133,6 +133,11 @@ public class addSalesController {
 
     public void addSalesButtonOnAction(ActionEvent event) throws IOException, ParseException {
 
+        String prodNome= produtoCB.getSelectionModel().getSelectedItem();
+        Produto prod = ProdutoBLL.getName(prodNome);
+        int prodQuantidade = prod.getQuantidade();
+        int qtdInserida = Integer.parseInt(quantidadeTF.getText());
+
         if (produtoCB.getValue() == null || produtoCB.getValue() == null || clienteCB.getValue() == null ||
                 quantidadeTF.getText().isEmpty() || pagamentoCB.getValue() == null){
             Details.getStyleClass().add("invalid-details-error");
@@ -164,10 +169,6 @@ public class addSalesController {
 
         }
 
-        String prodNome= produtoCB.getSelectionModel().getSelectedItem();
-        Produto prod = ProdutoBLL.getName(prodNome);
-        int prodQuantidade = prod.getQuantidade();
-        int qtdInserida = Integer.parseInt(quantidadeTF.getText());
 
         if(qtdInserida <= prodQuantidade) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");

@@ -82,4 +82,9 @@ public class Producao {
     public void setDeleted_on(Timestamp deleted_on) {
         this.deleted_on = deleted_on;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(id_Producao);
+    }
 }
