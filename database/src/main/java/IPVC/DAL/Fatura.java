@@ -71,7 +71,7 @@ public class Fatura {
         return Valor_Total;
     }
     public void setValor_Total(double Valor_Total) {
-        Valor_Total = Valor_Total;
+        this.Valor_Total = Valor_Total;
     }
     public double getIva() {
         return iva;

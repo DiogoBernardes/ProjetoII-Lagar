@@ -55,7 +55,7 @@ public class clientController {
     @FXML
     private void initialize() {
         List<Entidade> clientes = EntidadeBLL.getEntities(2);
-        Collections.sort(clientes, Comparator.comparingInt(cliente -> cliente.getId_Entidade()));
+        Collections.sort(clientes, Comparator.comparingInt(Entidade::getId_Entidade));
         ObservableList<Entidade> data = FXCollections.observableArrayList(clientes);
 
         dataView.setItems(data);
@@ -351,7 +351,8 @@ public class clientController {
     }
     private void updateDataView(List<Entidade> clientes) {
         Collections.sort(clientes, Comparator.comparingInt(cliente -> cliente.getId_Entidade()));
-        ObservableList<Entidade> data = FXCollections.observableArrayList(clientes);
+        List<Entidade> cliente = EntidadeBLL.getEntities(2);
+        ObservableList<Entidade> data = FXCollections.observableArrayList(cliente);
         dataView.setItems(data);
         dataView.refresh();
     }

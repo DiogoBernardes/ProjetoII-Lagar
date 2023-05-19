@@ -348,7 +348,8 @@ public class providerController {
     }
     private void updateDataView(List<Entidade> clientes) {
         Collections.sort(clientes, Comparator.comparingInt(entidade -> entidade.getId_Entidade()));
-        ObservableList<Entidade> data = FXCollections.observableArrayList(clientes);
+        List<Entidade> fornecedor = EntidadeBLL.getEntities(1);
+        ObservableList<Entidade> data = FXCollections.observableArrayList(fornecedor);
         dataView.setItems(data);
         dataView.refresh();
     }

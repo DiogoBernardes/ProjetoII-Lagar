@@ -121,7 +121,6 @@ public class addPurchaseController {
         double valor = Double.parseDouble(valorTF.getText());
         double valorFinal = valor * 1.23;
         valorFinalTF.setText(String.format(Locale.US, "%.2f", valorFinal));
-
     }
 
 
@@ -136,8 +135,7 @@ public class addPurchaseController {
             alert.showAndWait();
             return;
         }
-        double prodPrecoUnitario = prod.getValor_Unitario();
-        double precoUnitarioInserido = Double.parseDouble(quantidadeTF.getText());
+        double precoUnitarioInserido = Double.parseDouble(valorUnitarioTF.getText());
 
 
         if (produtoCB.getValue() == null || fornecedorCB.getValue() == null || quantidadeTF.getText().isEmpty() || pagamentoCB.getValue() == null) {
@@ -171,7 +169,7 @@ public class addPurchaseController {
 
         }
 
-        if(precoUnitarioInserido >= prodPrecoUnitario){
+        if(precoUnitarioInserido >= prod.getValor_Unitario()){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aviso Preço Produto");
             alert.setHeaderText("O preço pela qual vai comprar esse produto é superior ou igual ao seu preço de venda (" +  prod.getNome() + ": " +

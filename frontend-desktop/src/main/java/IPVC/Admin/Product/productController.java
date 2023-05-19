@@ -141,8 +141,8 @@ public class productController {
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remover fornecedor");
-            alert.setHeaderText("Para remover um fornecedor é necessário seleciona-lo na tabela!");
+            alert.setTitle("Remover produto");
+            alert.setHeaderText("Para remover um produto é necessário seleciona-lo na tabela!");
 
             ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 
