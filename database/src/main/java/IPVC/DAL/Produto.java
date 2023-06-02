@@ -35,6 +35,10 @@ public class Produto {
     private int Quantidade;
 
     @Basic
+    @Column(name = "imagem")
+    private String Imagem;
+
+    @Basic
     @Column(name = "deleted_on")
     private Timestamp deleted_on;
     @ManyToOne
@@ -113,5 +117,13 @@ public class Produto {
 
     public void setDeleted_on(Timestamp deleted_on) {
         this.deleted_on = deleted_on;
+    }
+
+    public String getImagem() {
+        return Imagem;
+    }
+
+    public void setImagem(String imagem) {
+        Imagem = imagem;
     }
 }

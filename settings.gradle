@@ -1,4 +1,5 @@
 rootProject.name = "Projeto-Lagar"
 include 'database'
 include 'frontend-desktop'
+include 'frontend-web'
 

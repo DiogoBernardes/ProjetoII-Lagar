@@ -45,7 +45,7 @@ public class addEmployeesController {
     }
 
     public void addEmployeesButtonOnAction(ActionEvent event) throws IOException {
-        if (!nomeTF.getText().isEmpty() || !telemovelTF.getText().isEmpty() || !passwordPF.getText().isEmpty() ||
+        if (!nomeTF.getText().isEmpty() && !telemovelTF.getText().isEmpty() && !passwordPF.getText().isEmpty() &&
                 !tipoUtilizadorCB.getValue().isEmpty()) {
 
             boolean usernameNotExist = UtilizadorBLL.checkUsername(usernameTF.getText());
