@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>AzeiteMax</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script th:src="@{/JS/login.js}" defer></script>
+  <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body class="bg-bege">
+
+<header class="bg-oliveira py-4 relative">
+  <nav class="container mx-auto flex justify-between items-center">
+
+    <a th:href="@{/home}" class="flex items-center">
+      <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mr-5 ml-5">
+      <span class="text-white text-xl font-bold">AzeiteMax</span>
+    </a>
+
+    <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
+      <a th:href="@{/Produto}" class="text-white">Produto</a>
+      <a th:href="@{/Sobre nós}" class="text-white">Empresa</a>
+    </div>
+
+    <div class="flex items-center">
+      <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
+      <a th:if="${session['nomeUtilizador'] != null}" th:text="'Olá, ' + ${session['nomeUtilizador']}" th:href="@{/profile}" class="text-white mr-5"></a>
+
+      <a th:href="@{/Carrinho}">
+        <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-5">
+      </a>
+    </div>
+
+  </nav>
+</header>
+
+
+<form class="flex items-center justify-center mt-20 mb-auto"  th:object="${user}">
+  <div class="flex flex-col items-center bg-bege-escuro rounded-r-2xl w-2/5 h-3/5 p-8 ">
+    <p class="text-4xl mt-5">Perfil</p>
+    <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mt-5">
+
+    <div class="flex flex-row">
+      <div class="flex flex-col mr-20">
+        <a class="mt-8">Nome</a>
+        <input type="text"
+               th:value="${user.nome}"
+               placeholder="Nome"
+               class="border rounded px-6 w-6/6 bg-bege"
+               th:classappend="${#fields.hasErrors('nome')} ? 'border-red' : 'border-green'"/>
+      </div>
+
+      <div class="flex flex-col">
+        <a class="mt-8">NIF</a>
+        <input type="tel"
+               th:value="${user.NIF}"
+               placeholder="NIF"
+               class="border rounded px-6 w-6/6 bg-bege"
+               th:classappend="${#fields.hasErrors('NIF')} ? 'border-red' : 'border-green'"/>
+      </div>
+    </div>
+
+    <div class="flex flex-row">
+      <div class="flex flex-col mr-20">
+        <a class="mt-4">Rua</a>
+        <input type="text"
+               th:value="${user.rua}"
+               placeholder="Rua"
+               class="border rounded px-6 w-6/6 bg-bege"
+               th:classappend="${#fields.hasErrors('rua')} ? 'border-red' : 'border-green'"/>
+      </div>
+
+     <div class="flex flex-col">
+         <a class="mt-4">Nº Porta</a>
+         <input type="tel"
+                th:value="${user.N_Porta}"
+                placeholder="Nº Porta"
+                class="border rounded px-6 w-2/3 bg-bege"
+                th:classappend="${#fields.hasErrors('N_Porta')} ? 'border-red' : 'border-green'"/>
+       </div>
+    </div>
+
+    <div class="flex flex-row">
+      <div class="flex flex-col mr-20">
+        <a class="mt-4">Código Postal</a>
+        <input type="text"
+               pattern="[0-9]{4}-[0-9]{3}"
+               th:value="${user.Cod_Postal}"
+               placeholder="Código Postal"
+               class="border rounded px-6 w-6/6 bg-bege"
+               th:classappend="${#fields.hasErrors('Cod_Postal')} ? 'border-red' : 'border-green'"/>
+      </div>
+
+      <div class="flex flex-col">
+        <a class="mt-4">Telemóvel</a>
+        <input type="tel"
+               pattern="[0-9]{9}"
+               th:value="${user.telemovel}"
+               placeholder="Telemóvel"
+               class="border rounded px-6 w-6/6 bg-bege"
+               th:classappend="${#fields.hasErrors('telemovel')} ? 'border-red' : 'border-green'"/>
+      </div>
+    </div>
+
+
+    <hr class="bg-oliveira h-1 w-60 mt-8">
+
+    <div class="flex flex-row mt-4">
+      <div class="flex flex-col mr-20">
+        <a class="mt-4">Email</a>
+        <input type="email"
+               th:value="${user.email}"
+               placeholder="Email"
+               class="border rounded px-6 w-6/6 bg-bege"
+               th:classappend="${#fields.hasErrors('email')} ? 'border-red' : 'border-green'"/>
+      </div>
+      <div class="flex flex-col ">
+        <a class="mt-4">Username</a>
+        <input type="text"
+               th:value="${user.username}"
+               placeholder="Username"
+               class="border rounded px-6 w-6/6 bg-bege"
+               th:classappend="${#fields.hasErrors('username')} ? 'border-red' : 'border-green'"/>
+      </div>
+    </div>
+
+    <div class="flex flex-row">
+
+      <div class="flex flex-col justify-between">
+        <a class="mt-4">Password</a>
+        <input type="password"
+               th:value="${user.password}"
+               placeholder="Password"
+               class="border rounded px-6 w-6/6 bg-bege"
+               th:classappend="${#fields.hasErrors('password')} ? 'border-red' : 'border-green'"/>
+      </div>
+
+    </div>
+
+    <div class="flex flex-row justify-center">
+      <button class="bg-oliveira border border-oliveira rounded-md p-2 mt-16 mr-20 hover:bg-green-600 hover:border-green-600">Editar</button>
+      <a class="bg-red-300 border border-red-700 rounded-md p-2 mt-16 hover:bg-red-400 hover:border-red-400" th:href="@{/logout}" onclick="logout(event)">Logout</a>
+
+    </div>
+
+  </div>
+</form>
+
+
+</body>
+</html>

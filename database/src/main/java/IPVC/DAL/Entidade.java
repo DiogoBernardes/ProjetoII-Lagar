@@ -18,6 +18,7 @@ import java.util.List;
         @NamedQuery(name = "entidade.getTelemovel", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Telemovel = :Telemovel and entidade.deleted_on = null"),
         @NamedQuery(name = "entidade.getEmail", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Email = :Email and entidade.deleted_on = null"),
         @NamedQuery(name = "entidade.getEntityByName", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Nome = :Nome and entidade.deleted_on = null"),
+        @NamedQuery(name = "entidade.getDataLogin", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Username = :username AND entidade.Password = :pass AND entidade.deleted_on = null"),
 
 })
 public class Entidade {
@@ -49,6 +50,15 @@ public class Entidade {
         @Basic
         @Column(name = "deleted_on")
         private Timestamp deleted_on;
+
+        @Basic
+        @Column(name = "Username")
+        private String Username;
+
+        @Basic
+        @Column(name = "Password")
+        private String Password;
+
         @ManyToOne
         @JoinColumn(name = "Id_TipoEntidade",referencedColumnName = "Id_TipoEntidade")
         private TipoEntidade tipoEntidade;
@@ -137,5 +147,21 @@ public class Entidade {
 
     public void setDeleted_on(Timestamp deleted_on) {
         this.deleted_on = deleted_on;
+    }
+
+    public String getUsername() {
+        return Username;
+    }
+
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
     }
 }

@@ -6,7 +6,8 @@ module.exports = {
         extend: {},
         colors: {
             'oliveira': '#808000',
-            'bege': '#D8D0BA'
+            'bege': '#D8D0BA',
+            'bege-escuro': '#fff8e7 ',
         }
     },
     plugins: [],

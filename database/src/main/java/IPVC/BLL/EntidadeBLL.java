@@ -17,6 +17,11 @@ public class EntidadeBLL {
         return entidades.isEmpty() ? null : entidades.get(0);
     }
 
+    public static Entidade getDataLogin(String username, String password) { return (Entidade) Database.query("entidade.getDataLogin").
+            setParameter("username", username)
+            .setParameter("pass",password)
+            .getResultStream().findFirst().orElse(null); }
+
     public static Entidade getEmail(String Email) {List<Entidade> entidades = Database.query("entidade.getEmail").setParameter("Email", Email).getResultList();
         return entidades.isEmpty() ? null : entidades.get(0);
     }
@@ -64,6 +69,11 @@ public class EntidadeBLL {
     public static boolean checkTelemovel(String telemovel){
         Entidade entidade = getTelemovel(Integer.parseInt(telemovel));
         return entidade == null && telemovel.length() == 9;
+    }
+
+    public static boolean checkLogin(String username, String password){
+        Entidade entidade = getDataLogin(username, password);
+        return entidade != null;
     }
 
 }

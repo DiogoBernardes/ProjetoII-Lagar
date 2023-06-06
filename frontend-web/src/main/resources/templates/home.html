@@ -7,35 +7,56 @@
     <link th:href="@{/main.css}" rel="stylesheet" />
 </head>
 <body class="bg-bege">
+
 <header class="bg-oliveira py-4 relative">
     <nav class="container mx-auto flex justify-between items-center">
-            <a th:href="@{/home}" class="flex items-center">
-                <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mr-5 ml-5">
-                <span class="text-white text-xl font-bold">AzeiteMax</span>
 
-            </a>
-            <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
+        <a th:href="@{/home}" class="flex items-center">
+            <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mr-5 ml-5">
+            <span class="text-white text-xl font-bold">AzeiteMax</span>
+        </a>
+
+        <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
             <a th:href="@{/Produto}" class="text-white">Produto</a>
             <a th:href="@{/Sobre nós}" class="text-white">Empresa</a>
-            </div>
-            <a th:href="@{/Login}" class="text-white mr-5">Login</a>
+        </div>
+
+        <div class="flex items-center">
+            <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
+            <a th:if="${session['nomeUtilizador'] != null}" th:text="'Olá, ' + ${session['nomeUtilizador']}" th:href="@{/profile}" class="text-white mr-5"></a>
+
+            <a th:href="@{/Carrinho}">
+                <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-5">
+            </a>
+        </div>
+
+
     </nav>
 </header>
 
 <div class="flex justify-center">
-    <img th:src="@{/assets/home-image.jpg}" alt="" class="h-[calc(100vh-72px)]">
+    <img th:src="@{/assets/home-image.png}" alt="" class="h-[calc(100vh-72px)]  w-full">
 </div>
 
 
-<ul class="flex flex-wrap mt-24">
+<ul class="flex flex-wrap mt-24 mb-24">
     <li th:each="produto : ${produtos}" class="w-1/3 p-4">
         <div class="flex flex-col items-center">
-            <img th:src="@{${produto.imagem}}" alt="" class="h-40 w-40">
+            <img th:src="@{${produto.imagem}}" alt="" class="h-40 w-40 ">
             <span th:text="${produto.nome}" class="mt-2 text-center text-xl font-bold text-gray-800"></span>
             <span th:text="${produto.valor_Unitario} + '€' " class="mt-2 text-left font-bold text-blue-500"></span>
-            <!-- Outros atributos do produto -->
+            <button class="bg-oliveira border border-oliveira rounded-md p-2 mt-6 hover:border-green-600">Adicionar ao Carrinho</button>
+
         </div>
     </li>
 </ul>
+
 </body>
+<footer class="bg-oliveira py-4 text-white text-center">
+    <div class="container mx-auto">
+        <p class="text-sm">Rua José Avenaldo, Nº 981, Beja</p>
+        <p class="text-sm">Contacto: 253444121</p>
+        <p class="text-sm">© 2023 AzeiteMax. Todos os direitos reservados.</p>
+    </div>
+</footer>
 </html>

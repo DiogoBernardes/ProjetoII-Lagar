@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AzeiteMax</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script th:src="@{/JS/login.js}" defer></script>
+    <link th:href="@{/main.css}" rel="stylesheet"/>
+</head>
+<body class="bg-bege">
+
+<header class="bg-oliveira py-4 relative">
+    <nav class="container mx-auto flex justify-between items-center">
+
+        <a th:href="@{/home}" class="flex items-center">
+            <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mr-5 ml-5">
+            <span class="text-white text-xl font-bold">AzeiteMax</span>
+        </a>
+
+        <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
+            <a th:href="@{/Produto}" class="text-white">Produto</a>
+            <a th:href="@{/Sobre nós}" class="text-white">Empresa</a>
+        </div>
+
+        <div class="flex items-center">
+            <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
+            <span th:if="${session['nomeUtilizador'] != null}" th:text="'Olá, ' + ${session['nomeUtilizador']}" class="text-white mr-5"></span>
+
+            <a th:href="@{/Carrinho}">
+                <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-5">
+            </a>
+        </div>
+
+    </nav>
+</header>
+
+
+<form class="flex items-center justify-center mt-48 mb-auto" method="post" th:object="${user}" th:action="@{/login}">
+    <div class="flex flex-col items-center bg-bege-escuro rounded-r-2xl w-2/5 h-3/5 p-8 ">
+        <p class="text-4xl mt-5">Login</p>
+        <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mt-5">
+
+        <p class="mt-8">Username</p>
+        <input type="text"
+               th:field="*{username}"
+               placeholder="Username"
+               class="border rounded px-6 w-2/3 bg-bege loginError"
+               th:classappend="${#fields.hasErrors('password')} ?'border-red-500' : 'border-oliveira'" />
+
+        <p class="mt-4">Password</p>
+        <input type="password"
+               th:field="*{password}"
+               placeholder="Password"
+               class="border rounded px-6 w-2/3 bg-bege loginError"
+               th:classappend="${#fields.hasErrors('password')} ? 'border-red-500' : 'border-oliveira'" />
+
+        <div th:if="${#fields.hasErrors('password')}" class="loginError">
+            <div class="text-sm mt-2 bg-red-400 text-white p-2 border border-red-600 rounded ">
+                <span th:errors="*{password}"></span>
+            </div>
+        </div>
+
+
+
+        <button class="bg-oliveira border border-oliveira rounded-md p-2 mt-8 hover:bg-green-600 hover:border-green-600 w-2/3">
+            Login
+        </button>
+        <p class="mt-4">Ainda não tem conta?</p>
+        <a th:href="@{/register}" class="text-blue-500"> Registe-se</a>
+    </div>
+</form>
+
+</body>
+</html>
