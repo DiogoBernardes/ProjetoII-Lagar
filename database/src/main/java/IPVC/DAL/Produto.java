@@ -41,13 +41,17 @@ public class Produto {
     @Basic
     @Column(name = "deleted_on")
     private Timestamp deleted_on;
-    @ManyToOne
-    @JoinColumn(name = "Id_TipoProduto",referencedColumnName = "Id_TipoProduto")
-    private TipoProduto tipoProduto;
 
     @Basic
     @Column(name = "Unidade", nullable = false)
     private String Unidade;
+
+    @Basic
+    @Column(name = "Descricao")
+    private String Descricao;
+    @ManyToOne
+    @JoinColumn(name = "Id_TipoProduto",referencedColumnName = "Id_TipoProduto")
+    private TipoProduto tipoProduto;
 
     @OneToMany(mappedBy = "produto")
     private List<LinhaRecibo> linhaRecibos;
@@ -125,5 +129,13 @@ public class Produto {
 
     public void setImagem(String imagem) {
         Imagem = imagem;
+    }
+
+    public String getDescricao() {
+        return Descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        Descricao = descricao;
     }
 }

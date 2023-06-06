@@ -61,7 +61,7 @@ public class registerController {
                 newUser.setUsername(user.getUsername());
                 newUser.setPassword(user.getPassword());
 
-                EntidadeBLL.update(newUser);
+                EntidadeBLL.create(newUser);
 
                 return "redirect:/login";
 

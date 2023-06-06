@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>AzeiteMax</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body class="bg-bege">
+
+<header class="bg-oliveira py-4 relative">
+  <nav class="container mx-auto flex justify-between items-center">
+
+    <a th:href="@{/home}" class="flex items-center">
+      <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mr-5 ml-5">
+      <span class="text-white text-xl font-bold">AzeiteMax</span>
+    </a>
+
+    <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
+      <a th:href="@{/Produto}" class="text-white">Produto</a>
+      <a th:href="@{/Sobre nós}" class="text-white">Empresa</a>
+    </div>
+
+    <div class="flex items-center">
+      <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
+      <a th:if="${session['nomeUtilizador'] != null}" th:text="'Olá, ' + ${session['nomeUtilizador']}" th:href="@{/profile}" class="text-white mr-5"></a>
+
+      <a th:href="@{/Carrinho}">
+        <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-5">
+      </a>
+    </div>
+
+  </nav>
+</header>
+
+
+<ul class="container mx-auto mt-8">
+  <li th:each="produto, iter : ${produtos}" class="p-4">
+    <div class="flex flex-row mt-14">
+      <div th:class="${iter.even}? 'w-3/4 order-2 flex items-end justify-end ' : 'w-3/4'">
+        <img th:src="@{${produto.imagem}}" alt="" class="h-80 w-80">
+      </div>
+      <div th:class="${iter.even}? 'w-full px-8 order-1 mt-14' : 'w-full px-8 mt-14'">
+        <p class="text-3xl font-semibold text-gray-800" th:text="${produto.nome}"></p>
+        <p class="mt-8" th:text="${produto.descricao}" style="text-align: justify;"></p>
+      </div>
+    </div>
+  </li>
+</ul>
+
+
+
+
+
+<footer class="bg-oliveira py-4 text-white text-center">
+  <div class="container mx-auto">
+    <p class="text-sm">Rua José Avenaldo, Nº 981, Beja</p>
+    <p class="text-sm">Contacto: 253444121</p>
+    <p class="text-sm">© 2023 AzeiteMax. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</body>
+</html>
