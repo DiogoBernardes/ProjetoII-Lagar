@@ -4,7 +4,7 @@
     <title>AzeiteMax</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script th:src="@{/JS/login.js}" defer></script>
+    <script th:src="@{/JS/project.js}" defer></script>
     <link th:href="@{/main.css}" rel="stylesheet"/>
 </head>
 <body class="bg-bege">
@@ -23,8 +23,13 @@
         </div>
 
         <div class="flex items-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                 th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+            </svg>
+
             <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
-            <span th:if="${session['nomeUtilizador'] != null}" th:text="'Olá, ' + ${session['nomeUtilizador']}" class="text-white mr-5"></span>
 
             <a th:href="@{/Carrinho}">
                 <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-5">

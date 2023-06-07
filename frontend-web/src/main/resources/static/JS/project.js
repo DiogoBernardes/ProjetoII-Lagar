@@ -26,3 +26,21 @@ function logout(event) {
     }
     console.log(confirmed)
 }
+
+function dropDownMenu() {
+    const dropdown = document.getElementById("myDropdown");
+    dropdown.classList.toggle("hidden");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches(".cursor-pointer")) {
+        const dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+            const openDropdown = dropdowns[i];
+            if (!openDropdown.classList.contains("hidden")) {
+                openDropdown.classList.add("hidden");
+            }
+        }
+    }
+};
