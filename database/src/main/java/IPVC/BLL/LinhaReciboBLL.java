@@ -1,7 +1,9 @@
 package IPVC.BLL;
 
+import IPVC.DAL.Entidade;
 import IPVC.DAL.LinhaFatura;
 import IPVC.DAL.LinhaRecibo;
+import IPVC.DAL.Recibo;
 import IPVC.Database.Database;
 
 import java.sql.Timestamp;
@@ -13,6 +15,8 @@ public class LinhaReciboBLL {
 
     public static LinhaRecibo get(int id){ return Database.find(LinhaRecibo.class, id); }
 
+    public static List<LinhaRecibo> getProductsByRecibo(Recibo recibo) { return Database.query("linhaRecibo.findProductsByRecibo").setParameter("recibo", recibo).getResultList();
+    }
     public static void create(LinhaRecibo entity){
         Database.beginTransaction();
         Database.insert(entity);
@@ -43,4 +47,6 @@ public class LinhaReciboBLL {
         }
         Database.commitTransaction();
     }
+
+
 }

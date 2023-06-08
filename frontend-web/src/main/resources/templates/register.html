@@ -17,7 +17,7 @@
         </a>
 
         <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
-            <a th:href="@{/Produto}" class="text-white">Produto</a>
+            <a th:href="@{/products}" class="text-white">Produto</a>
             <a th:href="@{/Sobre nós}" class="text-white">Empresa</a>
         </div>
 
@@ -51,7 +51,7 @@
                        th:field="*{nome}"
                        placeholder="Nome"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('nome')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('nome')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
 
             <div class="flex flex-col">
@@ -60,7 +60,7 @@
                        th:field="*{NIF}"
                        placeholder="NIF"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('NIF')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('NIF')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
         </div>
 
@@ -71,7 +71,7 @@
                        th:field="*{Rua}"
                        placeholder="Rua"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('Rua')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('Rua')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
 
             <div class="flex flex-col">
@@ -80,7 +80,7 @@
                        th:field="*{num_porta}"
                        placeholder="Nº Porta"
                        class="border rounded px-6 w-2/3 bg-bege"
-                       th:classappend="${#fields.hasErrors('num_porta')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('num_porta')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
         </div>
 
@@ -92,7 +92,7 @@
                        th:field="*{cod_postal}"
                        placeholder="Código Postal"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('cod_postal')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('cod_postal')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
 
             <div class="flex flex-col">
@@ -102,7 +102,7 @@
                        th:field="*{telemovel}"
                        placeholder="Telemóvel"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('telemovel')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('telemovel')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
         </div>
 
@@ -116,7 +116,7 @@
                        th:field="*{email}"
                        placeholder="Email"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('email')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('email')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
             <div class="flex flex-col ">
                 <a class="mt-4">Username</a>
@@ -124,7 +124,7 @@
                        th:field="*{username}"
                        placeholder="Username"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('username')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('username')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
         </div>
 
@@ -136,7 +136,7 @@
                        th:field="*{password}"
                        placeholder="Password"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('password')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('password')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
             <div class="flex flex-col">
                 <a class="mt-4">Confirm Password</a>
@@ -144,7 +144,7 @@
                        th:field="*{confirmPassword}"
                        placeholder="Confirm Password"
                        class="border rounded px-6 w-6/6 bg-bege"
-                       th:classappend="${#fields.hasErrors('confirmPassword')} ? 'border-red' : 'border-green'"/>
+                       th:classappend="${#fields.hasErrors('confirmPassword')} ? 'border-red-500' : 'border-oliveira'"/>
             </div>
         </div>
 

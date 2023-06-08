@@ -12,6 +12,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "linhaRecibo.index", query = "SELECT linhaRecibo FROM LinhaRecibo linhaRecibo WHERE linhaRecibo.deleted_on = null"),
         @NamedQuery(name = "linhaRecibo.count", query = "SELECT count(linhaRecibo) FROM LinhaRecibo linhaRecibo WHERE linhaRecibo.deleted_on = null"),
         @NamedQuery(name = "linhaRecibo.findByRecibo", query = "SELECT linhaRecibo FROM LinhaRecibo linhaRecibo WHERE linhaRecibo.recibo.id_Recibo = :idRecibo and linhaRecibo.deleted_on = null"),
+        @NamedQuery(name = "linhaRecibo.findProductsByRecibo", query = "SELECT linhaRecibo FROM LinhaRecibo linhaRecibo WHERE linhaRecibo.recibo = :recibo and linhaRecibo.deleted_on = null"),
 })
 public class LinhaRecibo implements Serializable {
 

@@ -4,7 +4,7 @@
   <title>AzeiteMax</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script th:src="@{/JS/login.js}" defer></script>
+  <script th:src="@{/JS/project.js}" defer></script>
   <link th:href="@{/main.css}" rel="stylesheet" />
 </head>
 <body class="bg-bege">
@@ -18,24 +18,67 @@
     </a>
 
     <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
-      <a th:href="@{/Produto}" class="text-white">Produto</a>
-      <a th:href="@{/Sobre nós}" class="text-white">Empresa</a>
+      <a th:href="@{/products}" class="text-white">Produto</a>
+      <a th:href="@{/orders}" class="text-white">Empresa</a>
     </div>
 
     <div class="flex items-center">
+      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+           th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+      </svg>
+
       <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
-      <a th:if="${session['nomeUtilizador'] != null}" th:text="'Olá, ' + ${session['nomeUtilizador']}" th:href="@{/profile}" class="text-white mr-5"></a>
+
+
+      <div class="flex items-center justify-center relative">
+        <div class="flex">
+          <a th:if="${session['nomeUtilizador'] != null}" th:text="'Olá, ' + ${session['nomeUtilizador']}" class="text-white cursor-pointer" onclick="dropDownMenu()"></a>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" class="w-6 h-6 cursor-pointer" onclick="dropDownMenu()" th:if="${session['nomeUtilizador'] != null}">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </div>
+
+        <div class="dropdown mt-5 absolute left-0">
+          <div class="dropdown-content hidden bg-bege text-black absolute  mt-2 py-2 w-32 rounded-md shadow-md" id="myDropdown">
+
+            <div class="flex flex-row items-center justify-center hover:bg-gray-200">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <a  class="block px-4 py-2 " th:href="@{/profile}">Profile</a>
+            </div>
+            <div class="flex flex-row items-center justify-center hover:bg-gray-200">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+              </svg>
+              <a class="block px-4 py-2" th:href="@{/orders}">Orders</a>
+            </div>
+            <hr class="my-2 border-gray-300">
+            <div class="flex flex-row items-center justify-center hover:bg-red-200">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+              </svg>
+              <a class="block px-4 py-2 hover:bg-red-200" th:href="@{/logout}" onclick="logout(event)" >Logout</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
 
       <a th:href="@{/Carrinho}">
-        <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-5">
+        <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-10">
       </a>
     </div>
+
 
   </nav>
 </header>
 
 
-<form class="flex items-center justify-center mt-20 mb-auto"  th:object="${user}">
+<form class="flex items-center justify-center mt-20 mb-auto" method="post" th:object="${user}" th:action="@{/editProfile}">
   <div class="flex flex-col items-center bg-bege-escuro rounded-r-2xl w-2/5 h-3/5 p-8 ">
     <p class="text-4xl mt-5">Perfil</p>
     <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mt-5">
@@ -44,19 +87,19 @@
       <div class="flex flex-col mr-20">
         <a class="mt-8">Nome</a>
         <input type="text"
-               th:value="${user.nome}"
+               th:field="*{nome}"
                placeholder="Nome"
                class="border rounded px-6 w-6/6 bg-bege"
-               th:classappend="${#fields.hasErrors('nome')} ? 'border-red' : 'border-green'"/>
+               th:classappend="${#fields.hasErrors('nome')} ? 'border-red-500' : 'border-oliveira'"/>
       </div>
 
       <div class="flex flex-col">
         <a class="mt-8">NIF</a>
         <input type="tel"
-               th:value="${user.NIF}"
+               th:field="*{NIF}"
                placeholder="NIF"
                class="border rounded px-6 w-6/6 bg-bege"
-               th:classappend="${#fields.hasErrors('NIF')} ? 'border-red' : 'border-green'"/>
+               th:classappend="${#fields.hasErrors('NIF')} ? 'border-red-500' : 'border-oliveira'"/>
       </div>
     </div>
 
@@ -64,20 +107,20 @@
       <div class="flex flex-col mr-20">
         <a class="mt-4">Rua</a>
         <input type="text"
-               th:value="${user.rua}"
+               th:field="*{rua}"
                placeholder="Rua"
                class="border rounded px-6 w-6/6 bg-bege"
-               th:classappend="${#fields.hasErrors('rua')} ? 'border-red' : 'border-green'"/>
+               th:classappend="${#fields.hasErrors('rua')} ? 'border-red-500' : 'border-oliveira'"/>
       </div>
 
-     <div class="flex flex-col">
-         <a class="mt-4">Nº Porta</a>
-         <input type="tel"
-                th:value="${user.N_Porta}"
-                placeholder="Nº Porta"
-                class="border rounded px-6 w-2/3 bg-bege"
-                th:classappend="${#fields.hasErrors('N_Porta')} ? 'border-red' : 'border-green'"/>
-       </div>
+      <div class="flex flex-col">
+        <a class="mt-4">Nº Porta</a>
+        <input type="tel"
+               th:field="*{num_porta}"
+               placeholder="Nº Porta"
+               class="border rounded px-6 w-2/3 bg-bege"
+               th:classappend="${#fields.hasErrors('num_porta')} ? 'border-red-500' : 'border-oliveira'"/>
+      </div>
     </div>
 
     <div class="flex flex-row">
@@ -85,20 +128,20 @@
         <a class="mt-4">Código Postal</a>
         <input type="text"
                pattern="[0-9]{4}-[0-9]{3}"
-               th:value="${user.Cod_Postal}"
+               th:field="*{cod_postal}"
                placeholder="Código Postal"
                class="border rounded px-6 w-6/6 bg-bege"
-               th:classappend="${#fields.hasErrors('Cod_Postal')} ? 'border-red' : 'border-green'"/>
+               th:classappend="${#fields.hasErrors('cod_postal')} ? 'border-red-500' : 'border-oliveira'"/>
       </div>
 
       <div class="flex flex-col">
         <a class="mt-4">Telemóvel</a>
         <input type="tel"
                pattern="[0-9]{9}"
-               th:value="${user.telemovel}"
+               th:field="*{telemovel}"
                placeholder="Telemóvel"
                class="border rounded px-6 w-6/6 bg-bege"
-               th:classappend="${#fields.hasErrors('telemovel')} ? 'border-red' : 'border-green'"/>
+               th:classappend="${#fields.hasErrors('telemovel')} ? 'border-red-500' : 'border-oliveira'"/>
       </div>
     </div>
 
@@ -109,18 +152,18 @@
       <div class="flex flex-col mr-20">
         <a class="mt-4">Email</a>
         <input type="email"
-               th:value="${user.email}"
+               th:field="*{email}"
                placeholder="Email"
                class="border rounded px-6 w-6/6 bg-bege"
-               th:classappend="${#fields.hasErrors('email')} ? 'border-red' : 'border-green'"/>
+               th:classappend="${#fields.hasErrors('email')} ? 'border-red-500' : 'border-oliveira'"/>
       </div>
       <div class="flex flex-col ">
         <a class="mt-4">Username</a>
         <input type="text"
-               th:value="${user.username}"
+               th:field="*{username}"
                placeholder="Username"
                class="border rounded px-6 w-6/6 bg-bege"
-               th:classappend="${#fields.hasErrors('username')} ? 'border-red' : 'border-green'"/>
+               th:classappend="${#fields.hasErrors('username')} ? 'border-red-500' : 'border-oliveira'"/>
       </div>
     </div>
 
@@ -129,18 +172,16 @@
       <div class="flex flex-col justify-between">
         <a class="mt-4">Password</a>
         <input type="password"
-               th:value="${user.password}"
+               th:field="*{password}"
                placeholder="Password"
                class="border rounded px-6 w-6/6 bg-bege"
-               th:classappend="${#fields.hasErrors('password')} ? 'border-red' : 'border-green'"/>
+               th:classappend="${#fields.hasErrors('password')} ? 'border-red-500' : 'border-oliveira'"/>
       </div>
 
     </div>
 
-    <div class="flex flex-row justify-center">
-      <button class="bg-oliveira border border-oliveira rounded-md p-2 mt-16 mr-20 hover:bg-green-600 hover:border-green-600">Editar</button>
-      <a class="bg-red-300 border border-red-700 rounded-md p-2 mt-16 hover:bg-red-400 hover:border-red-400" th:href="@{/logout}" onclick="logout(event)">Logout</a>
-
+    <div class="flex flex-col items-center justify-between w-2/4">
+      <button class="bg-oliveira border border-oliveira rounded-md p-2 mt-16  w-2/4 hover:bg-green-600 hover:border-green-600">Editar</button>
     </div>
 
   </div>

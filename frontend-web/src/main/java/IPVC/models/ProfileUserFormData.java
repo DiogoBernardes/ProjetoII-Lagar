@@ -2,6 +2,7 @@ package IPVC.models;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ProfileUserFormData {
 
@@ -30,11 +31,7 @@ public class ProfileUserFormData {
     @NotBlank
     public String username;
 
-    @NotBlank
     public String password;
-
-    @NotBlank
-    public String confirmPassword;
 
     public String getNome() {
         return nome;
@@ -108,13 +105,6 @@ public class ProfileUserFormData {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 }
 
 

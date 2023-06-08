@@ -18,8 +18,8 @@
     </a>
 
     <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
-      <a th:href="@{/Produto}" class="text-white">Produto</a>
-      <a th:href="@{/Sobre nós}" class="text-white">Empresa</a>
+      <a th:href="@{/products}" class="text-white">Produto</a>
+      <a th:href="@{/orders}" class="text-white">Empresa</a>
     </div>
 
     <div class="flex items-center">
@@ -32,7 +32,7 @@
       <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
 
 
-      <div class="flex items-center justify-center">
+      <div class="flex items-center justify-center relative">
         <div class="flex">
           <a th:if="${session['nomeUtilizador'] != null}" th:text="'Olá, ' + ${session['nomeUtilizador']}" class="text-white cursor-pointer" onclick="dropDownMenu()"></a>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" class="w-6 h-6 cursor-pointer" onclick="dropDownMenu()" th:if="${session['nomeUtilizador'] != null}">
@@ -40,7 +40,7 @@
           </svg>
         </div>
 
-        <div class="dropdown  mt-5 ">
+        <div class="dropdown mt-5 absolute left-0">
           <div class="dropdown-content hidden bg-bege text-black absolute  mt-2 py-2 w-32 rounded-md shadow-md" id="myDropdown">
 
             <div class="flex flex-row items-center justify-center hover:bg-gray-200">
@@ -53,7 +53,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
               </svg>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-200">Orders</a>
+              <a class="block px-4 py-2" th:href="@{/orders}">Orders</a>
             </div>
             <hr class="my-2 border-gray-300">
             <div class="flex flex-row items-center justify-center hover:bg-red-200">
@@ -73,9 +73,9 @@
       </a>
     </div>
 
+
   </nav>
 </header>
-
 
 <ul class="container mx-auto mt-8">
   <li th:each="produto, iter : ${produtos}" class="p-4">

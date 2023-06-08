@@ -44,3 +44,16 @@ window.onclick = function(event) {
         }
     }
 };
+
+
+function toggleTableRow(icon) {
+    const row = icon.closest('.grid').nextElementSibling
+
+    if(row.classList.contains("hidden")) {
+        row.classList.remove("hidden")
+        row.classList.add("flex")
+    }else {
+        row.classList.remove("flex")
+        row.classList.add("hidden")
+    }
+}

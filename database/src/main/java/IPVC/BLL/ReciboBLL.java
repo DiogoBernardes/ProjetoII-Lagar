@@ -1,5 +1,7 @@
 package IPVC.BLL;
 
+import IPVC.DAL.Entidade;
+import IPVC.DAL.Produto;
 import IPVC.DAL.Recibo;
 import IPVC.Database.Database;
 
@@ -11,7 +13,8 @@ public class ReciboBLL {
     public static List<Recibo> index() { return Database.query("recibo.index").getResultList(); }
 
     public static Recibo get(int id){ return Database.find(Recibo.class, id); }
-
+    public static List<Recibo> getByUser(Entidade entidade) { return Database.query("recibo.getByUser").setParameter("entidade", entidade).getResultList();
+    }
     public static void create(Recibo entity){
         Database.beginTransaction();
         Database.insert(entity);

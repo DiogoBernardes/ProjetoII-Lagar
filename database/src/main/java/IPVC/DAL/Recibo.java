@@ -13,6 +13,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(name = "recibo.index", query = "SELECT recibo FROM Recibo recibo WHERE recibo.deleted_on = null"),
         @NamedQuery(name = "recibo.count", query = "SELECT count(recibo) FROM Recibo recibo WHERE recibo.deleted_on = null"),
+        @NamedQuery(name = "recibo.getByUser", query= "SELECT recibo FROM Recibo recibo WHERE recibo.entidade = :entidade")
 })
 public class Recibo {
     @Id

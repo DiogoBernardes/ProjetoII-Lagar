@@ -2,7 +2,6 @@ package IPVC.Controller;
 
 import IPVC.BLL.EntidadeBLL;
 import IPVC.DAL.Entidade;
-import IPVC.utils.Session;
 import javax.servlet.http.HttpSession;
 import IPVC.models.LoginUserFormData;
 import org.springframework.stereotype.Controller;
