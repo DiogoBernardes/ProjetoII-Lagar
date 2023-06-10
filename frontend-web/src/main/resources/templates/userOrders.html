@@ -19,7 +19,7 @@
 
         <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
             <a th:href="@{/products}" class="text-white">Produto</a>
-            <a th:href="@{/orders}" class="text-white">Empresa</a>
+            <a th:href="@{/aboutUs}" class="text-white">Empresa</a>
         </div>
 
         <div class="flex items-center">
@@ -47,13 +47,13 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <a  class="block px-4 py-2 " th:href="@{/profile}">Profile</a>
+                            <a  class="block px-4 py-2 " th:href="@{/profile}">Perfil</a>
                         </div>
                         <div class="flex flex-row items-center justify-center hover:bg-gray-200">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                             </svg>
-                            <a class="block px-4 py-2" th:href="@{/orders}">Orders</a>
+                            <a class="block px-4 py-2" th:href="@{/orders}">Encomendas</a>
                         </div>
                         <hr class="my-2 border-gray-300">
                         <div class="flex flex-row items-center justify-center hover:bg-red-200">
@@ -67,10 +67,6 @@
                 </div>
             </div>
 
-
-            <a th:href="@{/Carrinho}">
-                <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-10">
-            </a>
         </div>
 
 
@@ -84,7 +80,7 @@
             <line x1="12" y1="16" x2="12" y2="12"></line>
             <line x1="12" y1="8" x2="12" y2="8"></line>
         </svg>
-        <p class="text-red-500 text-center text-2xl mt-2">No orders found.</p>
+        <p class="text-red-500 text-center text-2xl mt-2">Não existem encomendas</p>
     </div>
 </div>
 
@@ -92,7 +88,7 @@
 <div th:if="${recibos.size() != 0}" class="bg-bege p-8 rounded-md w-full">
     <div class=" flex items-center justify-between pb-6 mt-12">
         <div>
-            <h2 class="text-3xl text-gray-600 font-bold">Products Oder</h2>
+            <h2 class="text-3xl text-gray-600 font-bold">Encomendadas</h2>
 
         </div>
     </div>

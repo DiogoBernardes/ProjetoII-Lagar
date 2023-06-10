@@ -25,7 +25,9 @@ public class EntidadeBLL {
     public static Entidade getEmail(String Email) {List<Entidade> entidades = Database.query("entidade.getEmail").setParameter("Email", Email).getResultList();
         return entidades.isEmpty() ? null : entidades.get(0);
     }
-
+    public static Entidade getUsername(String Username) {List<Entidade> entidades = Database.query("entidade.getUsername").setParameter("Username", Username).getResultList();
+        return entidades.isEmpty() ? null : entidades.get(0);
+    }
     public static Entidade getTelemovel(int Telemovel) {List<Entidade> entidades = Database.query("entidade.getTelemovel").setParameter("Telemovel", Telemovel).getResultList();
         return entidades.isEmpty() ? null : entidades.get(0);
     }
@@ -63,6 +65,11 @@ public class EntidadeBLL {
 
     public static boolean checkEmail(String email){
         Entidade entidade = getEmail(email);
+        return entidade == null;
+    }
+
+    public static boolean checkUsername(String username){
+        Entidade entidade = getUsername(username);
         return entidade == null;
     }
 

@@ -19,7 +19,7 @@
 
         <div class="space-x-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
             <a th:href="@{/products}" class="text-white">Produto</a>
-            <a th:href="@{/Sobre nós}" class="text-white">Empresa</a>
+            <a th:href="@{/aboutUs}" class="text-white">Empresa</a>
         </div>
 
         <div class="flex items-center">
@@ -31,9 +31,7 @@
 
             <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
 
-            <a th:href="@{/Carrinho}">
-                <img th:src="@{/assets/car-icon.svg}" alt="" class="h-6 w-6 mr-5 ml-5">
-            </a>
+
         </div>
 
     </nav>
@@ -42,8 +40,8 @@
 
 <form class="flex items-center justify-center mt-48 mb-auto" method="post" th:object="${user}" th:action="@{/login}">
     <div class="flex flex-col items-center bg-bege-escuro rounded-r-2xl w-2/5 h-3/5 p-8 ">
-        <p class="text-4xl mt-5">Login</p>
         <img th:src="@{/assets/logo.png}" alt="Logo AzeiteMax" class="h-10 w-10 mt-5">
+        <p class="text-4xl mt-5">Login</p>
 
         <p class="mt-8">Username</p>
         <input type="text"

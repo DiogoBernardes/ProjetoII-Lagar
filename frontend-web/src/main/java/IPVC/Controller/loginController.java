@@ -25,7 +25,7 @@ public class loginController {
     }
 
     @PostMapping(value = "/login")
-    public String loginSubmit(@Valid @ModelAttribute("user") LoginUserFormData user, BindingResult result, Model model, HttpSession session) {
+    public String loginSubmit( @ModelAttribute("user") LoginUserFormData user, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
             return "login";
         }
@@ -36,8 +36,14 @@ public class loginController {
 
 
             return "redirect:/home";
-        } else {
-            result.rejectValue("password", "error.user", "Wrong email or password.");
+        }else if(user.getUsername().isBlank() || user.getPassword().isBlank()){
+            result.rejectValue("password", "error.user", "Preencha os campos de Login");
+
+            return "login";
+
+        }
+            else {
+            result.rejectValue("password", "error.user", "Email ou Password Incorretos");
 
             return "login";
         }

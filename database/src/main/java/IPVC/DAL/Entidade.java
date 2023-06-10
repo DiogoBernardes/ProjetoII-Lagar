@@ -17,6 +17,7 @@ import java.util.List;
         @NamedQuery(name = "entidade.getNIF", query = "SELECT entidade FROM Entidade entidade WHERE entidade.NIF = :NIF and entidade.deleted_on = null"),
         @NamedQuery(name = "entidade.getTelemovel", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Telemovel = :Telemovel and entidade.deleted_on = null"),
         @NamedQuery(name = "entidade.getEmail", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Email = :Email and entidade.deleted_on = null"),
+        @NamedQuery(name = "entidade.getUsername", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Username = :Username and entidade.deleted_on = null"),
         @NamedQuery(name = "entidade.getEntityByName", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Nome = :Nome and entidade.deleted_on = null"),
         @NamedQuery(name = "entidade.getDataLogin", query = "SELECT entidade FROM Entidade entidade WHERE entidade.Username = :username AND entidade.Password = :pass AND entidade.deleted_on = null"),
 

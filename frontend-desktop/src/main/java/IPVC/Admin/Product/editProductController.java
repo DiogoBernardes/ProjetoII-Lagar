@@ -11,10 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,6 +30,11 @@ public class editProductController {
     @FXML
     private ComboBox<String> tipoProdutoCB;
     @FXML
+    private TextField imagemTF;
+    @FXML
+    private TextArea descricaoTF;
+
+    @FXML
     private Button closeButton;
     @FXML
     private Label Details;
@@ -44,6 +46,8 @@ public class editProductController {
         valorTF.setText(String.valueOf(produto.getValor_Unitario()));
         quantidadeTF.setText(String.valueOf(produto.getQuantidade()));
         unidadeTF.setText(produto.getUnidade());
+        imagemTF.setText(produto.getImagem());
+        descricaoTF.setText(produto.getDescricao());
         List<TipoProduto> tiposProduto = TipoProdutoBLL.index();
         ObservableList<String> tiposProdutoDescricoes = FXCollections.observableArrayList();
         for (TipoProduto tipo : tiposProduto) {
@@ -65,6 +69,8 @@ public class editProductController {
             produto.setValor_Unitario(Double.parseDouble(valorTF.getText()));
             produto.setQuantidade(Integer.parseInt(quantidadeTF.getText()));
             produto.setUnidade(unidadeTF.getText());
+            produto.setDescricao(descricaoTF.getText());
+            produto.setImagem(imagemTF.getText());
             String tipoProdutoDescricao = tipoProdutoCB.getSelectionModel().getSelectedItem();
             TipoProduto tipoProduto = TipoProdutoBLL.getByDescription(tipoProdutoDescricao);
             produto.setTipoProduto(tipoProduto);

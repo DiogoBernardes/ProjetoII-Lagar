@@ -23,10 +23,8 @@
     </div>
 
     <div class="flex items-center">
-      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-           th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}">
-        <path stroke-linecap="round" stroke-linejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
       </svg>
 
       <a th:if="${session['nomeUtilizador'] == null}" th:href="@{/login}" class="text-white mr-5">Login</a>
@@ -47,7 +45,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <a  class="block px-4 py-2 " th:href="@{/profile}">Profile</a>
+              <a class="block px-4 py-2 " th:href="@{/profile}">Profile</a>
             </div>
             <div class="flex flex-row items-center justify-center hover:bg-gray-200">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -73,23 +71,34 @@
   </nav>
 </header>
 
-<ul class="container mx-auto mt-8">
-  <li th:each="produto, iter : ${produtos}" class="p-4">
-    <div class="flex flex-row mt-14">
-      <div th:class="${iter.even}? 'w-3/4 order-2 flex items-end justify-end ' : 'w-3/4'">
-        <img th:src="@{${produto.imagem}}" alt="" class="h-80 w-80">
-      </div>
-      <div th:class="${iter.even}? 'w-full px-8 order-1 mt-14' : 'w-full px-8 mt-14'">
-        <p class="text-3xl font-semibold text-gray-800" th:text="${produto.nome}"></p>
-        <p class="mt-8" th:text="${produto.descricao}" style="text-align: justify;"></p>
-      </div>
-    </div>
-  </li>
-</ul>
+<main class="container mx-auto my-8">
+  <h1 class="text-3xl font-bold text-center mb-8">AzeiteMax - Excelência em Azeites desde 1950</h1>
 
+  <p class="text-lg">Bem-vindo à AzeiteMax, onde tradição e qualidade se unem para criar os melhores azeites desde 1950. Os Nossos olivais em Beja são cultivados com paixão e dedicação, resultando em azeites premiados que encantam paladares exigentes. Descubra o sabor autêntico do azeite com AzeiteMax.</p>
+  <p class="text-lg mt-12 font-bold"><strong>Localização:</strong> </p>
+  <p class="text-lg"><strong>Rua José Avenaldo, Nº 981, Beja</strong></p>
 
+  <p class="text-lg mt-4 font-bold"><strong>Contacto:</strong></p>
+  <p class="text-lg ">253444121</p>
 
+  <h2 class="text-3xl font-bold my-8">Sobre a nossa empresa</h2>
+  <div class="clearfix">
+    <img th:src="@{/assets/Olival.jpg}" alt="campo" class="float-right w-1/3 h-auto ml-4 rounded mt-n2">
 
+    <p class="text-lg">
+      A Azeite Max é um renomado lagar de azeite especializado na produção e venda de azeite de alta qualidade. Com uma tradição que remonta a 1950, fornecemos azeites premiados que encantam paladares exigentes. Atendemos tanto grandes superfícies comerciais quanto clientes singulares mediante solicitação de orçamento personalizado. Nossos produtos são reconhecidos internacionalmente e garantem uma experiência sensorial única. Além das embalagens tradicionais, oferecemos azeites de qualidade para venda ao litro. Estamos comprometidos em superar as expectativas dos nossos clientes, sendo referência na indústria de azeites. Entre em contato conosco e descubra o autêntico sabor do azeite Azeite Max.
+    </p>
+  </div>
+  <h2 class="text-3xl font-bold my-8">Produtos</h2>
+  <ul class="list-disc list-inside">
+    <li class="text-lg">Azeite Virgem</li>
+    <li class="text-lg">Azeite Extra Virgem</li>
+    <li class="text-lg">Azeite Refinado</li>
+  </ul>
+
+  <h2 class="text-3xl font-bold my-8">Venda ao Litro</h2>
+  <p class="text-lg">Além das embalagens tradicionais, também oferecemos esses mesmos azeites para venda ao litro.</p>
+</main>
 
 <footer class="bg-oliveira py-4 text-white text-center">
   <div class="container mx-auto">
@@ -98,5 +107,4 @@
     <p class="text-sm">© 2023 AzeiteMax. Todos os direitos reservados.</p>
   </div>
 </footer>
-</body>
 </html>

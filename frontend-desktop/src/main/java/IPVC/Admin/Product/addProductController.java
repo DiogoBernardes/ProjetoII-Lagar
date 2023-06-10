@@ -15,10 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -39,6 +36,10 @@ public class addProductController {
     @FXML
     private ComboBox<String> tipoProdutoCB;
     @FXML
+    private TextField imagemTF;
+    @FXML
+    private TextArea descricaoTF;
+    @FXML
     private Button closeButton;
     @FXML
     private Label Details;
@@ -55,7 +56,7 @@ public class addProductController {
 
     public void addProviderButtonOnAction(ActionEvent event) throws IOException {
         if (!nomeTF.getText().isEmpty() || !valorTF.getText().isEmpty() || !quantidadeTF.getText().isEmpty() ||
-                !unidadeTF.getText().isEmpty() || !tipoProdutoCB.getItems().isEmpty()) {
+                !unidadeTF.getText().isEmpty() || !tipoProdutoCB.getItems().isEmpty() || !imagemTF.getText().isEmpty() || !descricaoTF.getText().isEmpty()) {
 
             boolean nameNotExist = ProdutoBLL.checkName(nomeTF.getText());
 
@@ -80,6 +81,8 @@ public class addProductController {
                 String tipoProdutoDescricao = tipoProdutoCB.getSelectionModel().getSelectedItem();
                 TipoProduto tipoProduto = TipoProdutoBLL.getByDescription(tipoProdutoDescricao);
                 newProduct.setTipoProduto(tipoProduto);
+                newProduct.setImagem(imagemTF.getText());
+                newProduct.setDescricao(descricaoTF.getText());
                 ProdutoBLL.create(newProduct);
 
                 Details.getStyleClass().add("valid-details");
@@ -89,6 +92,8 @@ public class addProductController {
                 quantidadeTF.setText("");
                 unidadeTF.setText("");
                 tipoProdutoCB.setValue("");
+                imagemTF.setText("");
+                descricaoTF.setText("");
 
                 PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
                 pause.setOnFinished(e -> {
@@ -105,6 +110,8 @@ public class addProductController {
                 quantidadeTF.getStyleClass().add("TF-EmptyLogin");
                 unidadeTF.getStyleClass().add("TF-EmptyLogin");
                 tipoProdutoCB.getStyleClass().add("TF-EmptyLogin");
+                imagemTF.getStyleClass().add("TF-EmptyLogin");
+                descricaoTF.getStyleClass().add("TF-EmptyLogin");
                 PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
                 pause.setOnFinished(e -> {
                     Details.setText("");

@@ -3,12 +3,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="405.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Product.editProductController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="405.0" style="-fx-background-color: #D8D0BA;" stylesheets="/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IPVC.Admin.Product.editProductController">
    <top>
       <BorderPane prefHeight="54.0" prefWidth="418.0" style="-fx-background-color: #2C2D27;" BorderPane.alignment="CENTER">
          <center>
@@ -52,22 +53,34 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="editButton" layoutX="89.0" layoutY="262.0" mnemonicParsing="false" onAction="#updateProduct" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar">
+            <Button fx:id="editButton" layoutX="89.0" layoutY="525.0" mnemonicParsing="false" onAction="#updateProduct" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" styleClass="button_add" text="Editar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="closeButton" layoutX="224.0" layoutY="262.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar">
+            <Button fx:id="closeButton" layoutX="224.0" layoutY="525.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="25.6" prefWidth="77.6" style="-fx-background-color: #D8D0BA; -fx-border-color: #000000; -fx-border-radius: 30px; -fx-background-radius: 30px;" text="Fechar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="Details" layoutX="80.0" layoutY="230.0" textFill="WHITE">
+            <Label fx:id="Details" layoutX="25.0" layoutY="498.0" prefHeight="16.0" prefWidth="357.0" textFill="WHITE">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
             <ComboBox fx:id="tipoProdutoCB" layoutX="22.0" layoutY="185.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="25.0" layoutY="234.0" text="Imagem">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="imagemTF" layoutX="25.0" layoutY="250.0" prefHeight="26.0" prefWidth="358.0" style="-fx-background-color: #F0E5D8;" />
+            <Label layoutX="29.0" layoutY="299.0" prefHeight="0.0" prefWidth="63.0" text="Descrição">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="descricaoTF" layoutX="25.0" layoutY="315.0" prefHeight="172.0" prefWidth="358.0" style="-fx-background-color: #F0E5D8;" />
          </children>
       </AnchorPane>
    </center>

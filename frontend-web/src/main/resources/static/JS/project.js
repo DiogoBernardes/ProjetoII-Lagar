@@ -19,7 +19,7 @@ setTimeout(()=>{
 },3000);
 
 function logout(event) {
-    const confirmed = confirm("Do you want to end the session?")
+    const confirmed = confirm("Deseja encerrar a sessão?")
     if(!confirmed){
         event.preventDefault();
         return false;
@@ -56,4 +56,9 @@ function toggleTableRow(icon) {
         row.classList.remove("flex")
         row.classList.add("hidden")
     }
+}
+
+function showSuccessPopup() {
+    var popup = document.getElementById('success-popup');
+    popup.classList.remove('hidden');
 }

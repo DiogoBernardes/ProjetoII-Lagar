@@ -24,14 +24,9 @@ public class registerController {
     }
 
     @PostMapping(value = "/register")
-    public String registerSubmit(@Valid @ModelAttribute("user") RegisterUserFormData user, BindingResult result, Model model) {
+    public String registerSubmit(@ModelAttribute("user") RegisterUserFormData user, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "register";
-        }
-
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
-            result.rejectValue("confirmPassword", "error.user", "As passowrds não coincidem");
             return "register";
         }
 
@@ -39,14 +34,32 @@ public class registerController {
             boolean emailNotExist = EntidadeBLL.checkEmail(user.getEmail());
             boolean phoneNotExist = EntidadeBLL.checkTelemovel(user.getTelemovel());
             boolean nifNotExist = EntidadeBLL.checkNIF(user.getNIF());
+            boolean usernameNotExist = EntidadeBLL.checkUsername(user.getUsername());
 
             if (!emailNotExist) {
                 result.rejectValue("email", "error.user", "O email já está em uso!");
+
             } else if (!phoneNotExist) {
                 result.rejectValue("telemovel", "error.user", "O telemóvel já está em uso!");
+
             } else if (!nifNotExist) {
                 result.rejectValue("NIF", "error.user", "O NIF já está em uso!");
-            } else if (emailNotExist && phoneNotExist && nifNotExist) {
+
+            } else if (!usernameNotExist) {
+                result.rejectValue("username", "error.user", "O Username já está em uso!");
+
+            }
+            else if (!user.getPassword().equals(user.getConfirmPassword())) {
+                result.rejectValue("confirmPassword", "error.user", "As passwords não coincidem ");
+                return "register";
+
+            }else if (user.getNome().isBlank() || user.getNIF().isBlank() || user.getEmail().isBlank() ||
+                user.getTelemovel().isBlank() || user.getRua().isBlank() || user.getNum_porta().isBlank() ||
+                user.getCod_postal().isBlank() || user.getUsername().isBlank() || user.getPassword().isBlank()) {
+            result.reject("error.user", "Preencha todos os campos");
+            return "register";
+
+            } else if (emailNotExist && phoneNotExist && nifNotExist && usernameNotExist) {
                 Entidade newUser = new Entidade();
 
 
