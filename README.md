@@ -2,12 +2,6 @@
 
 This project is being developed within the scope of the Discipline of Project II of the Computer Engineering course, with the purpose of creating an application for olive oil management and production.
 
-## Features
-- Authentication
-
-- Able to list, create, update and delete your data.
-
--.........
 
 ## Stack
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)

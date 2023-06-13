@@ -116,7 +116,7 @@ public class productionController {
         updateDataView(produtoMPS);
     }
     public void addMoreProductsButtonOnAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Packaging/addMoreProduction.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IPVC/views/Admin/Production/addMoreProduction.fxml"));
         Parent parent = fxmlLoader.load();
         Scene scene = new Scene(parent);
         Stage dialogStage = new Stage();
